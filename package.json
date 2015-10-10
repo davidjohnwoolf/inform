@@ -1,0 +1,21 @@
+{
+  "name": "inform",
+  "version": "0.0.0",
+  "description": "An example module to illustrate the usage of a package.json",
+  "author": "David Woolf <davidjohnwoolf@gmail.com>",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/davidjohnwoolf/inform"
+  },
+  "keywords": [
+    "feed reader",
+    "feed aggregator",
+    "feed combiner",
+    "feed controller"
+  ],
+  "license": "GNU",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
