@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
 var users = require('./controllers/users');
+var feeds = require('./controllers/feeds');
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use(function(req, res, next) {
 });
 app.use(express.static(__dirname + '/public'));
 app.use('/', users);
+app.use('/feeds', feeds);
 
 // error handling (taken from express generator)
 

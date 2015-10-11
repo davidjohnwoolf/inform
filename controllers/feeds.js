@@ -2,10 +2,10 @@
 
 var express = require('express');
 var router = express.Router();
-var User = require('../models/user');
+var Feed = require('../models/feed');
 
 router.get('/', function(req, res) {
-  res.render('users/login', { title: 'Login' });
+  res.send('Feeds');
 });
 
 module.exports = router;
