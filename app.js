@@ -11,7 +11,7 @@ var users = require('./controllers/users');
 var app = express();
 
 // settings
-var port = process.env.PORT || 1337;
+app.set('port', process.env.PORT || 1337);
 app.set('view engine', 'hbs');
 
 // database
@@ -69,5 +69,5 @@ app.use(function(err, req, res, next) {
 });
 
 // server
-app.listen(port);
+app.listen(app.get('port'));
 console.log('Listening...');
