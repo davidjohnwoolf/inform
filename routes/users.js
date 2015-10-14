@@ -43,18 +43,37 @@ router.get('/new', function(req, res) {
 
 // create
 router.post('/new', function(req, res) {
-  var user = new User({
-    email: req.body.email,
-    password: req.body.password,
-    feeds: []
-  });
-
-  user.save(function(err) {
+  User.findOne({ email: req.body.email }, function(err, user) {
     if (err) res.send(err);
 
-    res.redirect('/');
-  });
+    console.log(user);
 
+    if (!user) {
+
+      if (req.body.password === req.body.confirmation) {
+        var user = new User({
+          email: req.body.email,
+          password: req.body.password,
+          feeds: []
+        });
+
+        user.save(function(err) {
+          if (err) res.send(err);
+
+          res.redirect('/');
+        });
+      } else {
+        // if password and password confirmation do not match
+        console.log('Passwords do not match');
+        res.redirect('/new')
+      }
+
+    } else {
+      // if email already in use
+      console.log('There is already an account with that email');
+      res.redirect('/new');
+    }
+  });
 });
 
 // show
