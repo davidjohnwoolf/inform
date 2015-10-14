@@ -9,6 +9,7 @@ var flash = require('connect-flash');
 var sessions = require('./routes/sessions');
 var users = require('./routes/users');
 var feeds = require('./routes/feeds');
+var sources = require('./routes/sources');
 
 var app = express();
 
@@ -41,6 +42,7 @@ app.use(express.static(__dirname + '/public'));
 app.use('/', sessions);
 app.use('/', users);
 app.use('/', feeds);
+app.use('/', sources);
 
 // error handling (taken from express generator)
 

@@ -54,7 +54,8 @@ router.post('/:id/feeds/new', requireUser, function(req, res) {
     if (err) res.send(err);
 
     user.feeds.push({
-      title: req.body.title
+      title: req.body.title,
+      sources: []
     });
 
     user.save(function(err) {

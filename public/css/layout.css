@@ -48,13 +48,22 @@ input {
     background: #777;
   }
 
-.edit-button, .delete-button {
+.edit-button, .delete-button, .new-button {
   border-radius: 3px;
   border: none;
   padding: 5px 10px;
   margin-top: 10px;
   color: #fff;
 }
+
+.new-button {
+  background-color: #5bcc3f;
+}
+
+  .new-button:hover {
+    background-color: #777;
+    color: #fff;
+  }
 
 .edit-button {
   background-color: #1d70de;

@@ -1,0 +1,11 @@
+<h2>{{title}}</h2>
+
+<h4>{{source.name}}</h4>
+<h6>Type: {{source.type}}</h6>
+<h6>Value: {{source.value}}</h6>
+
+<a class="edit-button" href="/{{userId}}/feeds/{{feed._id}}/sources/{{source._id}}/edit">Edit Source</a>
+<form onsubmit="return confirm('Are you sure you want to delete this source?')" action="/{{userId}}/feeds/{{feed._id}}/sources/{{source._id}}" method="post" enctype="application/x-www-form-urlencoded">
+  <input type="hidden" name="_method" value="delete">
+  <input type="submit" class="delete-button" value="Delete Source">
+</form>
