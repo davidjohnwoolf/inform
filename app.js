@@ -15,7 +15,7 @@ app.set('port', process.env.PORT || 1337);
 app.set('view engine', 'hbs');
 
 // database
-mongoose.connect('mongodb://localhost/expressAuthSkeleton');
+mongoose.connect('mongodb://localhost/inform');
 
 // middleware
 app.use(logger('dev'));

@@ -2,8 +2,10 @@
 
 var express = require('express');
 var router = express.Router();
+var bodyParser = require('body-parser')
 var User = require('../models/user');
-var Feed = require('../models/feed');
+
+router.use(bodyParser.urlencoded({ extended: false }));
 
 // Session Routes
 // ---------------------------------------------------------------------------
@@ -31,7 +33,7 @@ router.get('/logout', function(req, res) {
 
 // new
 router.get('/new', function(req, res) {
-  res.render('users/show', { title: 'Create Account' });
+  res.render('users/new', { title: 'Create Account' });
 });
 
 // create
@@ -101,26 +103,24 @@ router.get('/:id/feeds', function(req, res) {
 
 // new
 router.get('/:id/feeds/new', function(req, res) {
-  res.render('feeds/new', { title: 'Create Feed' });
+  res.render('feeds/new', { title: 'Create Feed', userId: req.params.id });
 });
 
 // create
 router.post('/:id/feeds/new', function(req, res) {
-  var feed = new Feed({
-    title: req.body.title
-  });
-
-  var user = User.findById(req.params.id, function(err, user) {
+  User.findById(req.params.id, function(err, user) {
     if (err) res.send(err);
 
-    user.feeds.push(feed);
+    user.feeds.push({
+      title: req.body.title
+    });
 
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.redirect('/' + req.params.id + '/feeds');
+      res.redirect('/' + user._id + '/feeds');
     });
-  })
+  });
 
 });
 
@@ -129,11 +129,7 @@ router.get('/:id/feeds/:feedId', function(req, res) {
   User.findById(req.params.id, function(err, user) {
     if (err) res.send(err);
 
-    for (var key in user.feeds) {
-      if (user.feeds[key]._id === req.params.feedId) {
-        res.render('feeds/show', { title: 'Feed', feed: user.feeds[key] });
-      }
-    }
+    res.render('feeds/show', { title: 'Feed', feed: user.feeds.id(req.params.feedId) });
   });
 });
 
