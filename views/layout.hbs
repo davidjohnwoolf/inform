@@ -5,22 +5,41 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>{{title}}</title>
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/layout.css">
   </head>
   <body>
-    <nav>
-      <ul>
-        {{#if session.user}}
-          <li><a href="/{{session.user}}">Profile</a></li>
-          <li><a href="/{{session.user}}/feeds/new">New Feed</a></li>
-          <li><a href="/{{session.user}}/feeds">Feeds</a></li>
-          <li><a href="/{{session.user}}/edit">Edit Account</a></li>
-          <li><a href="/logout">Logout</a></li>
-        {{else}}
-          <li><a href="/">Login</a></li>
-          <li><a href="/new">Signup</a></li>
-        {{/if}}
-      </ul>
-    </nav>
-    {{{body}}}
+    <div id="header-wrap">
+      <header>
+        <a href="/"><img src="/img/inform-logo.png" alt="Inform"></a>
+        <nav>
+          <span id="menu-icon">&#9776;</span>
+          <ul id="menu">
+            {{#if session.user}}
+              <li><a href="/{{session.user}}">Profile</a></li>
+              <li><a href="/{{session.user}}/feeds/new">New Feed</a></li>
+              <li><a href="/{{session.user}}/feeds">Feeds</a></li>
+              <li><a href="/{{session.user}}/edit">Edit Account</a></li>
+              <li><a href="/logout">Logout</a></li>
+            {{else}}
+              <li><a href="/">Login</a></li>
+              <li><a href="/new">Signup</a></li>
+            {{/if}}
+          </ul>
+        </nav>
+      </header>
+    </div>
+
+    <div id="content-wrap">
+      <section>
+        {{{body}}}
+      </section>
+    </div>
+
+
+    <!-- scripts -->
+    <script src="/js/main.js">
+
+    </script>
   </body>
 </html>
