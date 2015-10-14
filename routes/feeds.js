@@ -7,7 +7,7 @@ var methodOverride = require('method-override');
 var User = require('../models/user');
 
 // Router Middleware
-// ---------------------------------------------------------------------------
+// -----------------
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(methodOverride(function(req, res) {
@@ -21,7 +21,7 @@ router.use(methodOverride(function(req, res) {
 }));
 
 // Route Authorization
-// ---------------------------------------------------------------------------
+// -------------------
 
 // require specific user session
 function requireUser(req, res, next) {
@@ -33,133 +33,8 @@ function requireUser(req, res, next) {
   }
 }
 
-// Session Routes
-// ---------------------------------------------------------------------------
-
-// render login
-router.get('/', function(req, res) {
-  if (req.session.user) {
-    res.redirect('/' + req.session.user);
-  }
-  res.render('sessions/login', { title: 'Login' });
-});
-
-// login
-router.post('/', function(req, res) {
-  User.findOne({ email: req.body.email }, function(err, user) {
-    if (err) res.send(err);
-
-    if (user === null) {
-      // if user does not exist
-      console.log('Wrong username');
-      res.redirect('/');
-    } else {
-      // check to see if passwords match (method found in user model)
-      user.comparePassword(req.body.password, function(err, isMatch) {
-        if (err) {
-          return res.send(err);
-        }
-
-        if (isMatch) {
-          req.session.user = user._id;
-          res.redirect('/' + user._id);
-        }
-
-        if (!isMatch) {
-          console.log('Wrong password');
-          res.redirect('/');
-        }
-      });
-    }
-  });
-});
-
-// logout
-router.get('/logout', function(req, res) {
-  req.session.destroy(function(err) {
-    if (err) res.send(err);
-
-    res.redirect('/');
-  });
-});
-
-// User Routes
-// ---------------------------------------------------------------------------
-
-// new
-router.get('/new', function(req, res) {
-  res.render('users/new', { title: 'Create Account' });
-});
-
-// create
-router.post('/new', function(req, res) {
-  var user = new User({
-    email: req.body.email,
-    password: req.body.password,
-    feeds: []
-  });
-
-  user.save(function(err) {
-    if (err) res.send(err);
-
-    res.redirect('/');
-  });
-
-});
-
-// show
-router.get('/:id', requireUser, function(req, res) {
-  User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
-
-    res.render('users/show', { title: 'Profile', user: user });
-  });
-});
-
-// edit
-router.get('/:id/edit', requireUser, function(req, res) {
-  User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
-
-    res.render('users/edit', { title: 'Edit Account', user: user });
-  });
-});
-
-// update
-router.put('/:id/edit', requireUser, function(req, res) {
-  User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
-
-    for (var key in req.body) {
-      user[key] = req.body[key];
-    }
-
-    user.save(function(err) {
-      if (err) res.send(err);
-
-      res.redirect('/' + req.params.id);
-    })
-
-  });
-});
-
-// destroy
-router.delete('/:id', requireUser, function(req, res) {
-  User.remove({ _id: req.params.id }, function(err, user) {
-    if (err) {
-      return res.send(err);
-    }
-
-    req.session.destroy(function(err) {
-      if (err) res.send(err);
-
-      res.redirect('/');
-    });
-  });
-});
-
 // Feed Routes
-// ---------------------------------------------------------------------------
+// -----------
 
 // index
 router.get('/:id/feeds', requireUser, function(req, res) {

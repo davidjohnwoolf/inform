@@ -6,7 +6,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
-var routes = require('./routes/routes');
+var sessions = require('./routes/sessions');
+var users = require('./routes/users');
+var feeds = require('./routes/feeds');
 
 var app = express();
 
@@ -35,7 +37,10 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(express.static(__dirname + '/public'));
-app.use('/', routes);
+
+app.use('/', sessions);
+app.use('/', users);
+app.use('/', feeds);
 
 // error handling (taken from express generator)
 
