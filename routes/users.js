@@ -96,20 +96,29 @@ router.get('/:id/edit', requireUser, function(req, res) {
 
 // update
 router.put('/:id/edit', requireUser, function(req, res) {
-  User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
-
-    for (var key in req.body) {
-      user[key] = req.body[key];
-    }
-
-    user.save(function(err) {
+  if (req.body.password !== req.body.confirmation) {
+    console.log('Passwords Must Match');
+    res.redirect('/' + req.params.id + '/edit');
+  } else {
+    User.findOne({ _id: req.params.id }, function(err, user) {
       if (err) res.send(err);
 
-      res.redirect('/' + req.params.id);
-    })
+      if (req.body.password === '') {
+        delete req.body.password;
+      }
 
-  });
+      for (var key in req.body) {
+        user[key] = req.body[key];
+      }
+
+      user.save(function(err) {
+        if (err) res.send(err);
+
+        res.redirect('/' + req.params.id);
+      });
+
+    });
+  }
 });
 
 // destroy
