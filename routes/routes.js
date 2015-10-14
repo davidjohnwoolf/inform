@@ -2,17 +2,45 @@
 
 var express = require('express');
 var router = express.Router();
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 var User = require('../models/user');
 
+// Router Middleware
+// ---------------------------------------------------------------------------
+
 router.use(bodyParser.urlencoded({ extended: false }));
+router.use(methodOverride(function(req, res) {
+  // check for _method property in form requests
+  // see hidden input field in views
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    var method = req.body._method;
+    delete req.body._method;
+    return method;
+  }
+}));
+
+// Route Authorization
+// ---------------------------------------------------------------------------
+
+// require specific user session
+function requireUser(req, res, next) {
+  if (req.session.user !== req.params.id) {
+    console.log('You do not have access to other users accounts');
+    res.redirect('back');
+  } else {
+    next();
+  }
+}
 
 // Session Routes
 // ---------------------------------------------------------------------------
 
 // render login
 router.get('/', function(req, res) {
-  // if user signed in redirect
+  if (req.session.user) {
+    res.redirect('/' + req.session.user);
+  }
   res.render('sessions/login', { title: 'Login' });
 });
 
@@ -46,6 +74,7 @@ router.post('/', function(req, res) {
   });
 });
 
+// logout
 router.get('/logout', function(req, res) {
   req.session.destroy(function(err) {
     if (err) res.send(err);
@@ -79,7 +108,7 @@ router.post('/new', function(req, res) {
 });
 
 // show
-router.get('/:id', function(req, res) {
+router.get('/:id', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
@@ -88,7 +117,7 @@ router.get('/:id', function(req, res) {
 });
 
 // edit
-router.get('/:id/edit', function(req, res) {
+router.get('/:id/edit', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
@@ -97,7 +126,7 @@ router.get('/:id/edit', function(req, res) {
 });
 
 // update
-router.put('/:id/edit', function(req, res) {
+router.put('/:id/edit', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
@@ -114,28 +143,28 @@ router.put('/:id/edit', function(req, res) {
 });
 
 // destroy
-router.delete('/:id', function(req, res) {
+router.delete('/:id', requireUser, function(req, res) {
   // delete user
-  res.send('delete')
+  res.send('delete');
 });
 
 // Feed Routes
 // ---------------------------------------------------------------------------
 
 // index
-router.get('/:id/feeds', function(req, res) {
+router.get('/:id/feeds', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     res.render('feeds/index', { title: 'Feeds', feeds: user.feeds });
   });
 });
 
 // new
-router.get('/:id/feeds/new', function(req, res) {
+router.get('/:id/feeds/new', requireUser, function(req, res) {
   res.render('feeds/new', { title: 'Create Feed', userId: req.params.id });
 });
 
 // create
-router.post('/:id/feeds/new', function(req, res) {
+router.post('/:id/feeds/new', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
@@ -153,7 +182,7 @@ router.post('/:id/feeds/new', function(req, res) {
 });
 
 // show
-router.get('/:id/feeds/:feedId', function(req, res) {
+router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
@@ -162,12 +191,12 @@ router.get('/:id/feeds/:feedId', function(req, res) {
 });
 
 // edit
-router.get('/:id/feeds/:feedId/edit', function(req, res) {
+router.get('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
   res.render('feeds/new', { title: 'Create Feed', userId: req.params.id, feedId: req.params.feedId });
 });
 
 // update
-router.put('/:id/feeds/:feedId/edit', function(req, res) {
+router.put('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
@@ -190,7 +219,7 @@ router.put('/:id/feeds/:feedId/edit', function(req, res) {
 });
 
 // destroy
-router.delete('/:id/feeds/:feedId', function(req, res) {
+router.delete('/:id/feeds/:feedId', requireUser, function(req, res) {
   // delete feed from user
   res.send('delete feed');
 });
