@@ -1,9 +1,10 @@
+'use strict';
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var bcrypt = require('bcrypt');
 
-var FeedSchema = new Schema({
+var Feed = new Schema({
   title: { type: String, required: true },
 });
 
-module.exports = mongoose.model('Feed', FeedSchema);
+module.exports = mongoose.model('Feed', Feed);
