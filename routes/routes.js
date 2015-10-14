@@ -66,7 +66,7 @@ router.get('/:id/edit', function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
-    res.render('users/show', { title: 'Edit Account', user: user });
+    res.render('users/edit', { title: 'Edit Account', user: user });
   });
 });
 
