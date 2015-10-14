@@ -14,9 +14,10 @@
           <li><a href="/{{session.user}}/feeds/new">New Feed</a></li>
           <li><a href="/{{session.user}}/feeds">Feeds</a></li>
           <li><a href="/logout">Logout</a></li>
+        {{else}}
+          <li><a href="/">Login</a></li>
+          <li><a href="/new">Signup</a></li>
         {{/if}}
-        <li><a href="/">Login</a></li>
-        <li><a href="/new">Signup</a></li>
       </ul>
     </nav>
     {{{body}}}
