@@ -12,6 +12,12 @@
     <div id="header-wrap">
       <header>
         <a href="/"><img src="/img/inform-logo.png" alt="Inform"></a>
+        {{#if session.user}}
+          <select name="current-feed">
+            <option>Main Feed</option>
+            <option>Other Feeds</option>
+          </select>
+        {{/if}}
         <nav>
           <span id="menu-icon">&#9776;</span>
           <ul id="menu">

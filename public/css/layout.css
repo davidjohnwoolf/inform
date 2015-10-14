@@ -94,6 +94,12 @@ input {
       width: 100px;
     }
 
+    #header-wrap header select {
+      float: left;
+      margin-left: 10px;
+      margin-top: 2px;
+    }
+
     #header-wrap header nav {
       float: right;
     }
