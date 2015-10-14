@@ -4,9 +4,21 @@
     <meta charset="utf-8">
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>{{ title }}</title>
+    <title>{{title}}</title>
   </head>
   <body>
-    {{{ body }}}
+    <nav>
+      <ul>
+        {{#if session.user}}
+          <li><a href="/{{session.user}}">Profile</a></li>
+          <li><a href="/{{session.user}}/feeds/new">New Feed</a></li>
+          <li><a href="/{{session.user}}/feeds">Feeds</a></li>
+          <li><a href="/logout">Logout</a></li>
+        {{/if}}
+        <li><a href="/">Login</a></li>
+        <li><a href="/new">Signup</a></li>
+      </ul>
+    </nav>
+    {{{body}}}
   </body>
 </html>

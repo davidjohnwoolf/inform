@@ -2,16 +2,13 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Feed = require('./feed');
 var bcrypt = require('bcrypt');
-
-var Feed = new Schema({
-  title: { type: String, required: true },
-});
 
 var User = new Schema({
   email: { type: String, required: true, index: { unique: true }, match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
   password: { type: String, required: true },
-  feeds: [Feed]
+  feeds: [Feed.schema]
 });
 
 User.pre('save', function(next) {

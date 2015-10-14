@@ -18,14 +18,40 @@ router.get('/', function(req, res) {
 
 // login
 router.post('/', function(req, res) {
-  // authenticate user and redirect
-  res.send('login');
+  User.findOne({ email: req.body.email }, function(err, user) {
+    if (err) res.send(err);
+
+    if (user === null) {
+      // if user does not exist
+      console.log('Wrong username');
+      res.redirect('/');
+    } else {
+      // check to see if passwords match (method found in user model)
+      user.comparePassword(req.body.password, function(err, isMatch) {
+        if (err) {
+          return res.send(err);
+        }
+
+        if (isMatch) {
+          req.session.user = user._id;
+          res.redirect('/' + user._id);
+        }
+
+        if (!isMatch) {
+          console.log('Wrong password');
+          res.redirect('/');
+        }
+      });
+    }
+  });
 });
 
-// logout
 router.get('/logout', function(req, res) {
-  // delete session and redirect
-  res.send('logout');
+  req.session.destroy(function(err) {
+    if (err) res.send(err);
+
+    res.redirect('/');
+  });
 });
 
 // User Routes
@@ -98,7 +124,9 @@ router.delete('/:id', function(req, res) {
 
 // index
 router.get('/:id/feeds', function(req, res) {
-  res.render('feeds/index', { title: 'Feeds' });
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    res.render('feeds/index', { title: 'Feeds', feeds: user.feeds });
+  });
 });
 
 // new
