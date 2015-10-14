@@ -54,7 +54,7 @@ router.post('/new', function(req, res) {
 
 // show
 router.get('/:id', function(req, res) {
-  User.findById(req.params.id, function(err, user) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
     res.render('users/show', { title: 'Profile', user: user });
@@ -63,7 +63,7 @@ router.get('/:id', function(req, res) {
 
 // edit
 router.get('/:id/edit', function(req, res) {
-  User.findById(req.params.id, function(err, user) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
     res.render('users/show', { title: 'Edit Account', user: user });
@@ -72,7 +72,7 @@ router.get('/:id/edit', function(req, res) {
 
 // update
 router.put('/:id/edit', function(req, res) {
-  User.findById(req.params.id, function(err, user) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
     for (var key in req.body) {
@@ -108,7 +108,7 @@ router.get('/:id/feeds/new', function(req, res) {
 
 // create
 router.post('/:id/feeds/new', function(req, res) {
-  User.findById(req.params.id, function(err, user) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
     user.feeds.push({
@@ -126,7 +126,7 @@ router.post('/:id/feeds/new', function(req, res) {
 
 // show
 router.get('/:id/feeds/:feedId', function(req, res) {
-  User.findById(req.params.id, function(err, user) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
     res.render('feeds/show', { title: 'Feed', feed: user.feeds.id(req.params.feedId) });
@@ -135,41 +135,30 @@ router.get('/:id/feeds/:feedId', function(req, res) {
 
 // edit
 router.get('/:id/feeds/:feedId/edit', function(req, res) {
-  res.render('feeds/new', { title: 'Create Feed' });
+  res.render('feeds/new', { title: 'Create Feed', userId: req.params.id, feedId: req.params.feedId });
 });
 
 // update
 router.put('/:id/feeds/:feedId/edit', function(req, res) {
-  User.findById(req.params.id, function(err, user) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
-    for (var key in user.feeds) {
-      if (user.feeds[key]._id === req.params.feedId) {
-        for (var prop in req.body) {
-          user.feeds[key][prop] = req.body[prop];
-        }
+    user.feeds.id(req.params.feedId)
 
-        user.save(function(err) {
-          if (err) res.send(err);
-
-          res.redirect('/' + req.params.id + '/feeds/' + req.params.feedId);
-        })
-      }
-    }
+    // for (var key in user.feeds) {
+    //   if (user.feeds[key]._id === req.params.feedId) {
+    //     for (var prop in req.body) {
+    //       user.feeds[key][prop] = req.body[prop];
+    //     }
+    //
+    //     user.save(function(err) {
+    //       if (err) res.send(err);
+    //
+    //       res.redirect('/' + req.params.id + '/feeds/' + req.params.feedId);
+    //     })
+    //   }
+    // }
   });
-
-  var user = User.findById(req.params.id, function(err, user) {
-    if (err) res.send(err);
-
-    user.feeds.push(feed);
-
-    user.save(function(err) {
-      if (err) res.send(err);
-
-      res.redirect('/' + req.params.id + '/feeds');
-    });
-  })
-
 });
 
 // destroy
