@@ -136,16 +136,26 @@ router.put('/:id/edit', requireUser, function(req, res) {
 
     user.save(function(err) {
       if (err) res.send(err);
+
+      res.redirect('/' + req.params.id);
     })
 
-    res.redirect('/users/' + req.params.id);
   });
 });
 
 // destroy
 router.delete('/:id', requireUser, function(req, res) {
-  // delete user
-  res.send('delete');
+  User.remove({ _id: req.params.id }, function(err, user) {
+    if (err) {
+      return res.send(err);
+    }
+
+    req.session.destroy(function(err) {
+      if (err) res.send(err);
+
+      res.redirect('/');
+    });
+  });
 });
 
 // Feed Routes
@@ -154,7 +164,7 @@ router.delete('/:id', requireUser, function(req, res) {
 // index
 router.get('/:id/feeds', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
-    res.render('feeds/index', { title: 'Feeds', feeds: user.feeds });
+    res.render('feeds/index', { title: 'Feeds', userId: req.params.id, feeds: user.feeds });
   });
 });
 
@@ -186,13 +196,17 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
-    res.render('feeds/show', { title: 'Feed', feed: user.feeds.id(req.params.feedId) });
+    res.render('feeds/show', { title: 'Feed', userId: req.params.id, feed: user.feeds.id(req.params.feedId) });
   });
 });
 
 // edit
 router.get('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
-  res.render('feeds/new', { title: 'Create Feed', userId: req.params.id, feedId: req.params.feedId });
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    if (err) res.send(err);
+
+    res.render('feeds/edit', { title: 'Edit Feed', userId: req.params.id, feed: user.feeds.id(req.params.feedId) });
+  });
 });
 
 // update
@@ -200,28 +214,29 @@ router.put('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
-    user.feeds.id(req.params.feedId)
+    for (var key in req.body) {
+      user.feeds.id(req.params.feedId)[key] = req.body[key];
+    }
 
-    // for (var key in user.feeds) {
-    //   if (user.feeds[key]._id === req.params.feedId) {
-    //     for (var prop in req.body) {
-    //       user.feeds[key][prop] = req.body[prop];
-    //     }
-    //
-    //     user.save(function(err) {
-    //       if (err) res.send(err);
-    //
-    //       res.redirect('/' + req.params.id + '/feeds/' + req.params.feedId);
-    //     })
-    //   }
-    // }
+    user.save(function(err) {
+      if (err) res.send(err);
+
+      res.redirect('/' + req.params.id + '/feeds/' + req.params.feedId);
+    });
   });
 });
 
 // destroy
 router.delete('/:id/feeds/:feedId', requireUser, function(req, res) {
-  // delete feed from user
-  res.send('delete feed');
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    if (err) res.send(err);
+
+    user.feeds.id(req.params.feedId).remove();
+
+    user.save(function(err) {
+      res.redirect('/' + req.params.id + '/feeds')
+    });
+  });
 });
 
 module.exports = router;

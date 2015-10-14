@@ -1,7 +1,6 @@
 <h2>{{title}}</h2>
 
-<!-- Method Override Needed -->
-<form action="/new" method="post">
+<form action="/{{user._id}}/edit" method="post">
   <input type="hidden" name="_method" value="put">
   <div class="input-block">
     <label for="email">Email</label>
