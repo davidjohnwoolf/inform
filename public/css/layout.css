@@ -1,0 +1,120 @@
+/* General Styles */
+
+body {
+  font-family: "Lucida Grande", Helvetica, Arial;
+  font-size: .9em;
+  color: #333;
+  background: #e9e9e9;
+  padding: 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+a {
+  color: #999;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #777;
+  text-decoration: none;
+}
+
+input {
+  display: block;
+}
+
+/* Form Styles */
+
+.input-block input {
+  border-radius: 3px;
+  border: 2px #ddd solid;
+  margin-bottom: 5px;
+}
+
+.submit-block input {
+  padding: 5px 20px;
+  border-radius: 3px;
+  border: none;
+  background: #999;
+  color: #fff;
+  margin-top: 10px;
+}
+
+  .submit-block input:hover {
+    background: #777;
+  }
+
+.edit-button, .delete-button {
+  border-radius: 3px;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 10px;
+  color: #fff;
+}
+
+.edit-button {
+  background-color: #1d70de;
+}
+
+  .edit-button:hover {
+    background-color: #777;
+    color: #fff;
+  }
+
+.delete-button {
+  background-color: #cc4040;
+}
+
+  .delete-button:hover {
+    background-color: #777;
+    color: #fff;
+  }
+
+/* Header Styles */
+
+#header-wrap {
+  padding: 10px 0;
+  border-bottom: 2px #ddd solid;
+  background-color: #fff;
+  overflow: hidden;
+  postition: relative;
+}
+
+  #header-wrap header {
+    width: 95%;
+    margin: 0 auto;
+  }
+
+    #header-wrap header img {
+      float: left;
+      width: 100px;
+    }
+
+    #header-wrap header nav {
+      float: right;
+    }
+
+      #menu-icon {
+        font-size: 1em;
+        cursor: pointer;
+      }
+
+      #menu {
+        position: absolute;
+        margin: 0;
+        top: 43px;
+        right: 0;
+        bottom: 0;
+        padding: 5px 1%;
+        background-color: #fff;
+        border-left: 2px #ddd solid;
+      }
+
+#content-wrap {
+  width: 95%;
+  margin: 0 auto;
+}
