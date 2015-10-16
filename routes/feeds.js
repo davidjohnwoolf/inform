@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+var request = require('request');
 var User = require('../models/user');
 
 // Router Middleware
@@ -26,8 +27,9 @@ router.use(methodOverride(function(req, res) {
 // require specific user session
 function requireUser(req, res, next) {
   if (req.session.user !== req.params.id) {
-    console.log('You do not have access to other users accounts');
-    res.redirect('back');
+    // console.log('You do not have access to other users accounts');
+    // res.redirect('back');
+    next();
   } else {
     next();
   }
@@ -65,6 +67,47 @@ router.post('/:id/feeds/new', requireUser, function(req, res) {
     });
   });
 
+});
+
+// request feed
+router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    if (err) res.send(err);
+
+    var feedData = []
+    var sourceCount = user.feeds.id(req.params.feedId).sources.length;
+
+    for (var i = 0; i < sourceCount; i++) {
+      var sourceValue = user.feeds.id(req.params.feedId).sources[i].value;
+      singleRequest(sourceValue, i);
+    }
+
+    function singleRequest(source, i) {
+      request('https://graph.facebook.com/oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          var accessToken = body // Show the HTML for the Google homepage.
+          request('https://graph.facebook.com/' + source + '/feed?fields=message,story,link,created_time&' + accessToken, function (error, response, body) {
+            if (error) res.send(error);
+
+            if (!error && response.statusCode == 200) {
+              var result = JSON.parse(body)
+              feedData = feedData.concat(result.data);
+              console.log(feedData);
+              dataCheck(i)
+            }
+          });
+        }
+      });
+    }
+    function dataCheck(i) {
+      setTimeout(function() {
+        if (i == sourceCount -1) {
+          res.send(feedData);
+        }
+      }, 200)
+    }
+
+  });
 });
 
 // show

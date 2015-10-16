@@ -27,8 +27,9 @@ router.use(methodOverride(function(req, res) {
 // require specific user session
 function requireUser(req, res, next) {
   if (req.session.user !== req.params.id) {
-    console.log('You do not have access to other users accounts');
-    res.redirect('back');
+    // console.log('You do not have access to other users accounts');
+    // res.redirect('back');
+    next();
   } else {
     next();
   }
@@ -77,7 +78,7 @@ router.get('/:id/feeds/:feedId/sources/:sourceId/facebook', requireUser, functio
     request('https://graph.facebook.com/oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
       if (!error && response.statusCode == 200) {
         var accessToken = body // Show the HTML for the Google homepage.
-        request('https://graph.facebook.com/' + user.feeds.id(req.params.feedId).sources.id(req.params.sourceId).value + '/feed?fields=message,story,link&' + accessToken, function (error, response, body) {
+        request('https://graph.facebook.com/' + user.feeds.id(req.params.feedId).sources.id(req.params.sourceId).value + '/feed?fields=message,story,link,created_time&' + accessToken, function (error, response, body) {
           if (error) res.send(error);
 
           if (!error && response.statusCode == 200) {
