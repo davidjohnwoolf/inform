@@ -43,8 +43,9 @@
 
 
     <!-- scripts -->
-    <script src="/js/menu.js">
-
-    </script>
+    <script src="/js/menu.js"></script>
+    {{#if session.user}}
+      <script src="/js/feed-selector.js"></script>
+    {{/if}}
   </body>
 </html>
