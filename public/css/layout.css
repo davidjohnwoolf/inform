@@ -49,39 +49,46 @@ input {
   }
 
 .edit-button, .delete-button, .new-button {
-  border-radius: 3px;
-  border: none;
-  padding: 5px 10px;
-  margin-top: 10px;
-  color: #fff;
+  margin: 10px 5px 5px 5px;
+}
+
+#feed-options {
+  float: left;
 }
 
 .new-button {
-  background-color: #5bcc3f;
+  color: #5bcc3f;
 }
 
   .new-button:hover {
-    background-color: #777;
-    color: #fff;
+    color: #777;
   }
 
 .edit-button {
-  background-color: #1d70de;
+  color: #1d70de;
 }
 
   .edit-button:hover {
-    background-color: #777;
-    color: #fff;
+    color: #777;
   }
 
-.delete-button {
-  background-color: #cc4040;
+.delete-form {
+  display: inline;
 }
 
-  .delete-button:hover {
-    background-color: #777;
-    color: #fff;
+  .delete-form input {
+    display: inline;
   }
+
+  .delete-button {
+    color: #cc4040;
+    background-color: transparent;
+    border: none;
+  }
+
+    .delete-button:hover {
+      color: #777;
+    }
 
 /* Header Styles */
 
@@ -134,16 +141,23 @@ input {
   margin: 0 auto;
 }
 
-
+  #content-wrap h2 {
+    float: left;
+    margin: 5px 10px 5px 5px;
+  }
 
 /*=========*/
 /*==Feed Pages==*/
 /*=========*/
 
-.feed-item {
-  background-color: #fff;
-  border: 2px #ddd solid;
-  border-radius: 3px;
-  padding: 10px;
-  margin: 10px 0;
+#display-source {
+  clear: both;
 }
+
+  .feed-item {
+    background-color: #fff;
+    border: 2px #ddd solid;
+    border-radius: 3px;
+    padding: 10px;
+    margin: 10px 0;
+  }
