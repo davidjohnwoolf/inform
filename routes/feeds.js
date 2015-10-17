@@ -86,13 +86,12 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
       request('https://graph.facebook.com/oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var accessToken = body // Show the HTML for the Google homepage.
-          request('https://graph.facebook.com/' + source + '/feed?fields=message,story,link,created_time&' + accessToken, function (error, response, body) {
+          request('https://graph.facebook.com/' + source + '/feed?fields=message,story,link,created_time,picture,description&' + accessToken, function (error, response, body) {
             if (error) res.send(error);
 
             if (!error && response.statusCode == 200) {
               var result = JSON.parse(body)
               feedData = feedData.concat(result.data);
-              console.log(feedData);
               dataCheck(i)
             }
           });
@@ -102,6 +101,7 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
     function dataCheck(i) {
       setTimeout(function() {
         if (i == sourceCount -1) {
+          console.log(feedData);
           res.send(feedData);
         }
       }, 200)

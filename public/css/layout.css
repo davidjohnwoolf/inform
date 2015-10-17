@@ -133,3 +133,17 @@ input {
   width: 95%;
   margin: 0 auto;
 }
+
+
+
+/*=========*/
+/*==Feed Pages==*/
+/*=========*/
+
+.feed-item {
+  background-color: #fff;
+  border: 2px #ddd solid;
+  border-radius: 3px;
+  padding: 10px;
+  margin: 10px 0;
+}
