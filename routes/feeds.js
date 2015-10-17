@@ -27,9 +27,8 @@ router.use(methodOverride(function(req, res) {
 // require specific user session
 function requireUser(req, res, next) {
   if (req.session.user !== req.params.id) {
-    // console.log('You do not have access to other users accounts');
-    // res.redirect('back');
-    next();
+    console.log('You do not have access to other users accounts');
+    res.redirect('back');
   } else {
     next();
   }
@@ -42,6 +41,13 @@ function requireUser(req, res, next) {
 router.get('/:id/feeds', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     res.render('feeds/index', { title: 'Feeds', userId: req.params.id, feeds: user.feeds });
+  });
+});
+
+// return json feeds list
+router.get('/:id/feedlist', requireUser, function(req, res) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    res.send(user);
   });
 });
 
@@ -86,7 +92,7 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
       request('https://graph.facebook.com/oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var accessToken = body // Show the HTML for the Google homepage.
-          request('https://graph.facebook.com/' + source + '/feed?fields=message,story,link,created_time,picture,description&' + accessToken, function (error, response, body) {
+          request('https://graph.facebook.com/' + source + '/feed?fields=message,story,link,created_time,picture,description,from&' + accessToken, function (error, response, body) {
             if (error) res.send(error);
 
             if (!error && response.statusCode == 200) {
@@ -101,10 +107,18 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
     function dataCheck(i) {
       setTimeout(function() {
         if (i == sourceCount -1) {
-          console.log(feedData);
-          res.send(feedData);
+          var sortedData = feedData.sort(function(a, b) {
+            if (a.created_time < b.created_time) {
+              return 1;
+            } else if (a.created_time > b.created_time) {
+              return -1;
+            } else {
+              return 0;
+            }
+          });
+          res.send(sortedData);
         }
-      }, 200)
+      }, 500)
     }
 
   });
