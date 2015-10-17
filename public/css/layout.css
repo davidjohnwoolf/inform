@@ -48,14 +48,6 @@ input {
     background: #777;
   }
 
-.edit-button, .delete-button, .new-button {
-  margin: 10px 5px 5px 5px;
-}
-
-#feed-options {
-  float: left;
-}
-
 .new-button {
   color: #5bcc3f;
 }
@@ -84,6 +76,7 @@ input {
     color: #cc4040;
     background-color: transparent;
     border: none;
+    padding: 0;
   }
 
     .delete-button:hover {
@@ -130,21 +123,16 @@ input {
         margin: 0;
         top: 43px;
         right: 0;
-        bottom: 0;
         padding: 5px 1%;
         background-color: #fff;
         border-left: 2px #ddd solid;
+        border-bottom: 2px #ddd solid;
       }
 
 #content-wrap {
   width: 95%;
   margin: 0 auto;
 }
-
-  #content-wrap h2 {
-    float: left;
-    margin: 5px 10px 5px 5px;
-  }
 
 /*=========*/
 /*==Feed Pages==*/
