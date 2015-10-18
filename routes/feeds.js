@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-var request = require('request-promise');
+var request = require('request');
 var User = require('../models/user');
 
 // Router Middleware
@@ -83,18 +83,15 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
     var feedData = []
     var sourceCount = user.feeds.id(req.params.feedId).sources.length;
 
-    function getToken() {
-      request('https://graph.facebook.com/oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-          var accessToken = body;
-        }
-        for (var i = 0; i < sourceCount; i++) {
-          var sourceValue = user.feeds.id(req.params.feedId).sources[i].value;
-          singleRequest(sourceValue, i, accessToken);
-        }
-      });
-    }
-    getToken();
+    request('https://graph.facebook.com/oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var accessToken = body;
+      }
+      for (var i = 0; i < sourceCount; i++) {
+        var sourceValue = user.feeds.id(req.params.feedId).sources[i].value;
+        singleRequest(sourceValue, i, accessToken);
+      }
+    });
 
     function singleRequest(source, i, token) {
       request('https://graph.facebook.com/' + source + '/feed?fields=message,story,link,created_time,picture,description,from&' + token, function (error, response, body) {
@@ -103,12 +100,12 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
         if (!error && response.statusCode == 200) {
           var result = JSON.parse(body);
           feedData = feedData.concat(result.data);
-          loopCallback(i);
+          sortData(i);
         }
       });
     }
 
-    function loopCallback(i) {
+    function sortData(i) {
       // need to remove set timeout
       if (i === sourceCount -1) {
         setTimeout(function() {
