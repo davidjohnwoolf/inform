@@ -132,10 +132,11 @@ input {
 #content-wrap {
   width: 95%;
   margin: 0 auto;
+  padding-bottom: 20px;
 }
 
 /*=========*/
-/*==Feed Pages==*/
+/*==Other Pages==*/
 /*=========*/
 
 #display-source {
@@ -149,3 +150,7 @@ input {
     padding: 10px;
     margin: 10px 0;
   }
+
+ul h4 {
+  margin: 10px 0 5px 0;
+}

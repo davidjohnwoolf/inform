@@ -38,18 +38,6 @@ function requireUser(req, res, next) {
 // Feed Routes
 // -----------
 
-// index
-router.get('/:id/feeds/:feedId/sources', requireUser, function(req, res) {
-  User.findOne({ _id: req.params.id }, function(err, user) {
-    res.render('sources/index', { title: 'Sources', userId: req.params.id, feed: user.feeds.id(req.params.feedId), sources: user.feeds.id(req.params.feedId).sources });
-  });
-});
-
-// new
-router.get('/:id/feeds/:feedId/sources/new', requireUser, function(req, res) {
-  res.render('sources/new', { title: 'Add Source', userId: req.params.id, feedId: req.params.feedId });
-});
-
 // create
 router.post('/:id/feeds/:feedId/sources/new', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
@@ -64,7 +52,7 @@ router.post('/:id/feeds/:feedId/sources/new', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.redirect('/' + user._id + '/feeds/' + req.params.feedId + '/sources');
+      res.redirect('/' + user._id + '/feeds/' + req.params.feedId + '/edit');
     });
   });
 
