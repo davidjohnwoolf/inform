@@ -91,6 +91,9 @@ input {
   background-color: #fff;
   overflow: hidden;
   postition: relative;
+  position: fixed;
+  width: 100%;
+  top: 0;
 }
 
   #header-wrap header {

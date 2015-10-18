@@ -29,7 +29,11 @@
       option.text = data.feeds[i].title;
       headerSelect.add(option);
     }
-    headerSelect.value = window.location.toString().split('/')[5] || 'select-feed';
+    if (!window.location.toString().split('/')[6]) {
+      headerSelect.value = window.location.toString().split('/')[5] || 'select-feed';
+    } else {
+      headerSelect.value = 'select-feed';
+    }
     setFeedEvent();
   }
 
