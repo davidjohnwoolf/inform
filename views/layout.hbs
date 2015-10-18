@@ -11,12 +11,14 @@
   <body>
     <div id="header-wrap">
       <header>
-        <a href="/"><img src="/img/inform-logo.png" alt="Inform"></a>
-        {{#if session.user}}
-          <select id="header-select">
-            <option value="select-feed">Select Feed</option>
-          </select>
-        {{/if}}
+        <div id="left-header">
+          <a href="/"><img src="/img/inform-logo.png" alt="Inform"></a>
+          {{#if session.user}}
+            <select id="header-select">
+              <option value="select-feed">Select Feed</option>
+            </select>
+          {{/if}}
+        </div>
         <nav>
           <span id="menu-icon">&#9776;</span>
           <ul id="menu">
@@ -43,9 +45,9 @@
 
 
     <!-- scripts -->
-    <script src="/js/menu.js"></script>
     {{#if session.user}}
       <script src="/js/feed-selector.js"></script>
     {{/if}}
+    <script src="/js/menu.js"></script>
   </body>
 </html>

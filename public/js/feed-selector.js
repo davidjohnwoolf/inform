@@ -13,9 +13,9 @@
     }
   };
 
-  var url = window.location.toString().split('/')[3];
+  var url = window.location.toString().split('/');
 
-  httpRequest.open('GET', '/' + url + '/feedlist');
+  httpRequest.open('GET', '/' + url[3] + '/feedlist');
   httpRequest.send(null);
 
   var headerSelect = document.getElementById('header-select');
@@ -29,8 +29,17 @@
       option.text = data.feeds[i].title;
       headerSelect.add(option);
     }
-    if (!window.location.toString().split('/')[6]) {
-      headerSelect.value = window.location.toString().split('/')[5] || 'select-feed';
+    if (!url[6]) {
+      if (!url[5]) {
+        headerSelect.value = 'select-feed'
+      } else {
+        headerSelect.value = url[5];
+        var editFeedBtn = document.createElement('a');
+        editFeedBtn.setAttribute('href', '/' + userId + '/feeds/' + url[5] + '/edit');
+        editFeedBtn.setAttribute('class', 'edit-feed');
+        editFeedBtn.innerHTML = 'Edit Feed';
+        document.getElementById('left-header').appendChild(editFeedBtn);
+      }
     } else {
       headerSelect.value = 'select-feed';
     }
@@ -42,7 +51,7 @@
       if (this.value !== 'select-feed') {
         window.location = '/' + userId + '/feeds/' + this.value;
       } else {
-        headerSelect.value = window.location.toString().split('/')[5] || 'select-feed';
+        headerSelect.value = url[5] || 'select-feed';
       }
     });
   }

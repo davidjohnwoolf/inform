@@ -122,7 +122,7 @@ router.delete('/:id/feeds/:feedId/sources/:sourceId', requireUser, function(req,
     user.feeds.id(req.params.feedId).sources.id(req.params.sourceId).remove();
 
     user.save(function(err) {
-      res.redirect('/' + req.params.id + '/feeds/' + req.params.feedId + '/sources')
+      res.redirect('/' + req.params.id + '/feeds/' + req.params.feedId + '/edit')
     });
   });
 });
