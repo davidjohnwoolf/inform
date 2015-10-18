@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
-var request = require('request');
+var request = require('request-promise');
 var User = require('../models/user');
 
 // Router Middleware
@@ -80,31 +80,35 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
-    var feedData = []
+    var feedData = [];
     var sourceCount = user.feeds.id(req.params.feedId).sources.length;
 
-    for (var i = 0; i < sourceCount; i++) {
-      var sourceValue = user.feeds.id(req.params.feedId).sources[i].value;
-      singleRequest(sourceValue, i);
-    }
-
-    function singleRequest(source, i) {
+    function getToken() {
       request('https://graph.facebook.com/oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
         if (!error && response.statusCode == 200) {
           var accessToken = body // Show the HTML for the Google homepage.
-          request('https://graph.facebook.com/' + source + '/feed?fields=message,story,link,created_time,picture,description,from&' + accessToken, function (error, response, body) {
-            if (error) res.send(error);
-
-            if (!error && response.statusCode == 200) {
-              var result = JSON.parse(body)
-              feedData = feedData.concat(result.data);
-              dataCheck(i)
-            }
-          });
+        }
+        for (var i = 0; i < sourceCount; i++) {
+          var sourceValue = user.feeds.id(req.params.feedId).sources[i].value;
+          singleRequest(sourceValue, i, accessToken);
         }
       });
     }
-    function dataCheck(i) {
+    getToken();
+
+    function singleRequest(source, i, token) {
+      request('https://graph.facebook.com/' + source + '/feed?fields=message,story,link,created_time,picture,description,from&' + token, function (error, response, body) {
+        if (error) res.send(error);
+
+        if (!error && response.statusCode == 200) {
+          var result = JSON.parse(body);
+          feedData = feedData.concat(result.data);
+          loopCallback(i);
+        }
+      });
+    }
+
+    function loopCallback(i) {
       setTimeout(function() {
         if (i == sourceCount -1) {
           var sortedData = feedData.sort(function(a, b) {
