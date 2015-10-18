@@ -29,12 +29,17 @@
       option.text = data.feeds[i].title;
       headerSelect.add(option);
     }
+    headerSelect.value = window.location.toString().split('/')[5] || 'select-feed';
     setFeedEvent();
   }
 
   function setFeedEvent() {
     headerSelect.addEventListener('change', function() {
-      window.location = '/' + userId + '/feeds/' + this.value;
+      if (this.value !== 'select-feed') {
+        window.location = '/' + userId + '/feeds/' + this.value;
+      } else {
+        headerSelect.value = window.location.toString().split('/')[5] || 'select-feed';
+      }
     });
   }
 
