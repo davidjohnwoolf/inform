@@ -80,13 +80,13 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
-    var feedData = [];
+    var feedData = []
     var sourceCount = user.feeds.id(req.params.feedId).sources.length;
 
     function getToken() {
       request('https://graph.facebook.com/oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
         if (!error && response.statusCode == 200) {
-          var accessToken = body // Show the HTML for the Google homepage.
+          var accessToken = body;
         }
         for (var i = 0; i < sourceCount; i++) {
           var sourceValue = user.feeds.id(req.params.feedId).sources[i].value;
@@ -109,8 +109,9 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
     }
 
     function loopCallback(i) {
-      setTimeout(function() {
-        if (i == sourceCount -1) {
+      // need to remove set timeout
+      if (i === sourceCount -1) {
+        setTimeout(function() {
           var sortedData = feedData.sort(function(a, b) {
             if (a.created_time < b.created_time) {
               return 1;
@@ -121,8 +122,8 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
             }
           });
           res.send(sortedData);
-        }
-      }, 500)
+        }, 500);
+      }
     }
 
   });
