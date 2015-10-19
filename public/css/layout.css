@@ -205,23 +205,23 @@ ul h4 {
 
 .listed-source {
   border: 1px #ddd solid;
-  padding: 5px;
+  padding: 5px 10px;
   margin-bottom: 5px;
   overflow: hidden;
 }
 
   .listed-source h4, .listed-source a, .listed-source form {
     display: inline;
-    margin: 0 10px 5px 0;
   }
 
   .listed-source a, .listed-source form {
     float: right;
-    margin-top: 10px;
+    margin: 10px 0 0 10px;
   }
 
-  .listed-source h4{
+  .listed-source h4, .listed-source h4 a {
     float: left;
+    margin-top: -10px;
   }
 
 /*login and create*/
@@ -235,6 +235,10 @@ ul h4 {
 }
 
   .content-part h2 {
+    margin: 20px 0 10px 0;
+  }
+
+  .content-part h4 {
     margin: 20px 0 10px 0;
   }
 
