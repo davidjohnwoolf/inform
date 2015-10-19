@@ -25,6 +25,9 @@
       var day = date.getDate();
       var hours = date.getHours() + 1;
       var minutes = date.getMinutes();
+      if (minutes < 10) {
+        minutes = '0' + minutes
+      }
       if (hours > 12) {
         hours = hours - 12;
         minutes = minutes + 'pm';
