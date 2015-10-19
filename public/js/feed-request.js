@@ -18,7 +18,24 @@
 
   function displayData(data) {
     for (var i = 0; i < data.length; i++) {
-      var fromField = '<h5>' + data[i].from.name + ' - ' + data[i].created_time + '</h5>';
+      var date = new Date(data[i].created_time)
+
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      var hours = date.getHours() + 1;
+      var minutes = date.getMinutes();
+      if (hours > 12) {
+        hours = hours - 12;
+        minutes = minutes + 'pm';
+      } else {
+        minutes = minutes + 'am';
+      }
+
+      var time = month + '/' + day + '/' + year + ' ' +hours + ':' + minutes;
+
+      var fromField = '<h5>' + data[i].from.name + ' - ' + time + '</h5>';
+
       var messageField = '<h4>' + (data[i].message || data[i].story) + '</h4>';
       var pictureField = '';
       if (data[i].picture) {
