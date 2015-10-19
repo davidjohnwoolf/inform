@@ -26,16 +26,20 @@
       }
       var descriptionField = '';
       if (data[i].description) {
-        descriptionField = '<p>' + data[i].description + '</p></div>';
-      } else if (data[i].picture && !data[i].description) {
-        descriptionField = '</div>';
+        descriptionField = '<p>' + data[i].description + '</p>';
+      }
+      var captionField = '';
+      if (data[i].caption) {
+        captionField = '<small>' + data[i].caption + '</small>';
+      } else if (data[i].picture && !data[i].caption) {
+        captionField = '</div>'
       }
       var linkField = '';
       if (data[i].link) {
-        linkField = '<a href=' + data[i].link + ' target=_blank>Link: ' + (data[i].name || data[i].link) + '</a>';
+        linkField = '<a href=' + data[i].link + ' target=_blank>' + (data[i].name || data[i].link) + '</a>';
       }
 
-      var displayString = '<div class="feed-item">' + fromField + messageField + pictureField + descriptionField + linkField + '</div>';
+      var displayString = '<div class="feed-item">' + fromField + messageField + pictureField + linkField + descriptionField + captionField + '</div>';
 
       document.getElementById('display').innerHTML += displayString;
     }

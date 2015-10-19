@@ -163,36 +163,47 @@ input {
   margin: 10px 0;
 }
 
-  .feed-item h4 {
-    margin: 5px 0;
-    font-size: 1.2em;
-  }
-
-  .feed-item a {
-    margin: 5px 0;
-    display: block;
-  }
-
   .feed-item h5 {
     color: #999;
     font-size: .8em;
+    margin: 5px 0 10px 0;
+    padding-bottom: 10px;
+  }
+
+  .feed-item h4 {
     margin: 5px 0;
-    padding-bottom: 5px;
-    border-bottom: 1px #ddd solid;
+    font-weight: normal;
   }
 
   .feed-item .picture {
-    border: 2px #ddd solid;
-    padding: 5px;
+    border: 1px #ddd solid;
+    padding-bottom: 5px;
   }
 
-  .feed-item .picture img {
-    width: 100%
-  }
+    .feed-item .picture img {
+      width: 100%;
+    }
 
-  .feed-item .picture p {
-    margin: 5px 0;
-  }
+    .feed-item .picture a {
+      margin: 5px;
+      display: block;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .feed-item .picture a:hover {
+      color: #666;
+    }
+
+    .feed-item .picture p {
+      margin: 5px;
+      font-size: .8em;
+    }
+
+    .feed-item .picture small {
+      color: #999;
+      margin: 5px;
+    }
 
 ul h4 {
   margin: 10px 0 5px 0;

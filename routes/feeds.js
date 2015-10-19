@@ -94,7 +94,7 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
     });
 
     function singleRequest(source, i, token) {
-      request('https://graph.facebook.com/' + source + '/feed?fields=message,story,link,name,created_time,picture,full_picture,description,from&' + token, function (error, response, body) {
+      request('https://graph.facebook.com/' + source + '/feed?fields=message,story,link,name,caption,created_time,picture,full_picture,description,from&' + token, function (error, response, body) {
         if (error) res.send(error);
 
         if (!error && response.statusCode == 200) {
