@@ -22,15 +22,17 @@
       var messageField = '<h4>' + (data[i].message || data[i].story) + '</h4>';
       var pictureField = '';
       if (data[i].picture) {
-        pictureField = '<img src=' + data[i].picture + ' alt=' + data[i].description + '>';
+        pictureField = '<div class="picture"><img src=' + data[i].full_picture + ' alt=' + data[i].description + '>';
       }
       var descriptionField = '';
       if (data[i].description) {
-        descriptionField = '<h5>' + data[i].description + '</h5>';
+        descriptionField = '<p>' + data[i].description + '</p></div>';
+      } else if (data[i].picture && !data[i].description) {
+        descriptionField = '</div>';
       }
       var linkField = '';
       if (data[i].link) {
-        linkField = '<h5><a href=' + data[i].link + ' target=_blank>' + (data[i].name || data[i].link) + '</a></h5>';
+        linkField = '<a href=' + data[i].link + ' target=_blank>Link: ' + (data[i].name || data[i].link) + '</a>';
       }
 
       var displayString = '<div class="feed-item">' + fromField + messageField + pictureField + descriptionField + linkField + '</div>';

@@ -34,11 +34,6 @@
         headerSelect.value = 'select-feed'
       } else {
         headerSelect.value = url[5];
-        var editFeedBtn = document.createElement('a');
-        editFeedBtn.setAttribute('href', '/' + userId + '/feeds/' + url[5] + '/edit');
-        editFeedBtn.setAttribute('class', 'edit-feed');
-        editFeedBtn.innerHTML = 'Feed Settings';
-        document.getElementById('left-header').appendChild(editFeedBtn);
       }
     } else {
       headerSelect.value = 'select-feed';
