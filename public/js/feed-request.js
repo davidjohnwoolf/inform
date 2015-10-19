@@ -18,7 +18,24 @@
 
   function displayData(data) {
     for (var i = 0; i < data.length; i++) {
-      document.getElementById('display').innerHTML += '<div class="feed-item"><h5>' + data[i].from.name + ' - ' + data[i].created_time + '</h5><h4><a href=' + data[i].link + ' target="_blank">' + (data[i].message || data[i].story) + '</a></h4><img src=' + data[i].picture + ' alt=' + data[i].description + '><h5>' + data[i].description + '</h5></div>';
+      var fromField = '<h5>' + data[i].from.name + ' - ' + data[i].created_time + '</h5>';
+      var messageField = '<h4>' + (data[i].message || data[i].story) + '</h4>';
+      var pictureField = '';
+      if (data[i].picture) {
+        pictureField = '<img src=' + data[i].picture + ' alt=' + data[i].description + '>';
+      }
+      var descriptionField = '';
+      if (data[i].description) {
+        descriptionField = '<h5>' + data[i].description + '</h5>';
+      }
+      var linkField = '';
+      if (data[i].link) {
+        linkField = '<h5><a href=' + data[i].link + ' target=_blank>' + (data[i].name || data[i].link) + '</a></h5>';
+      }
+
+      var displayString = '<div class="feed-item">' + fromField + messageField + pictureField + descriptionField + linkField + '</div>';
+
+      document.getElementById('display').innerHTML += displayString;
     }
   }
 
