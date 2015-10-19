@@ -18,7 +18,50 @@
 
   function displayData(data) {
     for (var i = 0; i < data.data.length; i++) {
-      document.getElementById('display').innerHTML += '<div class="feed-item"><h5>' + data.data[i].from.name + ' - ' + data.data[i].created_time + '</h5><h4><a href=' + data.data[i].link + ' target="_blank">' + (data.data[i].message || data.data[i].story) + '</a></h4><img src=' + data.data[i].picture + ' alt=' + data.data[i].description + '><h5>' + data.data[i].description + '</h5></div>';
+      var date = new Date(data.data[i].created_time)
+
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      var hours = date.getHours() + 1;
+      var minutes = date.getMinutes();
+      if (minutes < 10) {
+        minutes = '0' + minutes
+      }
+      if (hours > 12) {
+        hours = hours - 12;
+        minutes = minutes + 'pm';
+      } else {
+        minutes = minutes + 'am';
+      }
+
+      var time = month + '/' + day + '/' + year + ' ' +hours + ':' + minutes;
+
+      var fromField = '<h5>' + data.data[i].from.name + ' - ' + time + '</h5>';
+
+      var messageField = '<h4>' + (data.data[i].message || data.data[i].story) + '</h4>';
+      var pictureField = '';
+      if (data.data[i].picture) {
+        pictureField = '<div class="picture"><img src=' + data.data[i].full_picture + ' alt=' + data.data[i].description + '>';
+      }
+      var descriptionField = '';
+      if (data.data[i].description) {
+        descriptionField = '<p>' + data.data[i].description + '</p>';
+      }
+      var captionField = '';
+      if (data.data[i].caption) {
+        captionField = '<small>' + data.data[i].caption + '</small>';
+      } else if (data.data[i].picture && !data.data[i].caption) {
+        captionField = '</div>'
+      }
+      var linkField = '';
+      if (data.data[i].link) {
+        linkField = '<a href=' + data.data[i].link + ' target=_blank>' + (data.data[i].name || data.data[i].link) + '</a>';
+      }
+
+      var displayString = '<article class="feed-item">' + fromField + messageField + pictureField + linkField + descriptionField + captionField + '</article>';
+
+      document.getElementById('display').innerHTML += displayString;
     }
   }
 

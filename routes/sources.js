@@ -65,7 +65,7 @@ router.get('/:id/feeds/:feedId/sources/:sourceId/request', requireUser, function
     request('https://graph.facebook.com/oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
       if (!error && response.statusCode == 200) {
         var accessToken = body // Show the HTML for the Google homepage.
-        request('https://graph.facebook.com/' + user.feeds.id(req.params.feedId).sources.id(req.params.sourceId).value + '/feed?fields=message,story,link,created_time,picture,description,from&' + accessToken, function (error, response, body) {
+        request('https://graph.facebook.com/' + user.feeds.id(req.params.feedId).sources.id(req.params.sourceId).value + '/feed?fields=id,message,story,link,name,caption,created_time,picture,full_picture,description,from&' + accessToken, function (error, response, body) {
           if (error) res.send(error);
 
           if (!error && response.statusCode == 200) {
