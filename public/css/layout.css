@@ -14,17 +14,12 @@ ul {
 }
 
 a {
-  color: #999;
+  color: #3B80AD;
   text-decoration: none;
 }
 
 a:hover {
-  color: #666;
-  text-decoration: none;
-}
-
-input {
-  display: block;
+  color: #3A97D4;
 }
 
 h2 {
@@ -33,23 +28,24 @@ h2 {
 
 /* Form Styles */
 
-.input-block input {
-  border-radius: 3px;
+.input-block input, .input-block select {
+  display: block;
+  padding: 5px;
   border: 2px #ddd solid;
-  margin-bottom: 5px;
+  border-radius: 3px;
+  margin: 5px 0 15px 0;
 }
 
 .submit-block input {
-  padding: 5px 20px;
-  border-radius: 3px;
+  padding: 10px 40px;
+  border-radius: 1px;
   border: none;
-  background: #999;
+  background: #3A97D4;
   color: #fff;
-  margin-top: 10px;
 }
 
   .submit-block input:hover {
-    background: #777;
+    background: #3B80AD;
   }
 
 .new-button {
@@ -57,14 +53,6 @@ h2 {
 }
 
   .new-button:hover {
-    color: #777;
-  }
-
-.edit-button {
-  color: #1d70de;
-}
-
-  .edit-button:hover {
     color: #777;
   }
 
@@ -78,14 +66,14 @@ h2 {
   }
 
   .delete-button {
-    color: #cc4040;
+    color: #D43939;
     background-color: transparent;
     border: none;
     padding: 0;
   }
 
     .delete-button:hover {
-      color: #777;
+      color: #AC3434;
     }
 
 /* Header Styles */
@@ -151,7 +139,7 @@ h2 {
 #content-wrap {
   width: 95%;
   margin: 0 auto;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   margin-top: 50px;
 }
 
@@ -214,3 +202,42 @@ h2 {
 ul h4 {
   margin: 10px 0 5px 0;
 }
+
+.listed-source {
+  border: 1px #ddd solid;
+  padding: 5px;
+  margin-bottom: 5px;
+  overflow: hidden;
+}
+
+  .listed-source h4, .listed-source a, .listed-source form {
+    display: inline;
+    margin: 0 10px 5px 0;
+  }
+
+  .listed-source a, .listed-source form {
+    float: right;
+    margin-top: 10px;
+  }
+
+  .listed-source h4{
+    float: left;
+  }
+
+/*login and create*/
+
+.content-part {
+  background-color: #fff;
+  border: 2px #ddd solid;
+  border-radius: 3px;
+  padding: 10px 10px 25px 10px;
+  margin: 10px 0;
+}
+
+  .content-part h2 {
+    margin: 20px 0 10px 0;
+  }
+
+  .content-part input:not([type=submit]) {
+    width: 90%;
+  }

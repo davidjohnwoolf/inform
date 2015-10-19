@@ -92,7 +92,7 @@ router.get('/:id/feeds/:feedId/sources/:sourceId/edit', requireUser, function(re
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
-    res.render('sources/edit', { title: 'Edit Feed', userId: req.params.id, feed: user.feeds.id(req.params.feedId), source: user.feeds.id(req.params.feedId).sources.id(req.params.sourceId) });
+    res.render('sources/edit', { title: 'Edit Source', userId: req.params.id, feed: user.feeds.id(req.params.feedId), source: user.feeds.id(req.params.feedId).sources.id(req.params.sourceId) });
   });
 });
 
