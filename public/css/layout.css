@@ -27,6 +27,10 @@ input {
   display: block;
 }
 
+h2 {
+  margin: 10px 0;
+}
+
 /* Form Styles */
 
 .input-block input {
@@ -205,12 +209,8 @@ input {
       margin: 5px;
     }
 
+/* What page? */
+
 ul h4 {
   margin: 10px 0 5px 0;
-}
-
-.edit-feed {
-  float: left;
-  font-size: .8em;
-  margin: 5px 0 0 10px;
 }
