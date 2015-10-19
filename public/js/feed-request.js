@@ -39,7 +39,7 @@
         linkField = '<a href=' + data[i].link + ' target=_blank>' + (data[i].name || data[i].link) + '</a>';
       }
 
-      var displayString = '<div class="feed-item">' + fromField + messageField + pictureField + linkField + descriptionField + captionField + '</div>';
+      var displayString = '<article class="feed-item">' + fromField + messageField + pictureField + linkField + descriptionField + captionField + '</article>';
 
       document.getElementById('display').innerHTML += displayString;
     }
