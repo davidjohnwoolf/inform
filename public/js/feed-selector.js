@@ -37,7 +37,7 @@
         var editFeedBtn = document.createElement('a');
         editFeedBtn.setAttribute('href', '/' + userId + '/feeds/' + url[5] + '/edit');
         editFeedBtn.setAttribute('class', 'edit-feed');
-        editFeedBtn.innerHTML = 'Edit Feed';
+        editFeedBtn.innerHTML = 'Feed Settings';
         document.getElementById('left-header').appendChild(editFeedBtn);
       }
     } else {

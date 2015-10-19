@@ -19,7 +19,7 @@ a {
 }
 
 a:hover {
-  color: #777;
+  color: #666;
   text-decoration: none;
 }
 
@@ -160,9 +160,17 @@ input {
   background-color: #fff;
   border: 2px #ddd solid;
   border-radius: 3px;
-  padding: 10px;
+  padding: 0 10px;
   margin: 10px 0;
 }
+
+  .feed-item h4 a {
+    color: #333;
+  }
+
+  .feed-item h5 {
+    color: #666;
+  }
 
 ul h4 {
   margin: 10px 0 5px 0;

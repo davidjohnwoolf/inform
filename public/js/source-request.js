@@ -18,7 +18,7 @@
 
   function displayData(data) {
     for (var i = 0; i < data.data.length; i++) {
-      document.getElementById('display-source').innerHTML += '<div class="feed-item"><h5>' + data.data[i].from.name + '</h5><h4><a href=' + data.data[i].link + ' target="_blank">' + (data.data[i].message || data.data[i].story) + '</a></h4><h5>' + data.data[i].created_time + '</h5><img src=' + data.data[i].picture + ' alt=' + data.data[i].description + '><h5>' + data.data[i].description + '</h5></div>';
+      document.getElementById('display-source').innerHTML += '<div class="feed-item"><h5>' + data.data[i].from.name + ' - ' + data.data[i].created_time + '</h5><h4><a href=' + data.data[i].link + ' target="_blank">' + (data.data[i].message || data.data[i].story) + '</a></h4><img src=' + data.data[i].picture + ' alt=' + data.data[i].description + '><h5>' + data.data[i].description + '</h5></div>';
     }
   }
 
