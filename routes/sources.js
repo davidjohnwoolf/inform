@@ -27,9 +27,8 @@ router.use(methodOverride(function(req, res) {
 // require specific user session
 function requireUser(req, res, next) {
   if (req.session.user !== req.params.id) {
-    // console.log('You do not have access to other users accounts');
-    // res.redirect('back');
-    next();
+    console.log('You do not have access to other users accounts');
+    res.redirect('back');
   } else {
     next();
   }
