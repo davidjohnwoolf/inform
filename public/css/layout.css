@@ -127,11 +127,22 @@ input {
         margin: 0;
         top: 43px;
         right: 0;
-        padding: 5px 1%;
-        background-color: #fff;
-        border-left: 2px #ddd solid;
-        border-bottom: 2px #ddd solid;
+        left: 0;
+        padding: 0;
+        background-color: #555;
+        text-align: center;
       }
+
+        #menu a {
+          display: block;
+          padding: 10px 0;
+          border-bottom: 2px #444 solid;
+          color: #fff;
+        }
+
+        #menu a:hover {
+          background-color: #333;
+        }
 
 #content-wrap {
   width: 95%;
@@ -144,17 +155,14 @@ input {
 /*==Other Pages==*/
 /*=========*/
 
-#display-source {
-  clear: both;
-}
 
-  .feed-item {
-    background-color: #fff;
-    border: 2px #ddd solid;
-    border-radius: 3px;
-    padding: 10px;
-    margin: 10px 0;
-  }
+.feed-item {
+  background-color: #fff;
+  border: 2px #ddd solid;
+  border-radius: 3px;
+  padding: 10px;
+  margin: 10px 0;
+}
 
 ul h4 {
   margin: 10px 0 5px 0;
