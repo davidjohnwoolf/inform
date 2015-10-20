@@ -37,7 +37,7 @@
 
       var time = month + '/' + day + '/' + year + ' ' +hours + ':' + minutes;
 
-      var fromField = '<h5>' + data[i].from.name + ' - ' + time + '</h5>';
+      var fromField = '<h5><a href=https://facebook.com/' + data[i].from.id + ' target=_blank>' + data[i].from.name + '</a> - ' + time + '</h5>';
 
       var messageField = '<h4>' + (data[i].message || data[i].story) + '</h4>';
       var pictureField = '';
