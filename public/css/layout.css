@@ -248,10 +248,6 @@ ul h4 {
 
 /* Flash Stuff */
 
-.flash-notice p {
-  color: green;
-}
-
 .flash-alert p {
-  color: red;
+  color: #cc4040;
 }

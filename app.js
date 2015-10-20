@@ -33,7 +33,6 @@ app.use(flash());
 app.use(function(req, res, next) {
   // set session and flash info to locals
   res.locals.session = req.session;
-  res.locals.flashNotice = req.flash('notice');
   res.locals.flashAlert = req.flash('alert');
   next();
 });
