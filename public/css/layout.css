@@ -107,6 +107,7 @@ h2 {
       border: 1px #ddd solid;
       border-radius: 3px;
       padding: 0 5px;
+      height: 22px;
     }
 
     #header-wrap header nav {
@@ -115,6 +116,7 @@ h2 {
 
       #menu-icon {
         font-size: 1em;
+        height: 20px;
         cursor: pointer;
       }
 
