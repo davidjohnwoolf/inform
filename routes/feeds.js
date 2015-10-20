@@ -94,33 +94,34 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
     });
 
     function singleRequest(source, i, token) {
-      request('https://graph.facebook.com/' + source + '/feed?fields=id,message,story,link,name,caption,created_time,picture,full_picture,description,from&' + token, function (error, response, body) {
+      request('https://graph.facebook.com/' + source + '/feed?fields=id,message,story,link,name,caption,created_time,picture,full_picture,description,from&' + token,
+      function (error, response, body) {
         if (error) res.send(error);
 
         if (!error && response.statusCode == 200) {
           var result = JSON.parse(body);
           feedData = feedData.concat(result.data);
-          sortData(i);
+          if (i === sourceCount - 1) {
+            sortData();
+          }
         }
       });
     }
 
-    function sortData(i) {
+    function sortData() {
       // need to remove set timeout
-      if (i === sourceCount -1) {
-        setTimeout(function() {
-          var sortedData = feedData.sort(function(a, b) {
-            if (a.created_time < b.created_time) {
-              return 1;
-            } else if (a.created_time > b.created_time) {
-              return -1;
-            } else {
-              return 0;
-            }
-          });
-          res.send(sortedData);
-        }, 500);
-      }
+      setTimeout(function() {
+        var sortedData = feedData.sort(function(a, b) {
+          if (a.created_time < b.created_time) {
+            return 1;
+          } else if (a.created_time > b.created_time) {
+            return -1;
+          } else {
+            return 0;
+          }
+        });
+        res.send(sortedData);
+      }, 500)
     }
 
   });
