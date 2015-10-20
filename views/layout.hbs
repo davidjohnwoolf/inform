@@ -38,6 +38,20 @@
     </div>
 
     <div id="content-wrap">
+      {{#if flashNotice}}
+        <div class="flash-notice">
+          <p>
+            {{flashNotice}}
+          </p>
+        </div>
+      {{/if}}
+      {{#if flashAlert}}
+        <div class="flash-alert">
+          <p>
+            {{flashAlert}}
+          </p>
+        </div>
+      {{/if}}
       <section>
         {{{body}}}
       </section>

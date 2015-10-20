@@ -26,7 +26,7 @@ router.use(methodOverride(function(req, res) {
 // require specific user session
 function requireUser(req, res, next) {
   if (req.session.user !== req.params.id) {
-    console.log('You do not have access to other users accounts');
+    req.flash('alert', 'You do not have permission to access this page');
     res.redirect('back');
   } else {
     next();
@@ -46,8 +46,6 @@ router.post('/new', function(req, res) {
   User.findOne({ email: req.body.email }, function(err, user) {
     if (err) res.send(err);
 
-    console.log(user);
-
     if (!user) {
 
       if (req.body.password === req.body.confirmation) {
@@ -64,13 +62,13 @@ router.post('/new', function(req, res) {
         });
       } else {
         // if password and password confirmation do not match
-        console.log('Passwords do not match');
+        req.flash('alert', 'Passwords must match');
         res.redirect('/new')
       }
 
     } else {
       // if email already in use
-      console.log('There is already an account with that email');
+      req.flash('alert', 'There is already an account with that email');
       res.redirect('/new');
     }
   });
@@ -97,7 +95,7 @@ router.get('/:id/edit', requireUser, function(req, res) {
 // update
 router.put('/:id/edit', requireUser, function(req, res) {
   if (req.body.password !== req.body.confirmation) {
-    console.log('Passwords Must Match');
+    req.flash('alert', 'Passwords must match');
     res.redirect('/' + req.params.id + '/edit');
   } else {
     User.findOne({ _id: req.params.id }, function(err, user) {
@@ -124,9 +122,7 @@ router.put('/:id/edit', requireUser, function(req, res) {
 // destroy
 router.delete('/:id', requireUser, function(req, res) {
   User.remove({ _id: req.params.id }, function(err, user) {
-    if (err) {
-      return res.send(err);
-    }
+    if (err) res.send(err);
 
     req.session.destroy(function(err) {
       if (err) res.send(err);

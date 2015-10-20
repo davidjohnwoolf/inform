@@ -245,3 +245,13 @@ ul h4 {
   .content-part input:not([type=submit]) {
     width: 90%;
   }
+
+/* Flash Stuff */
+
+.flash-notice p {
+  color: green;
+}
+
+.flash-alert p {
+  color: red;
+}

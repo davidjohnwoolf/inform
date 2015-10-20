@@ -27,7 +27,7 @@ router.use(methodOverride(function(req, res) {
 // require specific user session
 function requireUser(req, res, next) {
   if (req.session.user !== req.params.id) {
-    console.log('You do not have access to other users accounts');
+    req.flash('alert', 'You do not have permission to access this page');
     res.redirect('back');
   } else {
     next();
@@ -169,6 +169,8 @@ router.delete('/:id/feeds/:feedId', requireUser, function(req, res) {
     user.feeds.id(req.params.feedId).remove();
 
     user.save(function(err) {
+      if (err) res.send(err);
+
       res.redirect('/' + req.params.id + '/feeds')
     });
   });
