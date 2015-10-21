@@ -80,64 +80,57 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
-    var feedData = []
     var sourceCount = user.feeds.id(req.params.feedId).sources.length;
+    var facebookGraphUrl = 'https://graph.facebook.com/';
+    var fieldsUrl = '/feed?fields=id,message,story,link,name,caption,created_time,picture,full_picture,description,from';
 
     // get access token
-    request('https://graph.facebook.com/oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
+    request(facebookGraphUrl + 'oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
       if (!error && response.statusCode == 200) {
         var accessToken = body;
-      }
 
-      // loop through sources for seperate requests
-      for (var i = 0; i < sourceCount; i++) {
-        var sourceValue = user.feeds.id(req.params.feedId).sources[i].value;
-        singleRequest(sourceValue, i, accessToken);
-      }
-    });
+        // set batch string according to sources
+        var batchUrl = 'batch=[';
+        for (var i = 0; i < sourceCount; i++) {
+          var sourceValue = user.feeds.id(req.params.feedId).sources[i].value;
+          batchUrl += '{"method":"GET","relative_url":"' + sourceValue + fieldsUrl + '"},';
+        }
+        batchUrl = batchUrl.replace(/,\s*$/, '');
+        batchUrl += ']';
 
-    function singleRequest(source, i, token) {
-      request('https://graph.facebook.com/' + source + '/feed?fields=id,message,story,link,name,caption,created_time,picture,full_picture,description,from&' + token,
-      function (error, response, body) {
-        if (error) res.send(error);
+        // send batch request
+        request(facebookGraphUrl + '?' + batchUrl + '&' + accessToken + '&method=post', function(error, response, body) {
+          if (error) res.send(error);
 
-        if (!error && response.statusCode == 200) {
-          var result = JSON.parse(body);
+          if (!error && response.statusCode == 200) {
+            var feedData = [];
 
-          // loop through filters and remove items that include filter value
-          for (var n = 0; n < user.feeds.id(req.params.feedId).filters.length; n++) {
-            for (var c = 0; c < result.data.length; c++) {
-              var itemString = JSON.stringify(result.data[c]);
-              if (itemString.indexOf(user.feeds.id(req.params.feedId).filters[n])) {
-                result.data.splice(c, 1);
+            // parse through response and push into feedData
+            var result = JSON.parse(body);
+            for (var i = 0; i < result.length; i++) {
+              var parsedResult = JSON.parse(result[i].body);
+              for (var n = 0; n < parsedResult.data.length; n++) {
+                feedData.push(parsedResult.data[n])
               }
             }
-          }
 
-          feedData = feedData.concat(result.data);
-          if (i === sourceCount - 1) {
-            sortData();
-          }
-        }
-      });
-    }
+            // sort feedData based on created_time
+            var sortedData = feedData.sort(function(a, b) {
+              if (a.created_time < b.created_time) {
+                return 1;
+              } else if (a.created_time > b.created_time) {
+                return -1;
+              } else {
+                return 0;
+              }
+            });
 
-    function sortData() {
-      // need to remove set timeout
-      setTimeout(function() {
-        var sortedData = feedData.sort(function(a, b) {
-          if (a.created_time < b.created_time) {
-            return 1;
-          } else if (a.created_time > b.created_time) {
-            return -1;
-          } else {
-            return 0;
+            // send results
+            res.send(sortedData);
           }
         });
-        res.send(sortedData);
-      }, 800)
-    }
-
+      }
+    });
   });
 });
 
