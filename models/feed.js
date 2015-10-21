@@ -6,7 +6,8 @@ var Schema = mongoose.Schema;
 
 var Feed = new Schema({
   title: { type: String, required: true },
-  sources: [Source.schema]
+  sources: [Source.schema],
+  filters: [String]
 });
 
 module.exports = mongoose.model('Feed', Feed);

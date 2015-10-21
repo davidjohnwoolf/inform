@@ -7,6 +7,11 @@
       <label for="title">Update Feed Title</label>
       <input type="text" name="title" value="{{feed.title}}" placeholder="title">
     </div>
+    <div class="input-block">
+      <label for="filters">Update Filters</label>
+      <small>(List Filters separated by a commas)</small>
+      <input type="text" name="filters" value="{{feed.filters}}" placeholder="some filter,another filter">
+    </div>
     <div class="submit-block">
       <input type="submit" value="Update Feed">
     </div>
@@ -35,6 +40,7 @@
       <input type="submit" value="Add Source">
     </div>
   </form>
+
   <h2>Sources</h2>
   <ul>
     {{#each feed.sources}}

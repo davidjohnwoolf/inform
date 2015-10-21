@@ -83,10 +83,13 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
     var feedData = []
     var sourceCount = user.feeds.id(req.params.feedId).sources.length;
 
+    // get access token
     request('https://graph.facebook.com/oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
       if (!error && response.statusCode == 200) {
         var accessToken = body;
       }
+
+      // loop through sources for seperate requests
       for (var i = 0; i < sourceCount; i++) {
         var sourceValue = user.feeds.id(req.params.feedId).sources[i].value;
         singleRequest(sourceValue, i, accessToken);
@@ -100,6 +103,17 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
 
         if (!error && response.statusCode == 200) {
           var result = JSON.parse(body);
+
+          // loop through filters and remove items that include filter value
+          for (var n = 0; n < user.feeds.id(req.params.feedId).filters.length; n++) {
+            for (var c = 0; c < result.data.length; c++) {
+              var itemString = JSON.stringify(result.data[c]);
+              if (itemString.indexOf(user.feeds.id(req.params.feedId).filters[n])) {
+                result.data.splice(c, 1);
+              }
+            }
+          }
+
           feedData = feedData.concat(result.data);
           if (i === sourceCount - 1) {
             sortData();
@@ -121,7 +135,7 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
           }
         });
         res.send(sortedData);
-      }, 500)
+      }, 800)
     }
 
   });
@@ -149,6 +163,10 @@ router.get('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
 router.put('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
+
+    if (req.body.filters) {
+      req.body.filters = req.body.filters.split(',');
+    }
 
     for (var key in req.body) {
       user.feeds.id(req.params.feedId)[key] = req.body[key];
