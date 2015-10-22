@@ -182,6 +182,10 @@ h2 {
       width: 100%;
     }
 
+    .feed-item .picture video {
+      width: 100%;
+    }
+
     .feed-item .picture a {
       margin: 10px;
       display: block;

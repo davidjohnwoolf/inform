@@ -82,7 +82,7 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
 
     var sourceCount = user.feeds.id(req.params.feedId).sources.length;
     var facebookGraphUrl = 'https://graph.facebook.com/';
-    var fieldsUrl = '/feed?fields=id,message,story,link,name,caption,created_time,picture,full_picture,description,from';
+    var fieldsUrl = '/feed?fields=id,message,story,link,name,caption,created_time,picture,full_picture,source,description,from';
 
     // get access token
     request(facebookGraphUrl + 'oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
@@ -110,7 +110,21 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
             for (var i = 0; i < result.length; i++) {
               var parsedResult = JSON.parse(result[i].body);
               for (var n = 0; n < parsedResult.data.length; n++) {
-                feedData.push(parsedResult.data[n])
+                var sourceId = parsedResult.data[n].id.split('_')[0];
+                if (sourceId === parsedResult.data[n].from.id) {
+                  feedData.push(parsedResult.data[n]);
+                }
+              }
+            }
+
+            // pass feedData through feeds filters
+            for (var i = 0; i < feedData.length; i++) {
+              var stringValue = JSON.stringify(feedData[i]);
+              for (var c = 0; c < user.feeds.id(req.params.feedId).filters.length; c++) {
+                var filter = user.feeds.id(req.params.feedId).filters[c];
+                if (stringValue.indexOf(filter) > -1) {
+                  feedData.splice(i, 1);
+                }
               }
             }
 

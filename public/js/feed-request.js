@@ -41,7 +41,10 @@
 
       var messageField = '<h4>' + (data[i].message || data[i].story) + '</h4>';
       var pictureField = '';
-      if (data[i].picture) {
+      var video = '';
+      if (data[i].source) {
+        video = '<div class="picture"><video src=' + data[i].source + ' controls></video>'
+      } else if (data[i].picture) {
         pictureField = '<div class="picture"><img src=' + data[i].full_picture + ' alt=' + data[i].description + '>';
       }
       var descriptionField = '';
@@ -51,7 +54,7 @@
       var captionField = '';
       if (data[i].caption) {
         captionField = '<small>' + data[i].caption + '</small>';
-      } else if (data[i].picture && !data[i].caption) {
+      } else if ((data[i].picture || data[i].source) && !data[i].caption) {
         captionField = '</div>'
       }
       var linkField = '';
@@ -59,7 +62,7 @@
         linkField = '<a href=' + data[i].link + ' target=_blank>' + (data[i].name || data[i].link) + '</a>';
       }
 
-      var displayString = '<article class="feed-item">' + fromField + messageField + pictureField + linkField + descriptionField + captionField + '</article>';
+      var displayString = '<article class="feed-item">' + fromField + messageField + video + pictureField + linkField + descriptionField + captionField + '</article>';
 
       document.getElementById('display').innerHTML += displayString;
     }
