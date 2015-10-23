@@ -83,6 +83,7 @@ h2 {
   position: fixed;
   width: 100%;
   top: 0;
+  z-index: 10;
 }
 
   #header-wrap header {
@@ -129,6 +130,7 @@ h2 {
         padding: 0;
         background-color: #555;
         text-align: center;
+        z-index: 20;
       }
 
         #menu a {
@@ -143,7 +145,7 @@ h2 {
         }
 
 #content-wrap {
-  width: 95%;
+  width: 100%;
   margin: 0 auto;
   padding-bottom: 10px;
   margin-top: 50px;
@@ -155,9 +157,9 @@ h2 {
 
 .feed-item {
   background-color: #fff;
-  border: 2px #ddd solid;
-  border-radius: 3px;
-  padding: 10px;
+  border-top: 2px #ddd solid;
+  border-bottom: 2px #ddd solid;
+  padding: 10px 2.5%;
   margin: 10px 0;
   word-wrap: break-word;
 }
@@ -233,9 +235,9 @@ ul h4 {
 
 .content-part {
   background-color: #fff;
-  border: 2px #ddd solid;
-  border-radius: 3px;
-  padding: 10px 10px 25px 10px;
+  border-top: 2px #ddd solid;
+  border-bottom: 2px #ddd solid;
+  padding: 10px 2.5% 25px 2.5%;
   margin: 10px 0;
 }
 

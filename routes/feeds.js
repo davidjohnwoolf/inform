@@ -103,50 +103,180 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
           if (error) res.send(error);
 
           if (!error && response.statusCode == 200) {
-            var feedData = [];
+            parseResponse();
 
             // parse through response and push into feedData
-            var result = JSON.parse(body);
-            for (var i = 0; i < result.length; i++) {
-              var parsedResult = JSON.parse(result[i].body);
-              for (var n = 0; n < parsedResult.data.length; n++) {
-                var sourceId = parsedResult.data[n].id.split('_')[0];
-                if (sourceId === parsedResult.data[n].from.id) {
-                  feedData.push(parsedResult.data[n]);
+            function parseResponse() {
+              var feedData = [];
+              var result = JSON.parse(body);
+              for (var i = 0; i < result.length; i++) {
+                var parsedResult = JSON.parse(result[i].body);
+                for (var n = 0; n < parsedResult.data.length; n++) {
+                  var sourceId = parsedResult.data[n].id.split('_')[0];
+
+                  // only return posts from direct source
+                  if (sourceId === parsedResult.data[n].from.id) {
+                    feedData.push(parsedResult.data[n]);
+                  }
+                  if ((i === result.length -1) && (n === parsedResult.data.length -1)) {
+                    filterResponse(feedData);
+                  }
                 }
               }
             }
 
             // pass feedData through feeds filters
-            for (var i = 0; i < feedData.length; i++) {
-              var stringValue = JSON.stringify(feedData[i]);
-              for (var c = 0; c < user.feeds.id(req.params.feedId).filters.length; c++) {
-                var filter = user.feeds.id(req.params.feedId).filters[c];
-                if (stringValue.indexOf(filter) > -1) {
-                  feedData.splice(i, 1);
+            function filterResponse(feedData) {
+              var filterLength = user.feeds.id(req.params.feedId).filters.length;
+              if (user.feeds.id(req.params.feedId).filters[0] === '') {
+                sortResponse(feedData);
+              } else {
+                for (var i = 0; i < feedData.length; i++) {
+                  var stringValue = JSON.stringify(feedData[i]);
+                  for (var c = 0; c < filterLength; c++) {
+                    var filter = user.feeds.id(req.params.feedId).filters[c];
+                    if (stringValue.indexOf(filter) > -1) {
+                      feedData.splice(i, 1);
+                    }
+                    if ((i === feedData.length - 1) && (c === filterLength - 1)) {
+                      sortResponse(feedData);
+                    }
+                  }
                 }
               }
             }
 
             // sort feedData based on created_time
-            var sortedData = feedData.sort(function(a, b) {
-              if (a.created_time < b.created_time) {
-                return 1;
-              } else if (a.created_time > b.created_time) {
-                return -1;
-              } else {
-                return 0;
-              }
-            });
+            function sortResponse(feedData) {
+              var sortedData = feedData.sort(function(a, b) {
+                if (a.created_time < b.created_time) {
+                  return 1;
+                } else if (a.created_time > b.created_time) {
+                  return -1;
+                } else {
+                  return 0;
+                }
+              });
 
-            // send results
-            res.send(sortedData);
+              // send results
+              res.send(sortedData);
+            }
           }
         });
       }
     });
   });
 });
+
+// search feed
+router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    if (err) res.send(err);
+
+    var sourceCount = user.feeds.id(req.params.feedId).sources.length;
+    var facebookGraphUrl = 'https://graph.facebook.com/';
+    var fieldsUrl = '/feed?fields=id,message,story,link,name,caption,created_time,picture,full_picture,source,description,from';
+
+    // get access token
+    request(facebookGraphUrl + 'oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var accessToken = body;
+
+        // set batch string according to sources
+        var batchUrl = 'batch=[';
+        for (var i = 0; i < sourceCount; i++) {
+          var sourceValue = user.feeds.id(req.params.feedId).sources[i].value;
+          batchUrl += '{"method":"GET","relative_url":"' + sourceValue + fieldsUrl + '"},';
+        }
+        batchUrl = batchUrl.replace(/,\s*$/, '');
+        batchUrl += ']';
+
+        // send batch request
+        request(facebookGraphUrl + '?' + batchUrl + '&' + accessToken + '&method=post', function(error, response, body) {
+          if (error) res.send(error);
+
+          if (!error && response.statusCode == 200) {
+
+            parseResponse();
+
+            // parse through response and push into feedData
+            function parseResponse() {
+              var feedData = [];
+              var result = JSON.parse(body);
+              for (var i = 0; i < result.length; i++) {
+                var parsedResult = JSON.parse(result[i].body);
+                for (var n = 0; n < parsedResult.data.length; n++) {
+                  var sourceId = parsedResult.data[n].id.split('_')[0];
+
+                  // only return posts from direct source
+                  if (sourceId === parsedResult.data[n].from.id) {
+                    feedData.push(parsedResult.data[n]);
+                  }
+                  if ((i === result.length -1) && (n === parsedResult.data.length -1)) {
+                    filterResponse(feedData);
+                  }
+                }
+              }
+            }
+
+            // pass feedData through feeds filters
+            function filterResponse(feedData) {
+              var filterLength = user.feeds.id(req.params.feedId).filters.length;
+              if (user.feeds.id(req.params.feedId).filters[0] === '') {
+                queryResponse(feedData);
+              } else {
+                for (var i = 0; i < feedData.length; i++) {
+                  var stringValue = JSON.stringify(feedData[i]);
+                  for (var c = 0; c < filterLength; c++) {
+                    var filter = user.feeds.id(req.params.feedId).filters[c];
+                    if (stringValue.indexOf(filter) > -1) {
+                      feedData.splice(i, 1);
+                    }
+                    if ((i === feedData.length - 1) && (c === filterLength - 1)) {
+                      queryResponse(feedData);
+                    }
+                  }
+                }
+              }
+            }
+
+            // parse by search query
+            function queryResponse(feedData) {
+              for (var i = 0; i < feedData.length; i++) {
+                var stringValue = JSON.stringify(feedData[i]);
+                if (stringValue.indexOf(req.params.q) === -1) {
+                  console.log(stringValue.indexOf(req.params.q));
+                  feedData.splice(i, 1);
+                }
+                if (i === feedData.length -1) {
+                  sortResponse(feedData);
+                }
+              }
+            }
+
+            // sort feedData based on created_time
+            function sortResponse(feedData) {
+              var sortedData = feedData.sort(function(a, b) {
+                if (a.created_time < b.created_time) {
+                  return 1;
+                } else if (a.created_time > b.created_time) {
+                  return -1;
+                } else {
+                  return 0;
+                }
+              });
+
+              // send results
+              res.send(sortedData);
+            }
+
+          }
+        });
+      }
+    });
+  });
+});
+
 
 // show
 router.get('/:id/feeds/:feedId', requireUser, function(req, res) {

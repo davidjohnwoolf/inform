@@ -16,6 +16,7 @@
   httpRequest.open('GET', window.location + '/request');
   httpRequest.send(null);
 
+
   function displayData(data) {
     for (var i = 0; i < data.length; i++) {
       var date = new Date(data[i].created_time)
@@ -67,5 +68,14 @@
       document.getElementById('display').innerHTML += displayString;
     }
   }
+
+  // // searching
+  // var searchButton = document.getElementById('search-button');
+  // var searchQuery = document.getElementById('search');
+  // searchButton.addEventListener('click', function() {
+  //   document.getElementById('display').innerHTML = '';
+  //   httpRequest.open('GET', window.location + '/request/' + searchQuery.value);
+  //   httpRequest.send(null);
+  // });
 
 })();
