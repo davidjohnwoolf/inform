@@ -246,7 +246,6 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
 
             // parse by search query
             function queryResponse(feedData) {
-              console.log(feedData.length);
               for (var i = 0; i < feedData.length; i++) {
                 var stringValue = JSON.stringify(feedData[i]);
                 if (stringValue.indexOf(req.params.q) === -1) {
