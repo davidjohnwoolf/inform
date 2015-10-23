@@ -137,6 +137,8 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
                     var filter = user.feeds.id(req.params.feedId).filters[c];
                     if (stringValue.indexOf(filter) > -1) {
                       feedData.splice(i, 1);
+                      filterResponse(feedData);
+                      break;
                     }
                     if ((i === feedData.length - 1) && (c === filterLength - 1)) {
                       sortResponse(feedData);
@@ -231,6 +233,8 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
                     var filter = user.feeds.id(req.params.feedId).filters[c];
                     if (stringValue.indexOf(filter) > -1) {
                       feedData.splice(i, 1);
+                      filterResponse(feedData);
+                      break;
                     }
                     if ((i === feedData.length - 1) && (c === filterLength - 1)) {
                       queryResponse(feedData);
@@ -242,11 +246,13 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
 
             // parse by search query
             function queryResponse(feedData) {
+              console.log(feedData.length);
               for (var i = 0; i < feedData.length; i++) {
                 var stringValue = JSON.stringify(feedData[i]);
                 if (stringValue.indexOf(req.params.q) === -1) {
-                  console.log(stringValue.indexOf(req.params.q));
                   feedData.splice(i, 1);
+                  queryResponse(feedData);
+                  break;
                 }
                 if (i === feedData.length -1) {
                   sortResponse(feedData);
