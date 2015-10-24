@@ -104,73 +104,72 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
 
           if (!error && response.statusCode == 200) {
             parseResponse();
+          }
 
-            // parse through response and push into feedData
-            function parseResponse() {
-              var feedData = [];
-              var result = JSON.parse(body);
-              for (var i = 0; i < result.length; i++) {
-                var parsedResult = JSON.parse(result[i].body);
-                for (var n = 0; n < parsedResult.data.length; n++) {
-                  var sourceId = parsedResult.data[n].id.split('_')[0];
+          // parse through response and push into feedData
+          function parseResponse() {
+            var feedData = [];
+            var result = JSON.parse(body);
+            for (var i = 0; i < result.length; i++) {
+              var parsedResult = JSON.parse(result[i].body);
+              for (var n = 0; n < parsedResult.data.length; n++) {
+                var sourceId = parsedResult.data[n].id.split('_')[0];
 
-                  // only return posts from direct source
-                  if (sourceId === parsedResult.data[n].from.id) {
-                    feedData.push(parsedResult.data[n]);
-                  }
-                  if ((i === result.length -1) && (n === parsedResult.data.length -1)) {
+                // only return posts from direct source
+                if (sourceId === parsedResult.data[n].from.id) {
+                  feedData.push(parsedResult.data[n]);
+                }
+                if ((i === result.length -1) && (n === parsedResult.data.length -1)) {
+                  filterResponse(feedData);
+                }
+              }
+            }
+          }
+
+          // pass feedData through feeds filters
+          function filterResponse(feedData) {
+            var filters = user.feeds.id(req.params.feedId).filters;
+            if (feedData.length < 1) {
+              res.send({ message: 'No results, try again'});
+            } else if (filters[0] === '' || filters.length < 1) {
+              sortResponse(feedData);
+            } else {
+              feedDataLoop:
+              for (var i = 0; i < feedData.length; i++) {
+                var stringValue = JSON.stringify(feedData[i]).toLowerCase();
+                filterLoop:
+                for (var c = 0; c < filterLength; c++) {
+                  var filter = user.feeds.id(req.params.feedId).filters[c].toLowerCase();
+                  if (stringValue.indexOf(filter) > -1) {
+                    feedData.splice(i, 1);
                     filterResponse(feedData);
+                    break feedDataLoop;
+                  }
+                  if ((i === feedData.length - 1) && (c === filterLength - 1)) {
+                    sortResponse(feedData);
                   }
                 }
               }
             }
+          }
 
-            // pass feedData through feeds filters
-            function filterResponse(feedData) {
-              if (feedData.length < 1) {
-                res.send({ message: 'No results, try again'});
-              }
-              var filterLength = user.feeds.id(req.params.feedId).filters.length;
-              if (user.feeds.id(req.params.feedId).filters[0] === '') {
-                sortResponse(feedData);
+          // sort feedData based on created_time
+          function sortResponse(feedData) {
+            if (feedData.length < 1) {
+              res.send({ message: 'No results, try again'});
+            }
+            var sortedData = feedData.sort(function(a, b) {
+              if (a.created_time < b.created_time) {
+                return 1;
+              } else if (a.created_time > b.created_time) {
+                return -1;
               } else {
-                feedDataLoop:
-                for (var i = 0; i < feedData.length; i++) {
-                  var stringValue = JSON.stringify(feedData[i]).toLowerCase();
-                  filterLoop:
-                  for (var c = 0; c < filterLength; c++) {
-                    var filter = user.feeds.id(req.params.feedId).filters[c].toLowerCase();
-                    if (stringValue.indexOf(filter) > -1) {
-                      feedData.splice(i, 1);
-                      filterResponse(feedData);
-                      break feedDataLoop;
-                    }
-                    if ((i === feedData.length - 1) && (c === filterLength - 1)) {
-                      sortResponse(feedData);
-                    }
-                  }
-                }
+                return 0;
               }
-            }
+            });
 
-            // sort feedData based on created_time
-            function sortResponse(feedData) {
-              if (feedData.length < 1) {
-                res.send({ message: 'No results, try again'});
-              }
-              var sortedData = feedData.sort(function(a, b) {
-                if (a.created_time < b.created_time) {
-                  return 1;
-                } else if (a.created_time > b.created_time) {
-                  return -1;
-                } else {
-                  return 0;
-                }
-              });
-
-              // send results
-              res.send(sortedData);
-            }
+            // send results
+            res.send(sortedData);
           }
         });
       }
@@ -206,95 +205,91 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
           if (error) res.send(error);
 
           if (!error && response.statusCode == 200) {
-
             parseResponse();
+          }
+          // parse through response and push into feedData
+          function parseResponse() {
+            var feedData = [];
+            var result = JSON.parse(body);
+            for (var i = 0; i < result.length; i++) {
+              var parsedResult = JSON.parse(result[i].body);
+              for (var n = 0; n < parsedResult.data.length; n++) {
+                var sourceId = parsedResult.data[n].id.split('_')[0];
 
-            // parse through response and push into feedData
-            function parseResponse() {
-              var feedData = [];
-              var result = JSON.parse(body);
-              for (var i = 0; i < result.length; i++) {
-                var parsedResult = JSON.parse(result[i].body);
-                for (var n = 0; n < parsedResult.data.length; n++) {
-                  var sourceId = parsedResult.data[n].id.split('_')[0];
-
-                  // only return posts from direct source
-                  if (sourceId === parsedResult.data[n].from.id) {
-                    feedData.push(parsedResult.data[n]);
-                  }
-                  if ((i === result.length -1) && (n === parsedResult.data.length -1)) {
-                    filterResponse(feedData);
-                  }
+                // only return posts from direct source
+                if (sourceId === parsedResult.data[n].from.id) {
+                  feedData.push(parsedResult.data[n]);
+                }
+                if ((i === result.length -1) && (n === parsedResult.data.length -1)) {
+                  filterResponse(feedData);
                 }
               }
             }
+          }
 
-            // pass feedData through feeds filters
-            function filterResponse(feedData) {
-              if (feedData.length < 1) {
-                res.send({ message: 'No results, try again'});
-              }
-              var filterLength = user.feeds.id(req.params.feedId).filters.length;
-              if (user.feeds.id(req.params.feedId).filters[0] === '') {
-                queryResponse(feedData);
-              } else {
-                feedDataLoop:
-                for (var i = 0; i < feedData.length; i++) {
-                  var stringValue = JSON.stringify(feedData[i]).toLowerCase();
-                  filterLoop:
-                  for (var c = 0; c < filterLength; c++) {
-                    var filter = user.feeds.id(req.params.feedId).filters[c].toLowerCase();
-                    if (stringValue.indexOf(filter) > -1) {
-                      feedData.splice(i, 1);
-                      filterResponse(feedData);
-                      break feedDataLoop;
-                    }
-                    if ((i === feedData.length - 1) && (c === filterLength - 1)) {
-                      queryResponse(feedData);
-                    }
-                  }
-                }
-              }
-            }
-
-            // parse by search query
-            function queryResponse(feedData) {
-              if (feedData.length < 1) {
-                res.send({ message: 'No results, try again'});
-              }
+          // pass feedData through feeds filters
+          function filterResponse(feedData) {
+            var filters = user.feeds.id(req.params.feedId).filters;
+            if (feedData.length < 1) {
+              res.send({ message: 'No results, try again'});
+            } else if (filters[0] === '' || filters.length < 1) {
+              queryResponse(feedData);
+            } else {
+              feedDataLoop:
               for (var i = 0; i < feedData.length; i++) {
                 var stringValue = JSON.stringify(feedData[i]).toLowerCase();
-                var query = req.params.q.toLowerCase();
-                if (stringValue.indexOf(query) === -1) {
-                  feedData.splice(i, 1);
-                  queryResponse(feedData);
-                  break;
-                }
-                if (i === feedData.length -1) {
-                  sortResponse(feedData);
+                filterLoop:
+                for (var c = 0; c < filterLength; c++) {
+                  var filter = user.feeds.id(req.params.feedId).filters[c].toLowerCase();
+                  if (stringValue.indexOf(filter) > -1) {
+                    feedData.splice(i, 1);
+                    filterResponse(feedData);
+                    break feedDataLoop;
+                  }
+                  if ((i === feedData.length - 1) && (c === filterLength - 1)) {
+                    queryResponse(feedData);
+                  }
                 }
               }
             }
+          }
 
-            // sort feedData based on created_time
-            function sortResponse(feedData) {
-              if (feedData.length < 1) {
-                res.send({ message: 'No results, try again'});
-              }
-              var sortedData = feedData.sort(function(a, b) {
-                if (a.created_time < b.created_time) {
-                  return 1;
-                } else if (a.created_time > b.created_time) {
-                  return -1;
-                } else {
-                  return 0;
-                }
-              });
-
-              // send results
-              res.send(sortedData);
+          // parse by search query
+          function queryResponse(feedData) {
+            if (feedData.length < 1) {
+              res.send({ message: 'No results, try again'});
             }
+            for (var i = 0; i < feedData.length; i++) {
+              var stringValue = JSON.stringify(feedData[i]).toLowerCase();
+              var query = req.params.q.toLowerCase();
+              if (stringValue.indexOf(query) === -1) {
+                feedData.splice(i, 1);
+                queryResponse(feedData);
+                break;
+              }
+              if (i === feedData.length -1) {
+                sortResponse(feedData);
+              }
+            }
+          }
 
+          // sort feedData based on created_time
+          function sortResponse(feedData) {
+            if (feedData.length < 1) {
+              res.send({ message: 'No results, try again'});
+            }
+            var sortedData = feedData.sort(function(a, b) {
+              if (a.created_time < b.created_time) {
+                return 1;
+              } else if (a.created_time > b.created_time) {
+                return -1;
+              } else {
+                return 0;
+              }
+            });
+
+            // send results
+            res.send(sortedData);
           }
         });
       }
