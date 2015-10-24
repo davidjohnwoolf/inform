@@ -70,16 +70,28 @@
   }
 
   // searching
-  var searchBar = document.createElement('div');
-  searchBar.setAttribute('id', 'search-container');
-  searchBar.innerHTML = '<input id="search" type="text" name="search" placeholder="search"><input id="search-button" type="button" value="Go">'
-  document.getElementById('left-header').appendChild(searchBar);
-  var searchButton = document.getElementById('search-button');
-  var searchQuery = document.getElementById('search');
-  searchButton.addEventListener('click', function() {
-    document.getElementById('display').innerHTML = '';
-    httpRequest.open('GET', window.location + '/request/' + searchQuery.value);
-    httpRequest.send(null);
-  });
+  var searchIcon = document.createElement('span');
+  searchIcon.innerHTML = 'search';
+  searchIcon.setAttribute('id', 'search-icon');
+  document.getElementById('right-header').appendChild(searchIcon);
+  searchIcon.addEventListener('click', function() {
+    if (!document.getElementById('search-container')) {
+      var searchBar = document.createElement('div');
+      searchBar.setAttribute('id', 'search-container');
+      searchBar.innerHTML = '<input id="search" type="text" name="search" placeholder="search"><input id="search-button" type="button" value="Go">'
+      document.getElementsByTagName('header')[0].appendChild(searchBar);
+      var searchButton = document.getElementById('search-button');
+      var searchQuery = document.getElementById('search');
+      searchButton.addEventListener('click', function() {
+        document.getElementById('display').innerHTML = '';
+        httpRequest.open('GET', window.location + '/request/' + searchQuery.value);
+        httpRequest.send(null);
+      });
+    } else {
+      var searchBar = document.getElementById('search-container');
+      searchBar.parentNode.removeChild(searchBar);
+    }
+
+  })
 
 })();
