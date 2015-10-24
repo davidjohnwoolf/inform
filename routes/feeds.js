@@ -136,10 +136,10 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
               } else {
                 feedDataLoop:
                 for (var i = 0; i < feedData.length; i++) {
-                  var stringValue = JSON.stringify(feedData[i]);
+                  var stringValue = JSON.stringify(feedData[i]).toLowerCase();
                   filterLoop:
                   for (var c = 0; c < filterLength; c++) {
-                    var filter = user.feeds.id(req.params.feedId).filters[c];
+                    var filter = user.feeds.id(req.params.feedId).filters[c].toLowerCase();
                     if (stringValue.indexOf(filter) > -1) {
                       feedData.splice(i, 1);
                       filterResponse(feedData);
@@ -240,10 +240,10 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
               } else {
                 feedDataLoop:
                 for (var i = 0; i < feedData.length; i++) {
-                  var stringValue = JSON.stringify(feedData[i]);
+                  var stringValue = JSON.stringify(feedData[i]).toLowerCase();
                   filterLoop:
                   for (var c = 0; c < filterLength; c++) {
-                    var filter = user.feeds.id(req.params.feedId).filters[c];
+                    var filter = user.feeds.id(req.params.feedId).filters[c].toLowerCase();
                     if (stringValue.indexOf(filter) > -1) {
                       feedData.splice(i, 1);
                       filterResponse(feedData);
@@ -263,8 +263,9 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
                 res.send({ message: 'No results, try again'});
               }
               for (var i = 0; i < feedData.length; i++) {
-                var stringValue = JSON.stringify(feedData[i]);
-                if (stringValue.indexOf(req.params.q) === -1) {
+                var stringValue = JSON.stringify(feedData[i]).toLowerCase();
+                var query = req.params.q.toLowerCase();
+                if (stringValue.indexOf(query) === -1) {
                   feedData.splice(i, 1);
                   queryResponse(feedData);
                   break;
