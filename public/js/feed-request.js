@@ -70,6 +70,10 @@
   }
 
   // searching
+  var searchBar = document.createElement('div');
+  searchBar.setAttribute('id', 'search-container');
+  searchBar.innerHTML = '<input id="search" type="text" name="search" placeholder="search"><input id="search-button" type="button" value="Go">'
+  document.getElementById('left-header').appendChild(searchBar);
   var searchButton = document.getElementById('search-button');
   var searchQuery = document.getElementById('search');
   searchButton.addEventListener('click', function() {
