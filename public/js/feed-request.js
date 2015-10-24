@@ -6,7 +6,13 @@
     if (httpRequest.readyState === 4) {
       if (httpRequest.status === 200) {
         var data = JSON.parse(this.responseText);
-        displayData(data);
+        if (data.message) {
+          var h4 = document.createElement('h4');
+          h4.innerHTML = data.message;
+          document.getElementById('display').appendChild(h4);
+        } else {
+          displayData(data);
+        }
       } else {
         console.log('Do something to handle the error');
       }

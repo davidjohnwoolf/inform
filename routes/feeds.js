@@ -127,6 +127,9 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
 
             // pass feedData through feeds filters
             function filterResponse(feedData) {
+              if (feedData.length < 1) {
+                res.send({ message: 'No results, try again'});
+              }
               var filterLength = user.feeds.id(req.params.feedId).filters.length;
               if (user.feeds.id(req.params.feedId).filters[0] === '') {
                 sortResponse(feedData);
@@ -152,6 +155,9 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
 
             // sort feedData based on created_time
             function sortResponse(feedData) {
+              if (feedData.length < 1) {
+                res.send({ message: 'No results, try again'});
+              }
               var sortedData = feedData.sort(function(a, b) {
                 if (a.created_time < b.created_time) {
                   return 1;
@@ -225,6 +231,9 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
 
             // pass feedData through feeds filters
             function filterResponse(feedData) {
+              if (feedData.length < 1) {
+                res.send({ message: 'No results, try again'});
+              }
               var filterLength = user.feeds.id(req.params.feedId).filters.length;
               if (user.feeds.id(req.params.feedId).filters[0] === '') {
                 queryResponse(feedData);
@@ -250,6 +259,9 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
 
             // parse by search query
             function queryResponse(feedData) {
+              if (feedData.length < 1) {
+                res.send({ message: 'No results, try again'});
+              }
               for (var i = 0; i < feedData.length; i++) {
                 var stringValue = JSON.stringify(feedData[i]);
                 if (stringValue.indexOf(req.params.q) === -1) {
@@ -265,6 +277,9 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
 
             // sort feedData based on created_time
             function sortResponse(feedData) {
+              if (feedData.length < 1) {
+                res.send({ message: 'No results, try again'});
+              }
               var sortedData = feedData.sort(function(a, b) {
                 if (a.created_time < b.created_time) {
                   return 1;
