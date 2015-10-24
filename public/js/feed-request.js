@@ -88,7 +88,7 @@
       var searchBar = document.createElement('div');
       searchBar.setAttribute('id', 'search-container');
       searchBar.innerHTML = '<input id="search" type="text" name="search" placeholder="search"><input id="search-button" type="button" value="Go">'
-      document.getElementsByTagName('header')[0].appendChild(searchBar);
+      document.getElementById('right-header').appendChild(searchBar);
       content.style.marginTop = header.offsetHeight + 10 + 'px';
 
       var searchButton = document.getElementById('search-button');

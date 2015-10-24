@@ -119,7 +119,10 @@ h2 {
 
     #header-wrap header nav {
       float: right;
-      width: 100%;
+      width: 110%;
+      margin-left: -5%;
+      margin-right: -5%;
+      margin-bottom: -10px;
     }
 
       #menu {
