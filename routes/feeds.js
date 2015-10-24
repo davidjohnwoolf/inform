@@ -138,14 +138,14 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
               for (var i = 0; i < feedData.length; i++) {
                 var stringValue = JSON.stringify(feedData[i]).toLowerCase();
                 filterLoop:
-                for (var c = 0; c < filterLength; c++) {
+                for (var c = 0; c < filters.length; c++) {
                   var filter = user.feeds.id(req.params.feedId).filters[c].toLowerCase();
                   if (stringValue.indexOf(filter) > -1) {
                     feedData.splice(i, 1);
                     filterResponse(feedData);
                     break feedDataLoop;
                   }
-                  if ((i === feedData.length - 1) && (c === filterLength - 1)) {
+                  if ((i === feedData.length - 1) && (c === filters.length - 1)) {
                     sortResponse(feedData);
                   }
                 }
@@ -239,14 +239,14 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
               for (var i = 0; i < feedData.length; i++) {
                 var stringValue = JSON.stringify(feedData[i]).toLowerCase();
                 filterLoop:
-                for (var c = 0; c < filterLength; c++) {
+                for (var c = 0; c < filters.length; c++) {
                   var filter = user.feeds.id(req.params.feedId).filters[c].toLowerCase();
                   if (stringValue.indexOf(filter) > -1) {
                     feedData.splice(i, 1);
                     filterResponse(feedData);
                     break feedDataLoop;
                   }
-                  if ((i === feedData.length - 1) && (c === filterLength - 1)) {
+                  if ((i === feedData.length - 1) && (c === filters.length - 1)) {
                     queryResponse(feedData);
                   }
                 }
