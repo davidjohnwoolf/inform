@@ -111,22 +111,21 @@ h2 {
       height: 22px;
     }
 
-    #header-wrap header nav {
+    #menu-icon {
       float: right;
+      font-size: 1em;
+      height: 20px;
+      cursor: pointer;
     }
 
-      #menu-icon {
-        font-size: 1em;
-        height: 20px;
-        cursor: pointer;
-      }
+    #header-wrap header nav {
+      float: right;
+      width: 100%;
+    }
 
       #menu {
-        position: fixed;
-        margin: 0;
-        top: 43px;
-        right: 0;
-        left: 0;
+        position: relative;
+        margin: 10px 0 0 0;
         padding: 0;
         background-color: #555;
         text-align: center;

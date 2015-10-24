@@ -76,6 +76,9 @@
   }
 
   // searching
+  var header = document.getElementById('header-wrap');
+  var content = document.getElementById('content-wrap');
+
   var searchIcon = document.createElement('span');
   searchIcon.innerHTML = 'search';
   searchIcon.setAttribute('id', 'search-icon');
@@ -86,6 +89,8 @@
       searchBar.setAttribute('id', 'search-container');
       searchBar.innerHTML = '<input id="search" type="text" name="search" placeholder="search"><input id="search-button" type="button" value="Go">'
       document.getElementsByTagName('header')[0].appendChild(searchBar);
+      content.style.marginTop = header.offsetHeight + 10 + 'px';
+
       var searchButton = document.getElementById('search-button');
       var searchQuery = document.getElementById('search');
       searchButton.addEventListener('click', function() {
@@ -96,8 +101,9 @@
     } else {
       var searchBar = document.getElementById('search-container');
       searchBar.parentNode.removeChild(searchBar);
+      content.style.marginTop = header.offsetHeight + 10 + 'px';
     }
 
-  })
+  });
 
 })();

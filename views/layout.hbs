@@ -20,22 +20,22 @@
           {{/if}}
         </div>
         <div id="right-header">
-          <nav>
-            <span id="menu-icon">&#9776;</span>
-            <ul id="menu">
-              {{#if session.user}}
-                <li><a href="/{{session.user}}">Profile</a></li>
-                <li><a href="/{{session.user}}/feeds/new">New Feed</a></li>
-                <li><a href="/{{session.user}}/feeds">Feeds</a></li>
-                <li><a href="/{{session.user}}/edit">Edit Account</a></li>
-                <li><a href="/logout">Logout</a></li>
-              {{else}}
-                <li><a href="/">Login</a></li>
-                <li><a href="/new">Signup</a></li>
-              {{/if}}
-            </ul>
-          </nav>
+          <span id="menu-icon">&#9776;</span>
         </div>
+        <nav>
+          <ul id="menu">
+            {{#if session.user}}
+              <li><a href="/{{session.user}}">Profile</a></li>
+              <li><a href="/{{session.user}}/feeds/new">New Feed</a></li>
+              <li><a href="/{{session.user}}/feeds">Feeds</a></li>
+              <li><a href="/{{session.user}}/edit">Edit Account</a></li>
+              <li><a href="/logout">Logout</a></li>
+            {{else}}
+              <li><a href="/">Login</a></li>
+              <li><a href="/new">Signup</a></li>
+            {{/if}}
+          </ul>
+        </nav>
       </header>
     </div>
 
