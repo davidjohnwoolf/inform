@@ -114,7 +114,6 @@ h2 {
     #menu-icon {
       float: right;
       font-size: 1em;
-      height: 20px;
       cursor: pointer;
     }
 
@@ -257,6 +256,12 @@ ul h4 {
   float: right;
   margin-right: 10px;
   cursor: pointer;
+  font-size: 1.1em;
+  margin-top: -2px;
+  webkit-transform: rotate(45deg);
+   -moz-transform: rotate(45deg);
+   -o-transform: rotate(45deg);
+   transform: rotate(45deg);
 }
 
 #search-container {

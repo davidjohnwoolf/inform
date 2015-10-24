@@ -80,7 +80,7 @@
   var content = document.getElementById('content-wrap');
 
   var searchIcon = document.createElement('span');
-  searchIcon.innerHTML = 'search';
+  searchIcon.innerHTML = '&#9906;';
   searchIcon.setAttribute('id', 'search-icon');
   document.getElementById('right-header').appendChild(searchIcon);
   searchIcon.addEventListener('click', function() {
