@@ -39,8 +39,8 @@
         reloadButton.addEventListener('click', function() {
           window.location.reload();
         })
-        headerSelect.value = url[5];
         document.getElementById('left-header').appendChild(reloadButton);
+        headerSelect.value = url[5];
       }
     } else {
       headerSelect.value = 'select-feed';
