@@ -259,8 +259,7 @@ ul h4 {
   float: right;
   margin-right: 10px;
   cursor: pointer;
-  font-size: 1.1em;
-  margin-top: -2px;
+  margin-top: -1px;
   webkit-transform: rotate(45deg);
    -moz-transform: rotate(45deg);
    -o-transform: rotate(45deg);
@@ -305,4 +304,11 @@ ul h4 {
 
 .flash-alert p {
   color: #cc4040;
+}
+
+/* Reload button*/
+
+#reload-button {
+  cursor: pointer;
+  float: left;
 }

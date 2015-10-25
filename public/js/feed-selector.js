@@ -33,15 +33,22 @@
       if (!url[5]) {
         headerSelect.value = 'select-feed'
       } else {
+        var reloadButton = document.createElement('span');
+        reloadButton.setAttribute('id', 'reload-button');
+        reloadButton.innerHTML = '&#10227;'
+        reloadButton.addEventListener('click', function() {
+          window.location.reload();
+        })
         headerSelect.value = url[5];
+        document.getElementById('left-header').appendChild(reloadButton);
       }
     } else {
       headerSelect.value = 'select-feed';
     }
-    setFeedEvent();
+    setFeedEvents();
   }
 
-  function setFeedEvent() {
+  function setFeedEvents() {
     headerSelect.addEventListener('change', function() {
       if (this.value !== 'select-feed') {
         window.location = '/' + userId + '/feeds/' + this.value;
