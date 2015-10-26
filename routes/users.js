@@ -52,7 +52,8 @@ router.post('/new', function(req, res) {
         var user = new User({
           email: req.body.email,
           password: req.body.password,
-          feeds: []
+          feeds: [],
+          defaultFeed: ''
         });
 
         user.save(function(err) {
@@ -79,7 +80,7 @@ router.get('/:id', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
-    res.render('users/show', { title: 'Profile', user: user });
+    res.render('users/show', { title: 'Profile', user: user, defaultFeed: (user.feeds.id(user.defaultFeed).title || '') });
   });
 });
 
@@ -106,7 +107,10 @@ router.put('/:id/edit', requireUser, function(req, res) {
       }
 
       for (var key in req.body) {
+        console.log('Editing user');
+        console.log(user[key] + ' : ' + req.body[key]);
         user[key] = req.body[key];
+        console.log(user[key] + ' : ' + req.body[key]);
       }
 
       user.save(function(err) {

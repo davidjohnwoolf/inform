@@ -8,7 +8,8 @@ var bcrypt = require('bcrypt');
 var User = new Schema({
   email: { type: String, required: true, index: { unique: true }, match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
   password: { type: String, required: true },
-  feeds: [Feed.schema]
+  feeds: [Feed.schema],
+  defaultFeed: String
 });
 
 User.pre('save', function(next) {

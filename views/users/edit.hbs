@@ -8,7 +8,16 @@
       <input type="email" name="email" value="{{user.email}}">
     </div>
     <div class="input-block">
-      <label for="password">Password</label>
+      <label for="defaultFeed">Set Default Feed</label>
+      <select name="defaultFeed" value="{{user.defaultFeed}}">
+        <option value="">Select Feed</option>
+        {{#each user.feeds}}
+          <option value={{_id}}>{{title}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <div class="input-block">
+      <label for="password">Password <small>(Leave blank to keep the same)</small></label>
       <input type="password" name="password">
     </div>
     <div class="input-block">

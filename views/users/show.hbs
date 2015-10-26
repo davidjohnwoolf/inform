@@ -1,7 +1,16 @@
 <div class="content-part">
   <h2>{{title}}</h2>
 
-  <p>{{user.email}}</p>
+  <h4>Email</h4>
+  <p>{{user.email}}</a></p>
+
+  <h4>Default Feed</h4>
+  <p>{{defaultFeed}}</p>
+  {{#unless defaultFeed}}
+    <p><a href="/{{user._id}}/edit">Set Default Feed</a></p>
+  {{/unless}}
+
+  <h4>Settings</h4>
   <a class="edit-button" href="/{{user._id}}/edit">Edit User</a>
   <form onsubmit="return confirm('Are you sure you want to delete this account?')" action="/{{user._id}}" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="_method" value="delete">
