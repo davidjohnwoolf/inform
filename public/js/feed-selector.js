@@ -30,7 +30,7 @@
       headerSelect.add(option);
     }
     if (!url[6]) {
-      if (!url[5]) {
+      if (!url[5] || url[5] === 'new') {
         headerSelect.value = 'select-feed'
       } else {
         var reloadButton = document.createElement('span');
