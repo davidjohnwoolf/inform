@@ -1,6 +1,7 @@
 (function() {
 
   var httpRequest = new XMLHttpRequest();
+  var p = document.createElement('p');
 
   httpRequest.onreadystatechange = function() {
     if (httpRequest.readyState === 4) {
@@ -19,11 +20,16 @@
     }
   };
 
+  p.setAttribute('id', 'loading-message');
+  p.innerHTML = 'Loading...';
+  document.getElementById('display').appendChild(p);
+
   httpRequest.open('GET', window.location + '/request');
   httpRequest.send(null);
 
 
   function displayData(data) {
+    document.getElementById('display').innerHTML = '';
     for (var i = 0; i < data.length; i++) {
       var date = new Date(data[i].created_time)
 

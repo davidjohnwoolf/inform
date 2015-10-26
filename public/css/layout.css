@@ -312,3 +312,11 @@ ul h4 {
   cursor: pointer;
   float: left;
 }
+
+/* Loading Message */
+
+#loading-message {
+  text-align: center;
+  color: #666;
+  font-size: 1.2em;
+}
