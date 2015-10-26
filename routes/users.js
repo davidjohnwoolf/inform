@@ -53,7 +53,7 @@ router.post('/new', function(req, res) {
           email: req.body.email,
           password: req.body.password,
           feeds: [],
-          defaultFeed: ''
+          defaultFeed: 'select-feed'
         });
 
         user.save(function(err) {
@@ -80,7 +80,11 @@ router.get('/:id', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
-    res.render('users/show', { title: 'Profile', user: user, defaultFeed: (user.feeds.id(user.defaultFeed).title || '') });
+    if (user.defaultFeed === 'select-feed') {
+      res.render('users/show', { title: 'Profile', user: user });
+    } else {
+      res.render('users/show', { title: 'Profile', user: user, defaultFeed: user.feeds.id(user.defaultFeed).title });
+    }
   });
 });
 

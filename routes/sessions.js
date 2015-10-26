@@ -40,7 +40,12 @@ router.post('/', function(req, res) {
         if (isMatch) {
           req.session.user = user._id;
           if (user.feeds[0]) {
-            res.redirect('/' + user._id + '/feeds/' + (user.defaultFeed || user.feeds[0]._id));
+            if (user.defaultFeed === 'select-feed') {
+              res.redirect('/' + user._id + '/feeds/' + user.feeds[0]._id);
+            } else {
+              res.redirect('/' + user._id + '/feeds/' + user.defaultFeed);
+            }
+
           } else {
             res.redirect('/' + user._id + '/feeds/new');
           }
