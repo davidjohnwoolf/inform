@@ -111,10 +111,7 @@ router.put('/:id/edit', requireUser, function(req, res) {
       }
 
       for (var key in req.body) {
-        console.log('Editing user');
-        console.log(user[key] + ' : ' + req.body[key]);
         user[key] = req.body[key];
-        console.log(user[key] + ' : ' + req.body[key]);
       }
 
       user.save(function(err) {
