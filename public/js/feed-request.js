@@ -52,7 +52,7 @@
 
       var fromField = '<h5><a href=https://facebook.com/' + data[i].from.id + ' target=_blank>' + data[i].from.name + '</a> - ' + time + '</h5>';
 
-      var messageField = '<h4>' + (data[i].message || data[i].story) + '</h4>';
+      var messageField = findLinks(data[i].message || data[i].story, 'h4');
       var pictureField = '';
       var video = '';
       if (data[i].source) {
@@ -62,7 +62,7 @@
       }
       var descriptionField = '';
       if (data[i].description) {
-        descriptionField = '<p>' + data[i].description + '</p>';
+        descriptionField = findLinks(data[i].description, 'p');
       }
       var captionField = '';
       if (data[i].caption) {
@@ -72,13 +72,25 @@
       }
       var linkField = '';
       if (data[i].link) {
-        linkField = '<a href=' + data[i].link + ' target=_blank>' + (data[i].name || data[i].link) + '</a>';
+        linkField = '<a class="main-link" href=' + data[i].link + ' target=_blank>' + (data[i].name || data[i].link) + '</a>';
       }
 
       var displayString = '<article class="feed-item">' + fromField + messageField + video + pictureField + linkField + descriptionField + captionField + '</article>';
 
       document.getElementById('display').innerHTML += displayString;
     }
+  }
+
+  function findLinks(string, element) {
+    var newArray = string.split(/[ \r\n]/);
+    for (var n = 0; n < newArray.length; n++) {
+      if (newArray[n].slice(0, 4) === 'http') {
+        newArray.splice(n, 1, '<a href=' + newArray[n] + '>' + newArray[n] + '</a>');
+      }
+    }
+    newArray.unshift('<' + element + '>');
+    newArray.push('</' + element + '>');
+    return newArray.join(' ');
   }
 
   // searching

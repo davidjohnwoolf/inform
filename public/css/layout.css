@@ -189,7 +189,7 @@ h2 {
       width: 100%;
     }
 
-    .feed-item .picture a {
+    .feed-item .picture a.main-link {
       margin: 10px;
       display: block;
       font-weight: bold;
