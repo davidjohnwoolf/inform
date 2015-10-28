@@ -314,10 +314,16 @@ ul h4 {
   float: left;
 }
 
-/* Loading Message */
+/* Messages */
 
 #loading-message {
   text-align: center;
   color: #666;
   font-size: 1.2em;
+}
+
+.feed-error {
+  text-align: center;
+  color: #cc4040;
+  padding: 0 5px;
 }

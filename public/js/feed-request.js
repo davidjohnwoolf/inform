@@ -8,9 +8,8 @@
       if (httpRequest.status === 200) {
         var data = JSON.parse(this.responseText);
         if (data.message) {
-          var h4 = document.createElement('h4');
-          h4.innerHTML = data.message;
-          document.getElementById('display').appendChild(h4);
+          var message = '<h4 class="feed-error">' + data.message + '</h4>'
+          document.getElementById('display').innerHTML = message;
         } else {
           displayData(data);
         }

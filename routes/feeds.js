@@ -103,13 +103,21 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
           if (error) res.send(error);
 
           if (!error && response.statusCode == 200) {
-            parseResponse();
+            var result = JSON.parse(body)
+            for (var i = 0; i < result.length; i++) {
+              if (result[i].code !== 200) {
+                res.send({ message: 'Error retrieving feed, check your feed\'s source values and try again' });
+                break;
+              }
+              if (i === result.length - 1) {
+                parseResponse(result);
+              }
+            }
           }
 
           // parse through response and push into feedData
-          function parseResponse() {
+          function parseResponse(result) {
             var feedData = [];
-            var result = JSON.parse(body);
             for (var i = 0; i < result.length; i++) {
               var parsedResult = JSON.parse(result[i].body);
               for (var n = 0; n < parsedResult.data.length; n++) {
