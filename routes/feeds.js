@@ -84,6 +84,11 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
     var facebookGraphUrl = 'https://graph.facebook.com/';
     var fieldsUrl = '/feed?fields=id,message,story,link,name,caption,created_time,picture,full_picture,source,description,from';
 
+    // make sure there is at least one source
+    if (sourceCount < 1) {
+      res.send({ message: 'You have no sources. Add a source by going to feed settings (Menu > Feeds > Feed Settings)' });
+    }
+
     // get access token
     request(facebookGraphUrl + 'oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
       if (!error && response.statusCode == 200) {
@@ -104,12 +109,15 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
 
           if (!error && response.statusCode == 200) {
             var result = JSON.parse(body)
+
+            // make sure all sources are valid
             for (var i = 0; i < result.length; i++) {
               if (result[i].code !== 200) {
                 res.send({ message: 'Error retrieving feed, check your feed\'s source values and try again' });
                 break;
               }
               if (i === result.length - 1) {
+                console.log(result);
                 parseResponse(result);
               }
             }
