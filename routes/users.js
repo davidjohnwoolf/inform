@@ -49,22 +49,27 @@ router.post('/new', function(req, res) {
     if (!user) {
 
       if (req.body.password === req.body.confirmation) {
-        var user = new User({
-          email: req.body.email,
-          password: req.body.password,
-          feeds: [],
-          defaultFeed: 'select-feed'
-        });
+        if (req.body.password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/)) {
+          var user = new User({
+            email: req.body.email,
+            password: req.body.password,
+            feeds: [],
+            defaultFeed: 'select-feed'
+          });
 
-        user.save(function(err) {
-          if (err) res.send(err);
+          user.save(function(err) {
+            if (err) res.send(err);
 
-          res.redirect('/');
-        });
+            res.redirect('/');
+          });
+        } else {
+          req.flash('alert', 'Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one number');
+          res.redirect('/new');
+        }
       } else {
         // if password and password confirmation do not match
         req.flash('alert', 'Passwords must match');
-        res.redirect('/new')
+        res.redirect('/new');
       }
 
     } else {
