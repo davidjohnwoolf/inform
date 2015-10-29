@@ -117,7 +117,6 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
                 break;
               }
               if (i === result.length - 1) {
-                console.log(result);
                 parseResponse(result);
               }
             }

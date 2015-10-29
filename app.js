@@ -10,7 +10,7 @@ var sessions = require('./routes/sessions');
 var users = require('./routes/users');
 var feeds = require('./routes/feeds');
 var sources = require('./routes/sources');
-var passwordReset = require('./routes/password-reset');
+var passwordRecovery = require('./routes/password-recovery');
 
 var app = express();
 
@@ -41,7 +41,7 @@ app.use(function(req, res, next) {
 app.use(express.static(__dirname + '/public'));
 
 app.use('/', sessions);
-app.use('/', passwordReset);
+app.use('/', passwordRecovery);
 app.use('/users', users);
 app.use('/users', feeds);
 app.use('/users', sources);

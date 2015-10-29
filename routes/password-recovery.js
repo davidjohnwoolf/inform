@@ -9,7 +9,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 
 // render forgot password page
 router.get('/forgot', function(req, res) {
-  res.render('users/forgot', { title: 'Forgot Password' });
+  res.render('password-recovery/forgot', { title: 'Forgot Password' });
 });
 
 // request password
@@ -51,7 +51,7 @@ router.post('/forgot', function(req, res) {
 
       var mailOptions = {
         to: user.email,
-        from: 'passwordreset@info.rm',
+        from: 'no-reply@info.rm',
         subject: 'Inform Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -76,7 +76,7 @@ router.get('/reset/:token', function(req, res) {
       req.flash('alert', 'Password reset token is invalid or has expired.');
       return res.redirect('/forgot');
     }
-    res.render('users/reset', { title: 'Reset Password', user: user });
+    res.render('password-recovery/reset', { title: 'Reset Password', user: user });
   });
 });
 
@@ -96,8 +96,32 @@ router.post('/reset/:token', function(req, res) {
       user.save(function(err) {
         if (err) res.send(err);
 
-        req.flash('alert', 'Password reset successfully');
-        res.render('sessions/login', { title: 'Login' });
+        sendConfirmationEmail();
+      });
+    }
+
+    function sendConfirmationEmail(token) {
+      var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+          user: 'davidjohnwoolf@gmail.com',
+          pass: process.env.EMAIL_PASSWORD
+        }
+      });
+
+      var mailOptions = {
+        to: user.email,
+        from: 'no-reply@info.rm',
+        subject: 'Inform Password Confirmation',
+        text: 'Hello,\n\n' +
+          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+      };
+
+      transporter.sendMail(mailOptions, function(err) {
+        if (err) res.send(err);
+
+        req.flash('notice', 'Password Updated Successfully');
+        res.redirect('/');
       });
     }
   });
