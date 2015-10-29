@@ -14,7 +14,6 @@
   };
 
   var url = window.location.toString().split('/');
-  console.log(url);
 
   httpRequest.open('GET', '/users/' + url[4] + '/feedlist');
   httpRequest.send(null);
