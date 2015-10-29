@@ -25,14 +25,14 @@
         <nav>
           <ul id="menu">
             {{#if session.user}}
-              <li><a href="/{{session.user}}">Profile</a></li>
-              <li><a href="/{{session.user}}/feeds/new">New Feed</a></li>
-              <li><a href="/{{session.user}}/feeds">Feeds</a></li>
-              <li><a href="/{{session.user}}/edit">Edit Account</a></li>
+              <li><a href="/users/{{session.user}}">Profile</a></li>
+              <li><a href="/users/{{session.user}}/feeds/new">New Feed</a></li>
+              <li><a href="/users/{{session.user}}/feeds">Feeds</a></li>
+              <li><a href="/users/{{session.user}}/edit">Edit Account</a></li>
               <li><a href="/logout">Logout</a></li>
             {{else}}
               <li><a href="/">Login</a></li>
-              <li><a href="/new">Signup</a></li>
+              <li><a href="/users/new">Signup</a></li>
             {{/if}}
           </ul>
         </nav>
@@ -44,6 +44,13 @@
         <div class="flash-alert">
           <p>
             {{flashAlert}}
+          </p>
+        </div>
+      {{/if}}
+      {{#if flashNotice}}
+        <div class="flash-notice">
+          <p>
+            {{flashNotice}}
           </p>
         </div>
       {{/if}}

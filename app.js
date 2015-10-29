@@ -10,6 +10,7 @@ var sessions = require('./routes/sessions');
 var users = require('./routes/users');
 var feeds = require('./routes/feeds');
 var sources = require('./routes/sources');
+var passwordReset = require('./routes/password-reset');
 
 var app = express();
 
@@ -34,14 +35,16 @@ app.use(function(req, res, next) {
   // set session and flash info to locals
   res.locals.session = req.session;
   res.locals.flashAlert = req.flash('alert');
+  res.locals.flashNotice = req.flash('notice');
   next();
 });
 app.use(express.static(__dirname + '/public'));
 
 app.use('/', sessions);
-app.use('/', users);
-app.use('/', feeds);
-app.use('/', sources);
+app.use('/', passwordReset);
+app.use('/users', users);
+app.use('/users', feeds);
+app.use('/users', sources);
 
 // error handling (taken from express generator)
 

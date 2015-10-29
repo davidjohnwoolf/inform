@@ -16,7 +16,7 @@ router.use(bodyParser.urlencoded({ extended: false }));
 // render login
 router.get('/', function(req, res) {
   if (req.session.user) {
-    res.redirect('/' + req.session.user);
+    res.redirect('/users/' + req.session.user);
   }
   res.render('sessions/login', { title: 'Login' });
 });
@@ -41,13 +41,13 @@ router.post('/', function(req, res) {
           req.session.user = user._id;
           if (user.feeds[0]) {
             if (user.defaultFeed === 'select-feed') {
-              res.redirect('/' + user._id + '/feeds/' + user.feeds[0]._id);
+              res.redirect('/users/' + user._id + '/feeds/' + user.feeds[0]._id);
             } else {
-              res.redirect('/' + user._id + '/feeds/' + user.defaultFeed);
+              res.redirect('/users/' + user._id + '/feeds/' + user.defaultFeed);
             }
 
           } else {
-            res.redirect('/' + user._id + '/feeds/new');
+            res.redirect('/users/' + user._id + '/feeds/new');
           }
         }
 

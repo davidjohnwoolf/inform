@@ -9,7 +9,9 @@ var User = new Schema({
   email: { type: String, required: true, index: { unique: true }, match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ },
   password: { type: String, required: true },
   feeds: [Feed.schema],
-  defaultFeed: String
+  defaultFeed: String,
+  resetPasswordToken: String,
+  resetPasswordExpires: Date
 });
 
 User.pre('save', function(next) {

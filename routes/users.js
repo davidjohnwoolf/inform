@@ -64,18 +64,18 @@ router.post('/new', function(req, res) {
           });
         } else {
           req.flash('alert', 'Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one number');
-          res.redirect('/new');
+          res.redirect('/users/new');
         }
       } else {
         // if password and password confirmation do not match
         req.flash('alert', 'Passwords must match');
-        res.redirect('/new');
+        res.redirect('/users/new');
       }
 
     } else {
       // if email already in use
       req.flash('alert', 'There is already an account with that email');
-      res.redirect('/new');
+      res.redirect('/users/new');
     }
   });
 });
@@ -106,7 +106,7 @@ router.get('/:id/edit', requireUser, function(req, res) {
 router.put('/:id/edit', requireUser, function(req, res) {
   if (req.body.password !== req.body.confirmation) {
     req.flash('alert', 'Passwords must match');
-    res.redirect('/' + req.params.id + '/edit');
+    res.redirect('/users/' + req.params.id + '/edit');
   } else {
     User.findOne({ _id: req.params.id }, function(err, user) {
       if (err) res.send(err);
@@ -122,7 +122,7 @@ router.put('/:id/edit', requireUser, function(req, res) {
       user.save(function(err) {
         if (err) res.send(err);
 
-        res.redirect('/' + req.params.id);
+        res.redirect('/users/' + req.params.id);
       });
 
     });

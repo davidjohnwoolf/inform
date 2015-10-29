@@ -51,7 +51,7 @@ router.post('/:id/feeds/:feedId/sources/new', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.redirect('/' + user._id + '/feeds/' + req.params.feedId + '/edit');
+      res.redirect('/users/' + user._id + '/feeds/' + req.params.feedId + '/edit');
     });
   });
 
@@ -108,7 +108,7 @@ router.put('/:id/feeds/:feedId/sources/:sourceId/edit', requireUser, function(re
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.redirect('/' + req.params.id + '/feeds/' + req.params.feedId + '/sources/' + req.params.sourceId);
+      res.redirect('/users/' + req.params.id + '/feeds/' + req.params.feedId + '/sources/' + req.params.sourceId);
     });
   });
 });
@@ -123,7 +123,7 @@ router.delete('/:id/feeds/:feedId/sources/:sourceId', requireUser, function(req,
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.redirect('/' + req.params.id + '/feeds/' + req.params.feedId + '/edit')
+      res.redirect('/users/' + req.params.id + '/feeds/' + req.params.feedId + '/edit')
     });
   });
 });

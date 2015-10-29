@@ -307,6 +307,10 @@ ul h4 {
   color: #cc4040;
 }
 
+.flash-notice p {
+  color: #3B80AD;
+}
+
 /* Reload button*/
 
 #reload-button {

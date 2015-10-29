@@ -69,7 +69,7 @@ router.post('/:id/feeds/new', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.redirect('/' + user._id + '/feeds');
+      res.redirect('/users/' + user._id + '/feeds');
     });
   });
 
@@ -348,7 +348,7 @@ router.put('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.redirect('/' + req.params.id + '/feeds/' + req.params.feedId);
+      res.redirect('/users/' + req.params.id + '/feeds/' + req.params.feedId);
     });
   });
 });
@@ -363,7 +363,7 @@ router.delete('/:id/feeds/:feedId', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.redirect('/' + req.params.id + '/feeds')
+      res.redirect('/users/' + req.params.id + '/feeds')
     });
   });
 });

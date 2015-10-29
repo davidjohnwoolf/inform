@@ -1,7 +1,7 @@
 <div class="content-part">
   <h2>{{title}}</h2>
 
-  <form action="/{{userId}}/feeds/{{feed._id}}/edit" method="post">
+  <form action="/users/{{userId}}/feeds/{{feed._id}}/edit" method="post">
     <input type="hidden" name="_method" value="put">
     <div class="input-block">
       <label for="title">Update Feed Title</label>
@@ -17,14 +17,14 @@
     </div>
   </form>
 
-  <form class="delete-form" onsubmit="return confirm('Are you sure you want to delete this feed?')" action="/{{userId}}/feeds/{{feed._id}}" method="post" enctype="application/x-www-form-urlencoded">
+  <form class="delete-form" onsubmit="return confirm('Are you sure you want to delete this feed?')" action="/users/{{userId}}/feeds/{{feed._id}}" method="post" enctype="application/x-www-form-urlencoded">
     <input type="hidden" name="_method" value="delete">
     <input class="delete-button" type="submit" value="Delete Feed">
   </form>
 
   <h2>Add Source</h2>
 
-  <form action="/{{userId}}/feeds/{{feed._id}}/sources/new" method="post">
+  <form action="/users/{{userId}}/feeds/{{feed._id}}/sources/new" method="post">
     <div class="input-block">
       <input type="text" name="name" placeholder="name">
     </div>
@@ -45,12 +45,12 @@
   <ul>
     {{#each feed.sources}}
       <li class="listed-source">
-        <h4><a href="/{{../userId}}/feeds/{{../feed._id}}/sources/{{_id}}">{{name}}</a></h4>
-        <form onsubmit="return confirm('Are you sure you want to delete this feed?')" action="/{{../userId}}/feeds/{{../feed._id}}/sources/{{_id}}" method="post" enctype="application/x-www-form-urlencoded">
+        <h4><a href="/users/{{../userId}}/feeds/{{../feed._id}}/sources/{{_id}}">{{name}}</a></h4>
+        <form onsubmit="return confirm('Are you sure you want to delete this feed?')" action="/users/{{../userId}}/feeds/{{../feed._id}}/sources/{{_id}}" method="post" enctype="application/x-www-form-urlencoded">
           <input type="hidden" name="_method" value="delete">
           <input type="submit" class="delete-button" value="X">
         </form>
-        <a class="edit-button" href="/{{../userId}}/feeds/{{../feed._id}}/sources/{{_id}}/edit">Edit</a>
+        <a class="edit-button" href="/users/{{../userId}}/feeds/{{../feed._id}}/sources/{{_id}}/edit">Edit</a>
       </li>
     {{/each}}
   </ul>
