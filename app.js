@@ -40,6 +40,11 @@ app.use(function(req, res, next) {
 });
 app.use(express.static(__dirname + '/public'));
 
+// mithril test route
+app.get('/', function(req, res) {
+  res.sendFile('public/index.html');
+});
+
 app.use('/', sessions);
 app.use('/', passwordRecovery);
 app.use('/users', users);
