@@ -1,17 +1,22 @@
 var m = require('mithril');
 
-var UserNew = {
+var Model = {
+  user: { email: 'david@test.com' }
+}
+
+var UserEdit = {
   controller: function() {
-    var createUser = function() {
-      console.log('User Not Created');
+    var updateUser = function() {
+      console.log('User Not Updated');
     }
-    return { createUser: createUser };
+    var user = Model.user;
+    return { updateUser: updateUser, user: user };
   },
   view: function(ctrl) {
     return m('div.content-block', [
       m('h2', 'Login'),
       m('div.input-block', [
-        m('input', { type: 'text', placeholder: 'email' })
+        m('input', { type: 'text', value: ctrl.user.email })
       ]),
       m('div.input-block', [
         m('input', { type: 'password', placeholder: 'password' }),
@@ -20,10 +25,10 @@ var UserNew = {
         m('input', { type: 'password', placeholder: 'confirmation' }),
       ]),
       m('div.input-block', [
-        m('input', { onclick: ctrl.createUser, type: 'submit', value: 'Create User' })
+        m('input', { onclick: ctrl.updateUser, type: 'submit', value: 'Update User' })
       ])
     ])
   }
 }
 
-module.exports = UserNew;
+module.exports = UserEdit;

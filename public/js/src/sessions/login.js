@@ -3,7 +3,7 @@ var m = require('mithril');
 var Login = {
   controller: function() {
     var login = function() {
-       m.route('/users/1/feeds')
+       console.log('Not Logged In');
     }
     return { login: login };
   },

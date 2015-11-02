@@ -3,6 +3,8 @@ var Login = require('./sessions/login');
 var FeedIndex = require('./feeds/feed-index');
 var FeedShow = require('./feeds/feed-show');
 var UserNew = require('./users/user-new');
+var UserShow = require('./users/user-show');
+var UserEdit = require('./users/user-edit');
 
 var app = {};
 
@@ -18,8 +20,8 @@ m.route(document.getElementById('app'), '/', {
 
   // users
   '/users/new': UserNew,
-  // '/users/:id/': UserShow,
-  // '/users/:id/edit': UserEdit,
+  '/users/:id': UserShow,
+  '/users/:id/edit': UserEdit,
 
   // feeds
   '/users/:id/feeds': FeedIndex,
