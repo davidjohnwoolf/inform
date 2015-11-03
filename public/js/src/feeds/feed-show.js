@@ -60,33 +60,4 @@ var FeedShow = {
   }
 }
 
-    // var time = month + '/' + day + '/' + year + ' ' +hours + ':' + minutes;
-    //
-    // var fromField = '<h5><a href=https://facebook.com/' + data[i].from.id + ' target=_blank>' + data[i].from.name + '</a> - ' + time + '</h5>';
-    //
-    // var messageField = findLinks(data[i].message || data[i].story, 'h4');
-    // var pictureField = '';
-    // var video = '';
-    // if (data[i].source) {
-    //   video = '<div class="picture"><video src=' + data[i].source + ' controls></video>'
-    // } else if (data[i].picture) {
-    //   pictureField = '<div class="picture"><img src=' + data[i].full_picture + ' alt=' + data[i].description + '>';
-    // }
-    // var descriptionField = '';
-    // if (data[i].description) {
-    //   descriptionField = findLinks(data[i].description, 'p');
-    // }
-    // var captionField = '';
-    // if (data[i].caption) {
-    //   captionField = '<small>' + data[i].caption + '</small>';
-    // } else if ((data[i].picture || data[i].source) && !data[i].caption) {
-    //   captionField = '</div>'
-    // }
-    // var linkField = '';
-    // if (data[i].link) {
-    //   linkField = '<a class="main-link" href=' + data[i].link + ' target=_blank>' + (data[i].name || data[i].link) + '</a>';
-    // }
-    //
-    // var displayString = '<article class="feed-item">' + fromField + messageField + video + pictureField + linkField + descriptionField + captionField + '</article>';
-
 module.exports = FeedShow;

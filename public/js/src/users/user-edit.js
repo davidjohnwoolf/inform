@@ -10,7 +10,7 @@ var UserEdit = {
       console.log('User Not Updated');
     }
     var user = Model.user;
-    return { updateUser: updateUser, user: user };
+    return { user: user, updateUser: updateUser };
   },
   view: function(ctrl) {
     return m('div.content-block', [
