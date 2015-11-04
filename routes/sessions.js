@@ -33,9 +33,7 @@ router.post('/', function(req, res) {
     } else {
       // check to see if passwords match (method found in user model)
       user.comparePassword(req.body.password, function(err, isMatch) {
-        if (err) {
-          return res.send(err);
-        }
+        if (err) res.send(err);
 
         if (isMatch) {
           req.session.user = user._id;

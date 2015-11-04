@@ -12,6 +12,8 @@ var feeds = require('./routes/feeds');
 var sources = require('./routes/sources');
 var passwordRecovery = require('./routes/password-recovery');
 
+var mithril = require('./routes/mithril');
+
 var app = express();
 
 // settings
@@ -40,16 +42,14 @@ app.use(function(req, res, next) {
 });
 app.use(express.static(__dirname + '/public'));
 
-// mithril test route
-app.get('/', function(req, res) {
-  res.sendFile('public/index.html');
-});
+// mithril
+app.use('/', mithril);
 
-app.use('/', sessions);
-app.use('/', passwordRecovery);
-app.use('/users', users);
-app.use('/users', feeds);
-app.use('/users', sources);
+// app.use('/', sessions);
+// app.use('/', passwordRecovery);
+// app.use('/users', users);
+// app.use('/users', feeds);
+// app.use('/users', sources);
 
 // error handling (taken from express generator)
 

@@ -1,22 +1,17 @@
 var m = require('mithril');
 
-var Model = {
-  data: [
-    { id: 1, title: 'News' },
-    { id: 2, title: 'International News' },
-    { id: 3, title: 'Web Development' },
-    { id: 4, title: 'Linux' }
-  ]
-}
+var Feeds = m.prop([]);
+
+m.request({ method: 'GET', url: '/api/data' }).then(Feeds);
 
 var FeedIndex = {
   controller: function() {
-    return { feeds: Model.data }
+    return { feeds: Feeds };
   },
   view: function(ctrl) {
     return m('h2', 'Feeds', [
       m('div', [
-        ctrl.feeds.map(function(feed) {
+        ctrl.feeds().map(function(feed) {
           return m('a[href=#/users/1/feeds/' + feed.id + ']', [
             m('p', feed.title)
           ]);
