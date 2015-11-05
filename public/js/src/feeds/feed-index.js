@@ -1,12 +1,26 @@
 var m = require('mithril');
 
-var Feeds = m.prop([]);
+var nonJsonErrors = function(xhr) {
+  return xhr.status > 200 ? JSON.stringify(xhr.responseText) : xhr.responseText
+}
 
-m.request({ method: 'GET', url: '/api/data' }).then(Feeds);
+var authorize = function(result) {
+  if (result.authorized) {
+    return result.data;
+  } else {
+    m.route('/');
+    console.log('Not Authorized');
+  }
+}
+
+var Feeds = function() {
+  return m.request({ method: 'GET', url: '/api/data', extract: nonJsonErrors });
+}
 
 var FeedIndex = {
   controller: function() {
-    return { feeds: Feeds };
+    var feeds = Feeds().then(authorize);
+    return { feeds: feeds }
   },
   view: function(ctrl) {
     return m('h2', 'Feeds', [

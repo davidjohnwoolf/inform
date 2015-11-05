@@ -24,7 +24,7 @@ var Login = {
     var login = function() {
       m.request({
         method: 'POST',
-        url: '/session',
+        url: '/auth',
         data: {
           email: document.getElementById('email-input').value,
           password: document.getElementById('password-input').value

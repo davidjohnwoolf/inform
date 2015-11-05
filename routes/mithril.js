@@ -16,7 +16,7 @@ router.get('/', function(req, res) {
 });
 
 // login
-router.post('/session', function(req, res) {
+router.post('/auth', function(req, res) {
   // res.send({ message: 'test' })
   User.findOne({ email: req.body.email }, function(err, user) {
     if (err) res.send(err);
@@ -44,18 +44,22 @@ router.post('/session', function(req, res) {
 
 // get fake data
 router.get('/api/data', function(req, res) {
-  // if (req.session.user) {
-    // console.log('User Session');
-    res.send([
-      { title: 'Test1', description: 'test' },
-      { title: 'Test2', description: 'test' },
-      { title: 'Test3', description: 'test' },
-      { title: 'Test4', description: 'test' }
-    ]);
-  // } else {
-  //   console.log('No User session');
-  //   res.send({ message: 'Not Authorized' });
-  // }
+  console.log(req.session.user);
+  if (req.session.user) {
+    res.send({
+      authorized: true,
+      data: [
+        { title: 'success1', description: 'success' },
+        { title: 'success2', description: 'success' },
+        { title: 'success3', description: 'success' },
+        { title: 'success4', description: 'success' }
+      ]
+    });
+  } else {
+    res.send({ authorized: false });
+  }
 });
+
+
 
 module.exports = router;
