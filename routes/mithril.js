@@ -10,6 +10,14 @@ var User = require('../models/user');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 
+function requireUser(req, res, next) {
+  if (req.session.user.id === req.params.id) {
+    next();
+  } else {
+    res.send({ authorized: false });
+  }
+}
+
 // get static page
 router.get('/', function(req, res) {
   res.sendFile('public/main.html', { root: __dirname + '/../' });
@@ -30,34 +38,48 @@ router.post('/auth', function(req, res) {
         if (err) res.send(err);
 
         if (isMatch) {
-          req.session.user = user._id;
-          res.send({ message: 'Passwords Matched!', success: true });
+          req.session.user = {
+            id: user._id,
+            email: user.email,
+            feeds: user.feeds,
+            defaultFeed: user.defaultFeed
+          };
+          res.send({
+            authenticated: true,
+            user: {
+              id: user._id,
+              email: user.email,
+              feeds: user.feeds,
+              defaultFeed: user.defaultFeed
+            }
+          });
         }
 
         if (!isMatch) {
-          res.send({ message: 'Passwords Don\'t match', success: false });
+          res.send({ authenticated: false });
         }
       });
     }
   });
 });
 
+// logout
+router.get('/logout', function(req, res) {
+  req.session.destroy(function(err) {
+    if (err) res.send(err);
+
+    res.send({});
+  });
+})
+
 // get fake data
-router.get('/api/data', function(req, res) {
-  console.log(req.session.user);
-  if (req.session.user) {
+router.get('/users/:id/feeds', requireUser, function(req, res) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
     res.send({
       authorized: true,
-      data: [
-        { title: 'success1', description: 'success' },
-        { title: 'success2', description: 'success' },
-        { title: 'success3', description: 'success' },
-        { title: 'success4', description: 'success' }
-      ]
-    });
-  } else {
-    res.send({ authorized: false });
-  }
+      data: user.feeds
+    })
+  });
 });
 
 

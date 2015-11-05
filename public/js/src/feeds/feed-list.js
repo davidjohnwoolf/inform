@@ -3,11 +3,15 @@ var reqHelpers = require('../helpers/request-helpers');
 var authorizeHelper = require('../helpers/authorize-helper');
 
 var Feeds = function() {
-  return m.request({
-    method: 'GET',
-    url: '/api/data',
-    extract: reqHelpers.nonJsonErrors
-  }).then(authorizeHelper);
+  if (localStorage.getItem('user')) {
+    return m.request({
+      method: 'GET',
+      url: '/users/' + JSON.parse(localStorage.getItem('user')).id + '/feeds',
+      extract: reqHelpers.nonJsonErrors
+    }).then(authorizeHelper);
+  } else {
+    m.route('/');
+  }
 }
 
 var FeedListing = {
@@ -19,10 +23,10 @@ var FeedListing = {
   },
   view: function(ctrl) {
     return m('div', [
-      m('a', { href: '#/users/1/feeds/' + ctrl.id }, [
+      m('a', { href: '#/users/' + JSON.parse(localStorage.getItem('user')).id + '/feeds/' + ctrl.id }, [
         m('h4', ctrl.title)
       ]),
-      m('a', { href: '#/users/1/feeds/' + ctrl.id + '/edit' }, 'Settings')
+      m('a', { href: '#/users/' + JSON.parse(localStorage.getItem('user')).id + '/feeds/' + ctrl.id + '/edit' }, 'Settings')
     ])
   }
 }

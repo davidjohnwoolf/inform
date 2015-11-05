@@ -14,13 +14,18 @@ var Login = {
         extract: reqHelpers.nonJsonErrors,
         serialize: reqHelpers.serialize,
         config: reqHelpers.asFormUrlEncoded
-      }).then(function(data) {
-        console.log(data.message);
-        if (data.success) {
-          m.route('/users/3/feeds/2');
+      }).then(function(response) {
+        if (response.authenticated) {
+          localStorage.setItem('user', JSON.stringify(response.user));
+          m.route('/users/' + JSON.parse(localStorage.getItem('user')).id + '/feeds/' + (
+            JSON.parse(localStorage.getItem('user')).defaultFeed ||
+            JSON.parse(localStorage.getItem('user')).feeds[0] ||
+            'new'
+          ));
         } else {
           document.getElementsByName('email')[0].value = '';
           document.getElementsByName('password')[0].value = '';
+          console.log('Username or Password Incorrect');
         }
       });
     }
@@ -30,10 +35,10 @@ var Login = {
     return m('section', [
       m('h2', 'Login'),
       m('div', [
-        m('input[name=email]', { type: 'text', placeholder: 'email' })
+        m('input', { name: 'email', type: 'text', placeholder: 'email' })
       ]),
       m('div', [
-        m('input[name=password]', { type: 'password', placeholder: 'password' }),
+        m('input', { name: 'password', type: 'password', placeholder: 'password' }),
       ]),
       m('div', [
         m('input', { onclick: ctrl.login, type: 'submit', value: 'Login' }),

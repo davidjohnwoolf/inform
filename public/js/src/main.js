@@ -1,5 +1,7 @@
 var m = require('mithril');
 var Login = require('./sessions/login');
+var Logout = require('./sessions/logout');
+
 var FeedList = require('./feeds/feed-list');
 var FeedNew = require('./feeds/feed-new');
 var FeedShow = require('./feeds/feed-show');
@@ -16,6 +18,7 @@ m.route.mode = 'hash';
 m.route(document.getElementById('app'), '/', {
   // sessions
   '/': Login,
+  '/logout': Logout,
 
   // password recovery
   // '/request-password': RequestPassword,
