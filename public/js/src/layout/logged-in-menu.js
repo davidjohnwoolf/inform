@@ -21,9 +21,3 @@ var LoggedInMenu = function(userId) {
 }
 
 module.exports = LoggedInMenu;
-
-// function setupLayout(args) {
-//   return m.render(document.getElementById('menu'), [
-//     args.menu(userId)
-//   ]);
-// }

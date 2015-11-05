@@ -70,7 +70,7 @@ router.get('/logout', function(req, res) {
 
     res.send({});
   });
-})
+});
 
 // feed show
 router.get('/users/:id/feeds/:feedId', function(req, res) {

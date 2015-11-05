@@ -1,5 +1,8 @@
 var m = require('mithril');
 var reqHelpers = require('../helpers/request-helpers');
+var layoutHelper = require('../helpers/layout-helper');
+var loggedInMenu = require('../layout/logged-in-menu.js');
+var loggedOutMenu = require('../layout/logged-out-menu.js');
 
 var Login = {
   controller: function() {
@@ -32,6 +35,9 @@ var Login = {
     return { login: login };
   },
   view: function(ctrl) {
+    layoutHelper({
+      menu: loggedOutMenu
+    });
     return m('section', [
       m('h2', 'Login'),
       m('div', [

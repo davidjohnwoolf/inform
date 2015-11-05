@@ -1,6 +1,8 @@
 var m = require('mithril');
 var reqHelpers = require('../helpers/request-helpers');
 var authorizeHelper = require('../helpers/authorize-helper');
+var layoutHelper = require('../helpers/layout-helper');
+var loggedInMenu = require('../layout/logged-in-menu.js');
 
 var Feeds = function() {
   return m.request({
@@ -32,6 +34,9 @@ var FeedList = {
     return { feeds: Feeds() }
   },
   view: function(ctrl) {
+    layoutHelper({
+      menu: loggedInMenu
+    });
     return m('section', [
       m('h2', 'Feeds'),
       ctrl.feeds().map(function(feed) {
