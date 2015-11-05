@@ -32,10 +32,10 @@ m.route(document.getElementById('app'), '/', {
   // feeds
   '/users/:id/feeds': FeedList,
   '/users/:id/feeds/new': FeedNew,
-  '/users/:id/feeds/:id': FeedShow,
-  '/users/:id/feeds/:id/edit': FeedEdit,
+  '/users/:id/feeds/:feedId': FeedShow,
+  '/users/:id/feeds/:feedId/edit': FeedEdit,
 
   // sources
-  // '/users/:id/feeds/:id/sources/:id': SourceShow,
-  // '/users/:id/feeds/:id/sources/:id/edit': SourceEdit,
+  // '/users/:id/feeds/:feedId/sources/:sourceId': SourceShow,
+  // '/users/:id/feeds/:feedId/sources/:sourceId/edit': SourceEdit,
 });
