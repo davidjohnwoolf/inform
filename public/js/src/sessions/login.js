@@ -1,23 +1,5 @@
 var m = require('mithril');
-
-// make use of props and withAttrs for data binding in a secure way for passwords
-
-function serialize(obj) {
-  var str = [];
-  for(var p in obj)
-    if (obj.hasOwnProperty(p)) {
-      str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
-    }
-  return str.join('&');
-}
-
-function asFormUrlEncoded(xhr) {
-  xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
-}
-
-var nonJsonErrors = function(xhr) {
-  return xhr.status > 200 ? JSON.stringify(xhr.responseText) : xhr.responseText
-}
+var reqHelpers = require('../helpers/request-helpers');
 
 var Login = {
   controller: function() {
@@ -29,9 +11,9 @@ var Login = {
           email: document.getElementById('email-input').value,
           password: document.getElementById('password-input').value
         },
-        extract: nonJsonErrors,
-        serialize: serialize,
-        config: asFormUrlEncoded
+        extract: reqHelpers.nonJsonErrors,
+        serialize: reqHelpers.serialize,
+        config: reqHelpers.asFormUrlEncoded
       }).then(function(data) {
         console.log(data.message);
         if (data.success) {

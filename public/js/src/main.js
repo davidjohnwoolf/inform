@@ -1,6 +1,6 @@
 var m = require('mithril');
 var Login = require('./sessions/login');
-var FeedIndex = require('./feeds/feed-index');
+var FeedList = require('./feeds/feed-list');
 var FeedNew = require('./feeds/feed-new');
 var FeedShow = require('./feeds/feed-show');
 var FeedEdit = require('./feeds/feed-edit');
@@ -27,7 +27,7 @@ m.route(document.getElementById('app'), '/', {
   '/users/:id/edit': UserEdit,
 
   // feeds
-  '/users/:id/feeds': FeedIndex,
+  '/users/:id/feeds': FeedList,
   '/users/:id/feeds/new': FeedNew,
   '/users/:id/feeds/:id': FeedShow,
   '/users/:id/feeds/:id/edit': FeedEdit,
