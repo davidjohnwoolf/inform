@@ -2,7 +2,7 @@ var m = require('mithril');
 
 function setLayout(args) {
   return m.render(document.getElementById('menu'), [
-    args.menu()
+    args.menu(args.userId)
   ]);
 
   // if (args.feedSelect) {

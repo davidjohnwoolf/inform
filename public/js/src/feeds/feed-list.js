@@ -7,7 +7,7 @@ var loggedInMenu = require('../layout/logged-in-menu.js');
 var Feeds = function() {
   return m.request({
     method: 'GET',
-    url: '/users/' + (JSON.parse(localStorage.getItem('user')).id || 0) + '/feeds',
+    url: '/users/' + m.route.param('id') + '/feeds',
     extract: reqHelpers.nonJsonErrors
   }).then(authorizeHelper);
 }
@@ -35,12 +35,13 @@ var FeedList = {
   },
   view: function(ctrl) {
     layoutHelper({
-      menu: loggedInMenu
+      menu: loggedInMenu,
+      userId: JSON.parse(localStorage.getItem('user')).id
     });
     return m('section', [
       m('h2', 'Feeds'),
       ctrl.feeds().map(function(feed) {
-        return m.component(FeedListing, { id: feed.id, title: feed.title });
+        return m.component(FeedListing, { id: feed._id, title: feed.title });
       })
     ]);
   }
