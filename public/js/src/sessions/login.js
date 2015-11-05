@@ -8,8 +8,8 @@ var Login = {
         method: 'POST',
         url: '/auth',
         data: {
-          email: document.getElementById('email-input').value,
-          password: document.getElementById('password-input').value
+          email: document.getElementsByName('email')[0].value,
+          password: document.getElementsByName('password')[0].value
         },
         extract: reqHelpers.nonJsonErrors,
         serialize: reqHelpers.serialize,
@@ -19,24 +19,25 @@ var Login = {
         if (data.success) {
           m.route('/users/3/feeds/2');
         } else {
-          document.getElementById('email-input').value = '';
-          document.getElementById('password-input').value = '';
+          document.getElementsByName('email')[0].value = '';
+          document.getElementsByName('password')[0].value = '';
         }
       });
     }
     return { login: login };
   },
   view: function(ctrl) {
-    return m('div.content-block', [
+    return m('section', [
       m('h2', 'Login'),
-      m('div.input-block', [
-        m('input#email-input', { type: 'text', placeholder: 'email' })
+      m('div', [
+        m('input[name=email]', { type: 'text', placeholder: 'email' })
       ]),
-      m('div.input-block', [
-        m('input#password-input', { type: 'password', placeholder: 'password' }),
+      m('div', [
+        m('input[name=password]', { type: 'password', placeholder: 'password' }),
       ]),
-      m('div.input-block', [
-        m('input', { onclick: ctrl.login, type: 'submit', value: 'Login' })
+      m('div', [
+        m('input', { onclick: ctrl.login, type: 'submit', value: 'Login' }),
+        m('a', { href: '/request-password' }, 'Forgot your password?')
       ])
     ])
   }
