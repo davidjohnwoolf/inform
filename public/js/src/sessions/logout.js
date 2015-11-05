@@ -5,7 +5,7 @@ var Logout = {
   controller: function() {
     return m.request({ method: 'GET', url: '/logout', extract: reqHelpers.nonJsonErrors })
       .then(function(response) {
-        localStorage.setItem('user', '');
+        localStorage.clear();
         m.route('/');
       });
   }

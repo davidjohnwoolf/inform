@@ -11,7 +11,7 @@ var User = require('../models/user');
 router.use(bodyParser.urlencoded({ extended: false }));
 
 function requireUser(req, res, next) {
-  if (req.session.user.id === req.params.id) {
+  if (req.session.user && (req.session.user.id === req.params.id)) {
     next();
   } else {
     res.send({ authorized: false });
@@ -72,7 +72,14 @@ router.get('/logout', function(req, res) {
   });
 })
 
-// get fake data
+// feed show
+router.get('/users/:id/feeds/:feedId', function(req, res) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    res.send(user.feed.id(req.params.feedId));
+  })
+});
+
+// feed index
 router.get('/users/:id/feeds', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     res.send({

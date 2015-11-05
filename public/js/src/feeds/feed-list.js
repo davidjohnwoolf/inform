@@ -3,15 +3,11 @@ var reqHelpers = require('../helpers/request-helpers');
 var authorizeHelper = require('../helpers/authorize-helper');
 
 var Feeds = function() {
-  if (localStorage.getItem('user')) {
-    return m.request({
-      method: 'GET',
-      url: '/users/' + JSON.parse(localStorage.getItem('user')).id + '/feeds',
-      extract: reqHelpers.nonJsonErrors
-    }).then(authorizeHelper);
-  } else {
-    m.route('/');
-  }
+  return m.request({
+    method: 'GET',
+    url: '/users/' + (JSON.parse(localStorage.getItem('user')).id || 0) + '/feeds',
+    extract: reqHelpers.nonJsonErrors
+  }).then(authorizeHelper);
 }
 
 var FeedListing = {
