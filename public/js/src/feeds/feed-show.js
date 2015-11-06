@@ -26,7 +26,7 @@ var FeedItem = {
   view: function(ctrl) {
     return m('article', [
       m('p', ctrl.time),
-      m('a[href=https://facebook.com/' + ctrl.from.id + ' target=_blank' + ']', ctrl.from.name),
+      m('a[href=https://facebook.com/' + ctrl.from.id  + ']', { target: '_blank'}, ctrl.from.name),
       m('h5', ctrl.message),
       m('img', { src: ctrl.picture, alt: ctrl.description }),
       m('p', ctrl.description)
