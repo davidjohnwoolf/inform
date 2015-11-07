@@ -14,6 +14,7 @@ function layoutHelper(args) {
   } else {
     m.mount(document.getElementById('feed-select'), null);
   }
+
   if (args.refreshButton) {
     m.mount(
       document.getElementById('refresh-button'),
@@ -22,11 +23,16 @@ function layoutHelper(args) {
   } else {
     m.mount(document.getElementById('refresh-button'), null);
   }
-  // if (args.search) {
-  //   m.render(document.getElementById('right-header'), [
-  //     args.search
-  //   ]);
-  // }
+
+  if (args.searchBar) {
+    m.mount(
+      document.getElementById('search-bar'),
+      m.component(args.searchBar)
+    );
+  } else {
+    m.mount(document.getElementById('search-bar'), null);
+  }
+
 }
 
 module.exports = layoutHelper;

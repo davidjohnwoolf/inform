@@ -301,6 +301,23 @@ ul h4 {
     background: #3B80AD;
   }
 
+  #search-bar {
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  #search-bar input[name=query] {
+    margin: 0;
+    box-sizing: border-box;
+    width: 90%;
+  }
+
+  #search-bar input[name=search] {
+    margin: 0;
+    box-sizing: border-box;
+    width: 10%;
+  }
+
 /* Flash Stuff */
 
 .flash-alert p {

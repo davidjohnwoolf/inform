@@ -6,6 +6,7 @@ var layoutHelper = require('../helpers/layout-helper');
 var LoggedInMenu = require('../layout/logged-in-menu');
 var FeedSelect = require('../layout/feed-select');
 var RefreshButton = require('../layout/refresh-button');
+var SearchBar = require('../layout/search-bar');
 
 var FeedItems = function() {
   return m.request({
@@ -49,7 +50,9 @@ var FeedShow = {
       feeds: JSON.parse(localStorage.getItem('user')).feeds,
       currentFeed: m.route.param('feedId'),
 
-      refreshButton: RefreshButton
+      refreshButton: RefreshButton,
+
+      searchBar: SearchBar
     });
     return m('div', [
       ctrl.feedItems().map(function(item) {
