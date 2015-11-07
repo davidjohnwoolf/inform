@@ -1,6 +1,6 @@
 var m = require('mithril');
 
-function setLayout(args) {
+function layoutHelper(args) {
   m.mount(
     document.getElementById('menu'),
     m.component(args.menu, { userId: args.userId })
@@ -12,11 +12,12 @@ function setLayout(args) {
       m.component(args.feedSelect, { feeds: args.feeds, currentFeed: args.currentFeed })
     );
   }
-  // if (args.refreshButton) {
-  //   m.render(document.getElementById('left-header'), [
-  //     args.refreshButton
-  //   ]);
-  // }
+  if (args.refreshButton) {
+    m.mount(
+      document.getElementById('refresh-button'),
+      m.component(args.refreshButton)
+    );
+  }
   // if (args.search) {
   //   m.render(document.getElementById('right-header'), [
   //     args.search
@@ -24,4 +25,4 @@ function setLayout(args) {
   // }
 }
 
-module.exports = setLayout;
+module.exports = layoutHelper;

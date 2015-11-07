@@ -10,7 +10,6 @@ var FeedSelect = {
       }
     };
     return { changeFeed: changeFeed, currentFeed: args.currentFeed, feeds: args.feeds };
-
   },
   view: function(ctrl) {
     return m('select', { onchange: ctrl.changeFeed, value: ctrl.currentFeed || 'select-feed' }, [
