@@ -3,7 +3,8 @@ var m = require('mithril');
 var reqHelpers = require('../helpers/request-helpers');
 var authorizeHelper = require('../helpers/authorize-helper');
 var layoutHelper = require('../helpers/layout-helper');
-var loggedInMenu = require('../layout/logged-in-menu.js');
+var loggedInMenu = require('../layout/logged-in-menu');
+var feedSelect = require('../layout/feed-select');
 
 var FeedItems = function() {
   return m.request({
@@ -41,7 +42,11 @@ var FeedShow = {
   view: function(ctrl) {
     layoutHelper({
       menu: loggedInMenu,
-      userId: JSON.parse(localStorage.getItem('user')).id
+      userId: JSON.parse(localStorage.getItem('user')).id,
+
+      feedSelect: feedSelect,
+      feeds: JSON.parse(localStorage.getItem('user')).feeds,
+      currentFeed: m.route.param('feedId')
     });
     return m('div', [
       ctrl.feedItems().map(function(item) {
