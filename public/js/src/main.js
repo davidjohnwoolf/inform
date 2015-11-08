@@ -11,31 +11,40 @@ var UserNew = require('./users/user-new');
 var UserShow = require('./users/user-show');
 var UserEdit = require('./users/user-edit');
 
-var app = {};
+var app = {
+  Login: Login,
+  FeedList: FeedList,
+  FeedNew: FeedNew,
+  FeedShow: FeedShow,
+  FeedEdit: FeedEdit,
+  UserNew: UserNew,
+  UserShow: UserShow,
+  UserEdit: UserEdit,
+};
 
 m.route.mode = 'hash';
 
 m.route(document.getElementById('app'), '/', {
   // sessions
-  '/': Login,
-  '/logout': Logout,
+  '/': app.Login,
+  '/logout': app.Logout,
 
   // password recovery
-  // '/request-password': RequestPassword,
-  // '/reset-password/:token': ResetPassword,
+  // '/request-password': app.RequestPassword,
+  // '/reset-password/:token': app.ResetPassword,
 
   // users
-  '/users/new': UserNew,
-  '/users/:id': UserShow,
-  '/users/:id/edit': UserEdit,
+  '/users/new': app.UserNew,
+  '/users/:id': app.UserShow,
+  '/users/:id/edit': app.UserEdit,
 
   // feeds
-  '/users/:id/feeds': FeedList,
-  '/users/:id/feeds/new': FeedNew,
-  '/users/:id/feeds/:feedId': FeedShow,
-  '/users/:id/feeds/:feedId/edit': FeedEdit,
+  '/users/:id/feeds': app.FeedList,
+  '/users/:id/feeds/new': app.FeedNew,
+  '/users/:id/feeds/:feedId': app.FeedShow,
+  '/users/:id/feeds/:feedId/edit': app.FeedEdit,
 
   // sources
-  // '/users/:id/feeds/:feedId/sources/:sourceId': SourceShow,
-  // '/users/:id/feeds/:feedId/sources/:sourceId/edit': SourceEdit,
+  // '/users/:id/feeds/:feedId/sources/:sourceId': app.SourceShow,
+  // '/users/:id/feeds/:feedId/sources/:sourceId/edit': app.SourceEdit,
 });

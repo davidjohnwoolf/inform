@@ -7,7 +7,6 @@ var LoggedInMenu = require('../layout/logged-in-menu');
 var FeedSelect = require('../layout/feed-select');
 var RefreshButton = require('../layout/refresh-button');
 
-
 var FeedItems = function() {
   return m.request({
     method: 'GET',
@@ -40,12 +39,12 @@ var SearchBar = {
       return m('div#search-container', [
         m('input', { type: 'text', name: 'query', value: ctrl.query }),
         m('input', { onclick: ctrl.search, type: 'submit', name: 'search', value: 'Go' }),
-      ])
+      ]);
     } else {
       return m('div#search-container', [
         m('input', { type: 'text', name: 'query' }),
         m('input', { onclick: ctrl.search, type: 'submit', name: 'search', value: 'Go' }),
-      ])
+      ]);
     }
 
   }
