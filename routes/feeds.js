@@ -3,7 +3,7 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var request = require('request');
+var request = require('request-promise');
 var User = require('../models/user');
 
 // body parser middleware
@@ -14,7 +14,7 @@ function requireUser(req, res, next) {
   if (req.session.user && (req.session.user.id === req.params.id)) {
     next();
   } else {
-    res.send({ authorized: false, message: 'Not Authorized' });
+    res.send({ fail: true, message: 'Not Authorized' });
   }
 }
 
@@ -22,7 +22,6 @@ function requireUser(req, res, next) {
 router.get('/:id/feeds', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     res.send({
-      authorized: true,
       message: 'Successfully requested feeds',
       data: user.feeds
     })
@@ -42,7 +41,7 @@ router.post('/:id/feeds/new', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.send({ authorized: true, message: 'Successfully created feed' });
+      res.send({ message: 'Successfully created feed' });
     });
   });
 });
@@ -58,7 +57,7 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
 
     // make sure there is at least one source
     if (sourceCount < 1) {
-      res.send({ authorized: true, message: 'You have no sources. Add a source by going to feed settings (Menu > Feeds > Feed Settings)' });
+      res.send({ message: 'You have no sources. Add a source by going to feed settings (Menu > Feeds > Feed Settings)' });
     }
 
     // get access token
@@ -87,7 +86,7 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
             // make sure all sources are valid
             for (var i = 0; i < result.length; i++) {
               if (result[i].code !== 200) {
-                res.send({ authorized: true, message: 'Error retrieving feed, check your feed\'s source values and try again' });
+                res.send({ message: 'Error retrieving feed, check your feed\'s source values and try again' });
                 break;
               }
               if (i === result.length - 1) {
@@ -119,7 +118,7 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
           function filterResponse(feedData) {
             var filters = user.feeds.id(req.params.feedId).filters;
             if (feedData.length < 1) {
-              res.send({ authorized: true, message: 'No results, try again'});
+              res.send({ message: 'No results, try again'});
             } else if (filters[0] === '' || filters.length < 1) {
               sortResponse(feedData);
             } else {
@@ -136,7 +135,7 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
                   }
                   if ((i === feedData.length - 1) && (c === filters.length - 1)) {
                     if (feedData.length < 1) {
-                      res.send({ authorized: true, message: 'No results, try again'});
+                      res.send({ message: 'No results, try again'});
                     }
                     sortResponse(feedData);
                   }
@@ -159,7 +158,6 @@ router.get('/:id/feeds/:feedId/request', requireUser, function(req, res) {
 
             // send results
             res.send({
-              authorized: true,
               message: 'Successfully requested feed',
               data: sortedData
             });
@@ -226,7 +224,7 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
           function filterResponse(feedData) {
             var filters = user.feeds.id(req.params.feedId).filters;
             if (feedData.length < 1) {
-              res.send({ authorized: true, message: 'No results, try again'});
+              res.send({ message: 'No results, try again'});
             } else if (filters[0] === '' || filters.length < 1) {
               queryResponse(feedData);
             } else {
@@ -261,7 +259,7 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
               }
               if (i === feedData.length -1) {
                 if (feedData.length < 1) {
-                  res.send({ authorized: true, message: 'No results, try again'});
+                  res.send({ message: 'No results, try again'});
                 }
                 sortResponse(feedData);
               }
@@ -282,7 +280,6 @@ router.get('/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
 
             // send results
             res.send({
-              authorized: true,
               message: 'Successfully recieved search results',
               data: sortedData
             });
@@ -309,7 +306,7 @@ router.put('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.send({ authorized: true, message: 'Successfully updated feed' });
+      res.send({ message: 'Successfully updated feed' });
     });
   });
 });
@@ -324,7 +321,7 @@ router.delete('/:id/feeds/:feedId', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.send({ authorized: true, message: 'Successfully deleted feed' });
+      res.send({ message: 'Successfully deleted feed' });
     });
   });
 });

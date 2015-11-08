@@ -15,7 +15,7 @@ router.post('/login', function(req, res) {
 
     if (user === null) {
       // if user does not exist
-      res.send({ success: false, message: 'Username or Password Incorrect' });
+      res.send({ fail: true, message: 'Username or Password Incorrect' });
     } else {
       // check to see if passwords match (method found in user model)
       user.comparePassword(req.body.password, function(err, isMatch) {
@@ -28,20 +28,11 @@ router.post('/login', function(req, res) {
             feeds: user.feeds,
             defaultFeed: user.defaultFeed
           };
-          res.send({
-            success: true,
-            message: 'Successfully authenticated user',
-            user: {
-              id: user._id,
-              email: user.email,
-              feeds: user.feeds,
-              defaultFeed: user.defaultFeed
-            }
-          });
+          res.send({ message: 'Successfully logged in' });
         }
 
         if (!isMatch) {
-          res.send({ success: false, message: 'Username or Password Incorrect' });
+          res.send({ fail: true, message: 'Username or Password Incorrect' });
         }
       });
     }
@@ -53,7 +44,7 @@ router.get('/logout', function(req, res) {
   req.session.destroy(function(err) {
     if (err) res.send(err);
 
-    res.send({ success: true, message: 'Successfully logged out' });
+    res.send({ message: 'Successfully logged out' });
   });
 });
 

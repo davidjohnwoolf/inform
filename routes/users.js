@@ -3,7 +3,6 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
 var User = require('../models/user');
 
 // body parser middleware
@@ -14,7 +13,7 @@ function requireUser(req, res, next) {
   if (req.session.user && (req.session.user.id === req.params.id)) {
     next();
   } else {
-    res.send({ success: false, message: 'Not authorized' });
+    res.send({ fail: true, message: 'Not authorized' });
   }
 }
 
@@ -36,19 +35,19 @@ router.post('/new', function(req, res) {
           user.save(function(err) {
             if (err) res.send(err);
 
-            res.send({ success: true, message: 'Successfully created user' });
+            res.send({ message: 'Successfully created user' });
           });
         } else {
-          res.send({ success: false, message: 'Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one number' });
+          res.send({ fail: true, message: 'Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one number' });
         }
       } else {
         // if password and password confirmation do not match
-        res.send({ success: false, message: 'Passwords must match' });
+        res.send({ fai: true, message: 'Passwords must match' });
       }
 
     } else {
       // if email already in use
-      res.send({ success: false, message: 'There is already an account with that email' });
+      res.send({ fai: true, message: 'There is already an account with that email' });
     }
   });
 });
@@ -56,8 +55,7 @@ router.post('/new', function(req, res) {
 // update
 router.put('/:id/edit', requireUser, function(req, res) {
   if (req.body.password !== req.body.confirmation) {
-    req.flash('alert', 'Passwords must match');
-    res.redirect('/users/' + req.params.id + '/edit');
+    res.send({ fail: true, message: 'Passwords must match'});
   } else {
     User.findOne({ _id: req.params.id }, function(err, user) {
       if (err) res.send(err);
@@ -73,7 +71,7 @@ router.put('/:id/edit', requireUser, function(req, res) {
       user.save(function(err) {
         if (err) res.send(err);
 
-        res.send({ success: true, message: 'Successfully updated user' });
+        res.send({ message: 'Successfully updated user' });
       });
 
     });
@@ -88,7 +86,7 @@ router.delete('/:id', requireUser, function(req, res) {
     req.session.destroy(function(err) {
       if (err) res.send(err);
 
-      res.send({ success: true, message: 'Successfully deleted user' });
+      res.send({ message: 'Successfully deleted user' });
     });
   });
 });
