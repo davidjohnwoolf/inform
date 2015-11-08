@@ -17,7 +17,8 @@ var Login = {
         serialize: reqHelpers.serialize,
         config: reqHelpers.asFormUrlEncoded
       }).then(function(response) {
-        if (response.authenticated) {
+        console.log(response.message);
+        if (response.success) {
           localStorage.setItem('user', JSON.stringify(response.user));
           m.route('/users/' + JSON.parse(localStorage.getItem('user')).id + '/feeds/' + (
             JSON.parse(localStorage.getItem('user')).defaultFeed ||
