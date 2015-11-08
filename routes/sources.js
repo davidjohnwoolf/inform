@@ -8,13 +8,14 @@ var User = require('../models/user');
 
 // body parser middleware
 router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
 
 // user authorization helper
 function requireUser(req, res, next) {
   if (req.session.user && (req.session.user.id === req.params.id)) {
     next();
   } else {
-    res.send({ success: false, message: 'Not authorized' });
+    res.json({ fail: true,  authorizeFail: true, message: 'Not authorized' });
   }
 }
 
@@ -32,7 +33,7 @@ router.post('/:id/feeds/:feedId/sources/new', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.send({ success: true, message: 'Successfully created source' });
+      res.json({ message: 'Successfully created source' });
     });
   });
 });
@@ -49,7 +50,7 @@ router.put('/:id/feeds/:feedId/sources/:sourceId/edit', requireUser, function(re
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.send({ success: true, message: 'Successfully updated source' });
+      res.json({ message: 'Successfully updated source' });
     });
   });
 });
@@ -64,7 +65,7 @@ router.delete('/:id/feeds/:feedId/sources/:sourceId', requireUser, function(req,
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.send({ success: true, message: 'Successfully deleted source' });
+      res.json({ message: 'Successfully deleted source' });
     });
   });
 });

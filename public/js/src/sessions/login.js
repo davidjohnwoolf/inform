@@ -18,17 +18,15 @@ var Login = {
         config: reqHelpers.asFormUrlEncoded
       }).then(function(response) {
         console.log(response.message);
-        if (response.success) {
-          localStorage.setItem('user', JSON.stringify(response.user));
-          m.route('/users/' + JSON.parse(localStorage.getItem('user')).id + '/feeds/' + (
-            JSON.parse(localStorage.getItem('user')).defaultFeed ||
-            JSON.parse(localStorage.getItem('user')).feeds[0] ||
+        if (!response.fail) {
+          m.route('/users/' + response.user.id + '/feeds/' + (
+            response.user.defaultFeed ||
+            response.user.feeds[0] ||
             'new'
           ));
         } else {
           document.getElementsByName('email')[0].value = '';
           document.getElementsByName('password')[0].value = '';
-          console.log('Username or Password Incorrect');
         }
       });
     }

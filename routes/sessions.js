@@ -7,6 +7,7 @@ var User = require('../models/user');
 
 // body parser middleware
 router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
 
 // login
 router.post('/login', function(req, res) {
@@ -15,7 +16,7 @@ router.post('/login', function(req, res) {
 
     if (user === null) {
       // if user does not exist
-      res.send({ fail: true, message: 'Username or Password Incorrect' });
+      res.json({ fail: true, message: 'Username or Password Incorrect' });
     } else {
       // check to see if passwords match (method found in user model)
       user.comparePassword(req.body.password, function(err, isMatch) {
@@ -28,11 +29,11 @@ router.post('/login', function(req, res) {
             feeds: user.feeds,
             defaultFeed: user.defaultFeed
           };
-          res.send({ message: 'Successfully logged in' });
+          res.json({ message: 'Successfully logged in', user: req.session.user });
         }
 
         if (!isMatch) {
-          res.send({ fail: true, message: 'Username or Password Incorrect' });
+          res.json({ fail: true, message: 'Username or Password Incorrect' });
         }
       });
     }
@@ -44,7 +45,7 @@ router.get('/logout', function(req, res) {
   req.session.destroy(function(err) {
     if (err) res.send(err);
 
-    res.send({ message: 'Successfully logged out' });
+    res.json({ message: 'Successfully logged out' });
   });
 });
 

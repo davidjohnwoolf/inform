@@ -7,7 +7,9 @@ var crypto = require('crypto');
 var nodemailer = require('nodemailer');
 var User = require('../models/user');
 
+// body parser middleware
 router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
 
 // request password
 router.post('/forgot', function(req, res) {
@@ -15,7 +17,7 @@ router.post('/forgot', function(req, res) {
     if (err) res.send(err);
 
     if (!user) {
-      res.send({ fail: true, message: 'Email doesn\'nt match a record' });
+      res.json({ fail: true, message: 'Email doesn\'nt match a record' });
     } else {
       crypto.randomBytes(20, function(err, buf) {
         if (err) res.send(err);
@@ -58,7 +60,7 @@ router.post('/forgot', function(req, res) {
       transporter.sendMail(mailOptions, function(err) {
         if (err) res.send(err);
 
-        res.send({ message: 'An e-mail has been sent to ' + user.email + ' with further instructions.' });
+        res.json({ message: 'An e-mail has been sent to ' + user.email + ' with further instructions.' });
       });
     }
   });
@@ -68,10 +70,10 @@ router.post('/forgot', function(req, res) {
 router.get('/reset/:token', function(req, res) {
   User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
     if (!user) {
-      res.send({ fail: true, message: 'Reset token is not valid' });
+      res.json({ fail: true, message: 'Reset token is not valid' });
       return res.redirect('/forgot');
     }
-    res.send({ message: 'Reset token is valid' });
+    res.json({ message: 'Reset token is valid' });
   });
 });
 
@@ -79,9 +81,9 @@ router.get('/reset/:token', function(req, res) {
 router.post('/reset/:token', function(req, res) {
   User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
     if (!user) {
-      res.send({ fail: true, message: 'Reset token is not valid' });
+      res.json({ fail: true, message: 'Reset token is not valid' });
     } else if (req.body.password !== req.body.confirmation) {
-      res.send({ fail: true, message: 'Passwords Must Match' });
+      res.json({ fail: true, message: 'Passwords Must Match' });
     } else {
       user.password = req.body.password;
       user.resetPasswordToken = undefined;
@@ -114,7 +116,7 @@ router.post('/reset/:token', function(req, res) {
       transporter.sendMail(mailOptions, function(err) {
         if (err) res.send(err);
 
-        res.send({ message: 'Successfully reset password' });
+        res.json({ message: 'Successfully reset password' });
       });
     }
   });

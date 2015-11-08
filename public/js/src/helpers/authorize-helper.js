@@ -2,7 +2,7 @@ var m = require('mithril');
 
 // check if request response is authorized
 function authorize(response) {
-  if (response.authorized) {
+  if (!response.authorizeFail) {
     console.log(response.message);
     return response;
   } else {

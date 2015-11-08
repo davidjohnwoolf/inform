@@ -7,6 +7,23 @@ var LoggedInMenu = require('../layout/logged-in-menu');
 var FeedSelect = require('../layout/feed-select');
 var RefreshButton = require('../layout/refresh-button');
 
+
+var FeedItems = function() {
+  return m.request({
+    method: 'GET',
+    url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId'),
+    extract: reqHelpers.nonJsonErrors,
+  }).then(authorizeHelper);
+}
+
+var SearchResults = function(query) {
+  return m.request({
+    method: 'GET',
+    url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/' + query,
+    extract: reqHelpers.nonJsonErrors,
+  }).then(authorizeHelper);
+}
+
 var SearchBar = {
   controller: function() {
     var search = function() {
@@ -20,22 +37,6 @@ var SearchBar = {
       m('input', { onclick: ctrl.search, type: 'submit', name: 'search', value: 'Go' }),
     ])
   }
-}
-
-var FeedItems = function() {
-  return m.request({
-    method: 'GET',
-    url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/request',
-    extract: reqHelpers.nonJsonErrors,
-  }).then(authorizeHelper);
-}
-
-var SearchResults = function(query) {
-  return m.request({
-    method: 'GET',
-    url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/request/' + query,
-    extract: reqHelpers.nonJsonErrors,
-  }).then(authorizeHelper);
 }
 
 var FeedItem = {
