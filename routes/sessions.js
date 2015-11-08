@@ -30,7 +30,7 @@ router.post('/login', function(req, res) {
           };
           res.send({
             success: true,
-            message: 'Successfully authenticated user'
+            message: 'Successfully authenticated user',
             user: {
               id: user._id,
               email: user.email,
