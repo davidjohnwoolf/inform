@@ -25,17 +25,29 @@ var SearchResults = function(query) {
 }
 
 var SearchBar = {
-  controller: function() {
+  controller: function(args) {
     var search = function() {
       m.mount(document.getElementById('app'), m.component(FeedShow, { query: document.getElementsByName('query')[0].value }));
     }
-    return { search: search }
+    if (args && args.query) {
+      return { search: search, query: args.query }
+    } else {
+      return { search: search }
+    }
   },
   view: function(ctrl) {
-    return m('div#search-container', [
-      m('input', { type: 'text', name: 'query' }),
-      m('input', { onclick: ctrl.search, type: 'submit', name: 'search', value: 'Go' }),
-    ])
+    if (ctrl.query) {
+      return m('div#search-container', [
+        m('input', { type: 'text', name: 'query', value: ctrl.query }),
+        m('input', { onclick: ctrl.search, type: 'submit', name: 'search', value: 'Go' }),
+      ])
+    } else {
+      return m('div#search-container', [
+        m('input', { type: 'text', name: 'query' }),
+        m('input', { onclick: ctrl.search, type: 'submit', name: 'search', value: 'Go' }),
+      ])
+    }
+
   }
 }
 
@@ -63,9 +75,9 @@ var FeedItem = {
 var FeedShow = {
   controller: function(args) {
     if (args && args.query) {
-      return { feedItems: SearchResults(args.query) }
+      return { feedItems: SearchResults(args.query), query: args.query };
     } else {
-      return { feedItems: FeedItems() }
+      return { feedItems: FeedItems() };
     }
   },
   view: function(ctrl) {
@@ -79,12 +91,16 @@ var FeedShow = {
 
       refreshButton: RefreshButton,
     });
-    m.mount(
-      document.getElementById('search-bar'),
-      m.component(SearchBar)
-    );
-    if (ctrl.feedItems().data.length < 1) {
-      return m('div', ctrl.feedItems().message)
+    if (ctrl.query) {
+      m.mount(
+        document.getElementById('search-bar'),
+        m.component(SearchBar, { query: ctrl.query })
+      );
+    } else {
+      m.mount(
+        document.getElementById('search-bar'),
+        m.component(SearchBar)
+      );
     }
     return m('div', [
       ctrl.feedItems().data.map(function(item) {
