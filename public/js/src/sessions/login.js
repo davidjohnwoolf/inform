@@ -8,7 +8,7 @@ var Login = {
     var login = function() {
       m.request({
         method: 'POST',
-        url: '/auth',
+        url: '/login',
         data: {
           email: document.getElementsByName('email')[0].value,
           password: document.getElementsByName('password')[0].value
