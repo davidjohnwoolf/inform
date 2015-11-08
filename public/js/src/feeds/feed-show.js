@@ -82,8 +82,11 @@ var FeedShow = {
       document.getElementById('search-bar'),
       m.component(SearchBar)
     );
+    if (ctrl.feedItems().data.length < 1) {
+      return m('div', ctrl.feedItems().message)
+    }
     return m('div', [
-      ctrl.feedItems().map(function(item) {
+      ctrl.feedItems().data.map(function(item) {
         return m.component(FeedItem, {
           time: item.created_time,
           from: item.from,

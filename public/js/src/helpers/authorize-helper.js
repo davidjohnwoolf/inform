@@ -2,10 +2,11 @@ var m = require('mithril');
 
 // check if request response is authorized
 function authorize(response) {
-  console.log(response.message);
-  if (response.success) {
-    return response.data;
+  if (response.authorized) {
+    console.log(response.message);
+    return response;
   } else {
+    console.log(response.message);
     m.route('/');
   }
 }
