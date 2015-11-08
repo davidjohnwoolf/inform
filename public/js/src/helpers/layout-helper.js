@@ -24,15 +24,6 @@ function layoutHelper(args) {
     m.mount(document.getElementById('refresh-button'), null);
   }
 
-  if (args.searchBar) {
-    m.mount(
-      document.getElementById('search-bar'),
-      m.component(args.searchBar)
-    );
-  } else {
-    m.mount(document.getElementById('search-bar'), null);
-  }
-
 }
 
 module.exports = layoutHelper;

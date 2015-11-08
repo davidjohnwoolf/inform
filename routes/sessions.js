@@ -5,53 +5,43 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var User = require('../models/user');
 
-// Router Middleware
-// -----------------
-
+// body parser middleware
 router.use(bodyParser.urlencoded({ extended: false }));
 
-// Session Routes
-// --------------
-
-// render login
-router.get('/', function(req, res) {
-  if (req.session.user) {
-    res.redirect('/users/' + req.session.user);
-  }
-  res.render('sessions/login', { title: 'Login' });
-});
-
 // login
-router.post('/', function(req, res) {
+router.post('/login', function(req, res) {
   User.findOne({ email: req.body.email }, function(err, user) {
     if (err) res.send(err);
 
     if (user === null) {
       // if user does not exist
-      req.flash('alert', 'Wrong Username or Password');
-      res.redirect('/');
+      res.send({ success: false, message: 'Username or Password Incorrect' });
     } else {
       // check to see if passwords match (method found in user model)
       user.comparePassword(req.body.password, function(err, isMatch) {
         if (err) res.send(err);
 
         if (isMatch) {
-          req.session.user = user._id;
-          if (user.feeds[0]) {
-            if (user.defaultFeed === 'select-feed') {
-              res.redirect('/users/' + user._id + '/feeds/' + user.feeds[0]._id);
-            } else {
-              res.redirect('/users/' + user._id + '/feeds/' + user.defaultFeed);
+          req.session.user = {
+            id: user._id,
+            email: user.email,
+            feeds: user.feeds,
+            defaultFeed: user.defaultFeed
+          };
+          res.send({
+            success: true,
+            message: 'Successfully authenticated user'
+            user: {
+              id: user._id,
+              email: user.email,
+              feeds: user.feeds,
+              defaultFeed: user.defaultFeed
             }
-
-          } else {
-            res.redirect('/users/' + user._id + '/feeds/new');
-          }
+          });
         }
 
         if (!isMatch) {
-          req.flash('alert', 'Wrong Username or Password');
-          res.redirect('/');
+          res.send({ success: false, message: 'Username or Password Incorrect' });
         }
       });
     }
@@ -63,7 +53,7 @@ router.get('/logout', function(req, res) {
   req.session.destroy(function(err) {
     if (err) res.send(err);
 
-    res.redirect('/');
+    res.send({ success: true, message: 'Successfully logged out' });
   });
 });
 

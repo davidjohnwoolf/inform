@@ -7,6 +7,11 @@ var User = require('../models/user');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 
+// render forgot password page
+router.get('/forgot', function(req, res) {
+  res.render('password-recovery/forgot', { title: 'Forgot Password' });
+});
+
 // request password
 router.post('/forgot', function(req, res) {
   User.findOne({ email: req.body.email }, function(err, user) {
@@ -57,20 +62,21 @@ router.post('/forgot', function(req, res) {
       transporter.sendMail(mailOptions, function(err) {
         if (err) res.send(err);
 
-        res.send({ success: true, message: 'An e-mail has been sent to ' + user.email + ' with further instructions.' });
+        req.flash('notice', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+        res.redirect('/');
       });
     }
   });
 });
 
-// authorize password reset
+// render reset password page
 router.get('/reset/:token', function(req, res) {
   User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
     if (!user) {
-      res.send({ success: false, message: 'Reset token is not valid' });
+      req.flash('alert', 'Password reset token is invalid or has expired.');
       return res.redirect('/forgot');
     }
-    res.send({ success: true, message: 'Reset token is valid' });
+    res.render('password-recovery/reset', { title: 'Reset Password', user: user });
   });
 });
 
@@ -114,7 +120,8 @@ router.post('/reset/:token', function(req, res) {
       transporter.sendMail(mailOptions, function(err) {
         if (err) res.send(err);
 
-        res.send({ success: true, message: 'Successfully reset password' });
+        req.flash('notice', 'Password Updated Successfully');
+        res.redirect('/');
       });
     }
   });

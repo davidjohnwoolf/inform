@@ -6,12 +6,34 @@ var layoutHelper = require('../helpers/layout-helper');
 var LoggedInMenu = require('../layout/logged-in-menu');
 var FeedSelect = require('../layout/feed-select');
 var RefreshButton = require('../layout/refresh-button');
-var SearchBar = require('../layout/search-bar');
+
+var SearchBar = {
+  controller: function() {
+    var search = function() {
+      m.mount(document.getElementById('app'), m.component(FeedShow, { query: document.getElementsByName('query')[0].value }));
+    }
+    return { search: search }
+  },
+  view: function(ctrl) {
+    return m('div#search-container', [
+      m('input', { type: 'text', name: 'query' }),
+      m('input', { onclick: ctrl.search, type: 'submit', name: 'search', value: 'Go' }),
+    ])
+  }
+}
 
 var FeedItems = function() {
   return m.request({
     method: 'GET',
     url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/request',
+    extract: reqHelpers.nonJsonErrors,
+  }).then(authorizeHelper);
+}
+
+var SearchResults = function(query) {
+  return m.request({
+    method: 'GET',
+    url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/request/' + query,
     extract: reqHelpers.nonJsonErrors,
   }).then(authorizeHelper);
 }
@@ -38,8 +60,12 @@ var FeedItem = {
 }
 
 var FeedShow = {
-  controller: function() {
-    return { feedItems: FeedItems() }
+  controller: function(args) {
+    if (args && args.query) {
+      return { feedItems: SearchResults(args.query) }
+    } else {
+      return { feedItems: FeedItems() }
+    }
   },
   view: function(ctrl) {
     layoutHelper({
@@ -51,9 +77,11 @@ var FeedShow = {
       currentFeed: m.route.param('feedId'),
 
       refreshButton: RefreshButton,
-
-      searchBar: SearchBar
     });
+    m.mount(
+      document.getElementById('search-bar'),
+      m.component(SearchBar)
+    );
     return m('div', [
       ctrl.feedItems().map(function(item) {
         return m.component(FeedItem, {

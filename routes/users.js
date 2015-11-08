@@ -6,40 +6,17 @@ var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var User = require('../models/user');
 
-// Router Middleware
-// -----------------
-
+// body parser middleware
 router.use(bodyParser.urlencoded({ extended: false }));
-router.use(methodOverride(function(req, res) {
-  // check for _method property in form requests
-  // see hidden input field in views
-  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-    var method = req.body._method;
-    delete req.body._method;
-    return method;
-  }
-}));
 
-// Route Authorization
-// -------------------
-
-// require specific user session
+// user authorization helper
 function requireUser(req, res, next) {
-  if (req.session.user !== req.params.id) {
-    req.flash('alert', 'You do not have permission to access this page');
-    res.redirect('back');
-  } else {
+  if (req.session.user && (req.session.user.id === req.params.id)) {
     next();
+  } else {
+    res.send({ success: false, message: 'Not authorized' });
   }
 }
-
-// User Routes
-// -----------
-
-// new
-router.get('/new', function(req, res) {
-  res.render('users/new', { title: 'Create Account' });
-});
 
 // create
 router.post('/new', function(req, res) {
@@ -53,52 +30,26 @@ router.post('/new', function(req, res) {
           var user = new User({
             email: req.body.email,
             password: req.body.password,
-            feeds: [],
-            defaultFeed: 'select-feed'
+            feeds: []
           });
 
           user.save(function(err) {
             if (err) res.send(err);
 
-            res.redirect('/');
+            res.send({ success: true, message: 'Successfully created user' });
           });
         } else {
-          req.flash('alert', 'Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one number');
-          res.redirect('/users/new');
+          res.send({ success: false, message: 'Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one number' });
         }
       } else {
         // if password and password confirmation do not match
-        req.flash('alert', 'Passwords must match');
-        res.redirect('/users/new');
+        res.send({ success: false, message: 'Passwords must match' });
       }
 
     } else {
       // if email already in use
-      req.flash('alert', 'There is already an account with that email');
-      res.redirect('/users/new');
+      res.send({ success: false, message: 'There is already an account with that email' });
     }
-  });
-});
-
-// show
-router.get('/:id', requireUser, function(req, res) {
-  User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
-
-    if (user.defaultFeed === 'select-feed') {
-      res.render('users/show', { title: 'Profile', user: user });
-    } else {
-      res.render('users/show', { title: 'Profile', user: user, defaultFeed: user.feeds.id(user.defaultFeed).title });
-    }
-  });
-});
-
-// edit
-router.get('/:id/edit', requireUser, function(req, res) {
-  User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
-
-    res.render('users/edit', { title: 'Edit Account', user: user });
   });
 });
 
@@ -122,7 +73,7 @@ router.put('/:id/edit', requireUser, function(req, res) {
       user.save(function(err) {
         if (err) res.send(err);
 
-        res.redirect('/users/' + req.params.id);
+        res.send({ success: true, message: 'Successfully updated user' });
       });
 
     });
@@ -137,7 +88,7 @@ router.delete('/:id', requireUser, function(req, res) {
     req.session.destroy(function(err) {
       if (err) res.send(err);
 
-      res.redirect('/');
+      res.send({ success: true, message: 'Successfully deleted user' });
     });
   });
 });

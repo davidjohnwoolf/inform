@@ -203,6 +203,127 @@ router.get('/users/:id/feeds/:feedId/request', requireUser, function(req, res) {
   });
 });
 
+// search feed
+router.get('/users/:id/feeds/:feedId/request/:q', requireUser, function(req, res) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    if (err) res.send(err);
 
+    var sourceCount = user.feeds.id(req.params.feedId).sources.length;
+    var facebookGraphUrl = 'https://graph.facebook.com/';
+    var fieldsUrl = '/feed?fields=id,message,story,link,name,caption,created_time,picture,full_picture,source,description,from';
+
+    // get access token
+    request(facebookGraphUrl + 'oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var accessToken = body;
+
+        // set batch string according to sources
+        var batchUrl = 'batch=[';
+        for (var i = 0; i < sourceCount; i++) {
+          var sourceValue = user.feeds.id(req.params.feedId).sources[i].value;
+          batchUrl += '{"method":"GET","relative_url":"' + sourceValue + fieldsUrl + '"},';
+        }
+        batchUrl = batchUrl.replace(/,\s*$/, '');
+        batchUrl += ']';
+
+        // send batch request
+        request(facebookGraphUrl + '?' + batchUrl + '&' + accessToken + '&method=post', function(error, response, body) {
+          if (error) res.send(error);
+
+          if (!error && response.statusCode == 200) {
+            parseResponse();
+          }
+          // parse through response and push into feedData
+          function parseResponse() {
+            var feedData = [];
+            var result = JSON.parse(body);
+            for (var i = 0; i < result.length; i++) {
+              var parsedResult = JSON.parse(result[i].body);
+              for (var n = 0; n < parsedResult.data.length; n++) {
+                var sourceId = parsedResult.data[n].id.split('_')[0];
+
+                // only return posts from direct source
+                if (sourceId === parsedResult.data[n].from.id) {
+                  feedData.push(parsedResult.data[n]);
+                }
+                if ((i === result.length -1) && (n === parsedResult.data.length -1)) {
+                  filterResponse(feedData);
+                }
+              }
+            }
+          }
+
+          // pass feedData through feeds filters
+          function filterResponse(feedData) {
+            var filters = user.feeds.id(req.params.feedId).filters;
+            if (feedData.length < 1) {
+              res.send({ message: 'No results, try again'});
+            } else if (filters[0] === '' || filters.length < 1) {
+              queryResponse(feedData);
+            } else {
+              feedDataLoop:
+              for (var i = 0; i < feedData.length; i++) {
+                var stringValue = JSON.stringify(feedData[i]).toLowerCase();
+                filterLoop:
+                for (var c = 0; c < filters.length; c++) {
+                  var filter = user.feeds.id(req.params.feedId).filters[c].toLowerCase();
+                  if (stringValue.indexOf(filter) > -1) {
+                    feedData.splice(i, 1);
+                    filterResponse(feedData);
+                    break feedDataLoop;
+                  }
+                  if ((i === feedData.length - 1) && (c === filters.length - 1)) {
+                    queryResponse(feedData);
+                  }
+                }
+              }
+            }
+          }
+
+          // parse by search query
+          function queryResponse(feedData) {
+            if (feedData.length < 1) {
+              res.send({ message: 'No results, try again'});
+            }
+            for (var i = 0; i < feedData.length; i++) {
+              var stringValue = JSON.stringify(feedData[i]).toLowerCase();
+              var query = req.params.q.toLowerCase();
+              if (stringValue.indexOf(query) === -1) {
+                feedData.splice(i, 1);
+                queryResponse(feedData);
+                break;
+              }
+              if (i === feedData.length -1) {
+                sortResponse(feedData);
+              }
+            }
+          }
+
+          // sort feedData based on created_time
+          function sortResponse(feedData) {
+            if (feedData.length < 1) {
+              res.send({ message: 'No results, try again'});
+            }
+            var sortedData = feedData.sort(function(a, b) {
+              if (a.created_time < b.created_time) {
+                return 1;
+              } else if (a.created_time > b.created_time) {
+                return -1;
+              } else {
+                return 0;
+              }
+            });
+
+            // send results
+            res.send({
+              authorized: true,
+              data: sortedData
+            });
+          }
+        });
+      }
+    });
+  });
+});
 
 module.exports = router;
