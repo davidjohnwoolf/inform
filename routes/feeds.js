@@ -24,6 +24,7 @@ router.get('/:id/feeds', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     res.json({
       message: 'Successfully requested feeds',
+      user: req.session.user,
       data: user.feeds
     })
   });
@@ -42,7 +43,37 @@ router.post('/:id/feeds/new', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.json({ message: 'Successfully created feed' });
+      res.json({ message: 'Successfully created feed', user: req.session.user });
+    });
+  });
+});
+
+// edit
+router.get('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    if (err) res.send(err);
+
+    res.json({ message: 'Successfully retrieved feed info', user: req.session.user, data: user.feeds.id(req.params.feedId) })
+  });
+});
+
+// update
+router.put('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    if (err) res.send(err);
+
+    if (req.body.filters) {
+      req.body.filters = req.body.filters.split(',');
+    }
+
+    for (var key in req.body) {
+      user.feeds.id(req.params.feedId)[key] = req.body[key];
+    }
+
+    user.save(function(err) {
+      if (err) res.send(err);
+
+      res.json({ message: 'Successfully updated feed', user: req.session.user });
     });
   });
 });
@@ -58,12 +89,12 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
 
     // make sure there is at least one source
     if (sourceCount < 1) {
-      res.json({ message: 'You have no sources. Add a source by going to feed settings (Menu > Feeds > Feed Settings)' });
+      res.json({ message: 'You have no sources. Add a source by going to feed settings (Menu > Feeds > Feed Settings)', user: req.session.user });
     }
 
     // get access token
     request(facebookGraphUrl + 'oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
-      if (error) res.json(error);
+      if (error) res.send(error);
 
       if (!error && response.statusCode == 200) {
         var accessToken = body;
@@ -79,7 +110,7 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
 
         // send batch request
         request(facebookGraphUrl + '?' + batchUrl + '&' + accessToken + '&method=post', function(error, response, body) {
-          if (error) res.json(error);
+          if (error) res.send(error);
 
           if (!error && response.statusCode == 200) {
             var result = JSON.parse(body)
@@ -119,7 +150,7 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
           function filterResponse(feedData) {
             var filters = user.feeds.id(req.params.feedId).filters;
             if (feedData.length < 1) {
-              res.json({ message: 'No results, try again'});
+              res.json({ message: 'No results, try again', user: req.session.user });
             } else if (filters[0] === '' || filters.length < 1) {
               sortResponse(feedData);
             } else {
@@ -136,7 +167,7 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
                   }
                   if ((i === feedData.length - 1) && (c === filters.length - 1)) {
                     if (feedData.length < 1) {
-                      res.json({ message: 'No results, try again'});
+                      res.json({ message: 'No results, try again', user: req.session.user });
                     }
                     sortResponse(feedData);
                   }
@@ -160,6 +191,7 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
             // send results
             res.json({
               message: 'Successfully requested feed',
+              user: req.session.user,
               data: sortedData
             });
           }
@@ -180,7 +212,7 @@ router.get('/:id/feeds/:feedId/:q', requireUser, function(req, res) {
 
     // get access token
     request(facebookGraphUrl + 'oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials', function (error, response, body) {
-      if (error) res.json(error);
+      if (error) res.send(error);
 
       if (!error && response.statusCode == 200) {
         var accessToken = body;
@@ -196,7 +228,7 @@ router.get('/:id/feeds/:feedId/:q', requireUser, function(req, res) {
 
         // send batch request
         request(facebookGraphUrl + '?' + batchUrl + '&' + accessToken + '&method=post', function(error, response, body) {
-          if (error) res.json(error);
+          if (error) res.send(error);
 
           if (!error && response.statusCode == 200) {
             parseResponse();
@@ -225,7 +257,7 @@ router.get('/:id/feeds/:feedId/:q', requireUser, function(req, res) {
           function filterResponse(feedData) {
             var filters = user.feeds.id(req.params.feedId).filters;
             if (feedData.length < 1) {
-              res.json({ message: 'No results, try again'});
+              res.json({ message: 'No results, try again', user: req.session.user });
             } else if (filters[0] === '' || filters.length < 1) {
               queryResponse(feedData);
             } else {
@@ -260,7 +292,7 @@ router.get('/:id/feeds/:feedId/:q', requireUser, function(req, res) {
               }
               if (i === feedData.length -1) {
                 if (feedData.length < 1) {
-                  res.json({ message: 'No results, try again'});
+                  res.json({ message: 'No results, try again', user: req.session.user });
                 }
                 sortResponse(feedData);
               }
@@ -282,32 +314,12 @@ router.get('/:id/feeds/:feedId/:q', requireUser, function(req, res) {
             // send results
             res.json({
               message: 'Successfully recieved search results',
+              user: req.session.user,
               data: sortedData
             });
           }
         });
       }
-    });
-  });
-});
-
-// update
-router.put('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
-  User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
-
-    if (req.body.filters) {
-      req.body.filters = req.body.filters.split(',');
-    }
-
-    for (var key in req.body) {
-      user.feeds.id(req.params.feedId)[key] = req.body[key];
-    }
-
-    user.save(function(err) {
-      if (err) res.send(err);
-
-      res.json({ message: 'Successfully updated feed' });
     });
   });
 });
@@ -322,7 +334,7 @@ router.delete('/:id/feeds/:feedId', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.json({ message: 'Successfully deleted feed' });
+      res.json({ message: 'Successfully deleted feed', user: req.session.user });
     });
   });
 });

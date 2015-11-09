@@ -1,4 +1,0 @@
-capitalized letters?
-requirements of mithril?
-model inside the component?
-reusable components?

@@ -11,24 +11,26 @@ var Feeds = function() {
     url: '/users/' + m.route.param('id') + '/feeds',
     extract: reqHelpers.nonJsonErrors
   }).then(authorizeHelper);
-}
+};
 
 var FeedListing = {
   controller: function(args) {
     return {
       id: args.id,
-      title: args.title
+      title: args.title,
+      userId: args.userId,
+      feedId: args.feedId
     }
   },
   view: function(ctrl) {
     return m('div', [
-      m('a', { href: '#/users/' + JSON.parse(localStorage.getItem('user')).id + '/feeds/' + ctrl.id }, [
+      m('a', { href: '#/users/' + ctrl.userId + '/feeds/' + ctrl.feedId }, [
         m('h4', ctrl.title)
       ]),
-      m('a', { href: '#/users/' + JSON.parse(localStorage.getItem('user')).id + '/feeds/' + ctrl.id + '/edit' }, 'Settings')
+      m('a', { href: '#/users/' + ctrl.userId + '/feeds/' + ctrl.feedId + '/edit' }, 'Settings')
     ])
   }
-}
+};
 
 var FeedList = {
   controller: function() {
@@ -37,19 +39,19 @@ var FeedList = {
   view: function(ctrl) {
     layoutHelper({
       menu: LoggedInMenu,
-      userId: JSON.parse(localStorage.getItem('user')).id,
+      userId: m.route.param('id'),
 
       feedSelect: FeedSelect,
-      feeds: JSON.parse(localStorage.getItem('user')).feeds,
+      feeds: ctrl.feeds().user.feeds,
       currentFeed: 'select-feed',
     });
     return m('section', [
       m('h2', 'Feeds'),
-      ctrl.feeds().map(function(feed) {
-        return m.component(FeedListing, { id: feed._id, title: feed.title });
+      ctrl.feeds().data.map(function(feed) {
+        return m.component(FeedListing, { feedId: feed._id, title: feed.title, userId: ctrl.feeds().user.id });
       })
     ]);
   }
-}
+};
 
 module.exports = FeedList;

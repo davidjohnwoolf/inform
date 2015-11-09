@@ -1,25 +1,15 @@
 var m = require('mithril');
-var Login = require('./sessions/login');
-var Logout = require('./sessions/logout');
-
-var FeedList = require('./feeds/feed-list');
-var FeedNew = require('./feeds/feed-new');
-var FeedShow = require('./feeds/feed-show');
-var FeedEdit = require('./feeds/feed-edit');
-
-var UserNew = require('./users/user-new');
-var UserShow = require('./users/user-show');
-var UserEdit = require('./users/user-edit');
 
 var app = {
-  Login: Login,
-  FeedList: FeedList,
-  FeedNew: FeedNew,
-  FeedShow: FeedShow,
-  FeedEdit: FeedEdit,
-  UserNew: UserNew,
-  UserShow: UserShow,
-  UserEdit: UserEdit,
+  Login: require('./sessions/login'),
+  Logout: require('./sessions/logout'),
+  FeedList: require('./feeds/feed-list'),
+  FeedNew: require('./feeds/feed-new'),
+  FeedShow: require('./feeds/feed-show'),
+  FeedEdit: require('./feeds/feed-edit'),
+  UserNew: require('./users/user-new'),
+  UserShow: require('./users/user-show'),
+  UserEdit: require('./users/user-edit')
 };
 
 m.route.mode = 'hash';

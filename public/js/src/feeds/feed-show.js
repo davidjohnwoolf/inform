@@ -13,7 +13,7 @@ var FeedItems = function() {
     url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId'),
     extract: reqHelpers.nonJsonErrors,
   }).then(authorizeHelper);
-}
+};
 
 var SearchResults = function(query) {
   return m.request({
@@ -21,7 +21,7 @@ var SearchResults = function(query) {
     url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/' + query,
     extract: reqHelpers.nonJsonErrors,
   }).then(authorizeHelper);
-}
+};
 
 var SearchBar = {
   controller: function(args) {
@@ -48,7 +48,7 @@ var SearchBar = {
     }
 
   }
-}
+};
 
 var FeedItem = {
   controller: function(args) {
@@ -69,7 +69,7 @@ var FeedItem = {
       m('p', ctrl.description)
     ])
   }
-}
+};
 
 var FeedShow = {
   controller: function(args) {
@@ -82,10 +82,10 @@ var FeedShow = {
   view: function(ctrl) {
     layoutHelper({
       menu: LoggedInMenu,
-      userId: JSON.parse(localStorage.getItem('user')).id,
+      userId: m.route.param('id'),
 
       feedSelect: FeedSelect,
-      feeds: JSON.parse(localStorage.getItem('user')).feeds,
+      feeds: ctrl.feedItems().user.feeds,
       currentFeed: m.route.param('feedId'),
 
       refreshButton: RefreshButton,
@@ -113,6 +113,6 @@ var FeedShow = {
       })
     ]);
   }
-}
+};
 
 module.exports = FeedShow;
