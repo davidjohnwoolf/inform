@@ -38,6 +38,19 @@ router.post('/:id/feeds/:feedId/sources/new', requireUser, function(req, res) {
   });
 });
 
+// edit
+router.get('/:id/feeds/:feedId/sources/:sourceId/edit', requireUser, function(req, res) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    if (err) res.send(err);
+
+    res.json({
+      message: 'Successfully recieved source info',
+      user: req.session.user,
+      data: user.feeds.id(req.params.feedId).sources.id(req.params.sourceId)
+    });
+  });
+});
+
 // update
 router.put('/:id/feeds/:feedId/sources/:sourceId/edit', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {

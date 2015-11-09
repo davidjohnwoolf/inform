@@ -3,13 +3,15 @@ var m = require('mithril');
 var app = {
   Login: require('./sessions/login'),
   Logout: require('./sessions/logout'),
+  UserNew: require('./users/user-new'),
+  UserShow: require('./users/user-show'),
+  UserEdit: require('./users/user-edit'),
   FeedList: require('./feeds/feed-list'),
   FeedNew: require('./feeds/feed-new'),
   FeedShow: require('./feeds/feed-show'),
   FeedEdit: require('./feeds/feed-edit'),
-  UserNew: require('./users/user-new'),
-  UserShow: require('./users/user-show'),
-  UserEdit: require('./users/user-edit')
+  SourceShow: require('./sources/source-show'),
+  SourceEdit: require('./sources/source-edit'),
 };
 
 m.route.mode = 'hash';
@@ -35,6 +37,6 @@ m.route(document.getElementById('app'), '/', {
   '/users/:id/feeds/:feedId/edit': app.FeedEdit,
 
   // sources
-  // '/users/:id/feeds/:feedId/sources/:sourceId': app.SourceShow,
-  // '/users/:id/feeds/:feedId/sources/:sourceId/edit': app.SourceEdit,
+  '/users/:id/feeds/:feedId/sources/:sourceId': app.SourceShow,
+  '/users/:id/feeds/:feedId/sources/:sourceId/edit': app.SourceEdit,
 });

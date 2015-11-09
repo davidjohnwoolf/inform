@@ -111,8 +111,8 @@ var FeedEdit = {
         m('h2', 'Sources'),
         ctrl.feedInfo().data.sources.map(function(source) {
           return m('div', [
-            m('a', { href: '#/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources' + source._id }, source.name),
-            m('a', { href: '#/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources' + source._id + '/edit' }, 'Edit Source'),
+            m('a', { href: '#/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + source._id }, source.name),
+            m('a', { href: '#/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + source._id + '/edit' }, 'Edit Source'),
             m('a', { onclick: ctrl.deleteSource(source._id), href: ''}, 'Delete Source')
           ])
         })
