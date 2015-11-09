@@ -39,7 +39,7 @@ var Login = {
     return m('section', [
       m('h2', 'Login'),
       m('div', [
-        m('input', { name: 'email', type: 'text', placeholder: 'email' })
+        m('input', { name: 'email', type: 'email', placeholder: 'email' })
       ]),
       m('div', [
         m('input', { name: 'password', type: 'password', placeholder: 'password' }),

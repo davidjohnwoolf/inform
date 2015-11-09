@@ -1,18 +1,34 @@
 var m = require('mithril');
+var reqHelpers = require('../helpers/request-helpers');
+var authorizeHelper = require('../helpers/authorize-helper');
+var layoutHelper = require('../helpers/layout-helper');
+var LoggedInMenu = require('../layout/logged-in-menu.js');
+var FeedSelect = require('../layout/feed-select');
 
-var Model = {
-  user: { email: 'david@gmail.com' }
-}
+var User = function() {
+  return m.request({
+    method: 'GET',
+    url: '/users/' + m.route.param('id'),
+    extract: reqHelpers.nonJsonErrors
+  }).then(authorizeHelper);
+};
 
 var UserShow = {
   controller: function() {
-    var user = Model.user;
-    return { user };
+    return { user: User() };
   },
   view: function(ctrl) {
+    layoutHelper({
+      menu: LoggedInMenu,
+      userId: m.route.param('id'),
+
+      feedSelect: FeedSelect,
+      feeds: ctrl.user().data.feeds,
+      currentFeed: 'select-feed'
+    });
     return m('div', [
       m('h2', 'User Show'),
-      m('p', ctrl.user.email)
+      m('p', ctrl.user().data.email)
     ])
   }
 }

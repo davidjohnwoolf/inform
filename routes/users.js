@@ -43,13 +43,22 @@ router.post('/new', function(req, res) {
         }
       } else {
         // if password and password confirmation do not match
-        res.json({ fai: true, message: 'Passwords must match' });
+        res.json({ fail: true, message: 'Passwords must match' });
       }
 
     } else {
       // if email already in use
-      res.json({ fai: true, message: 'There is already an account with that email' });
+      res.json({ fail: true, message: 'There is already an account with that email' });
     }
+  });
+});
+
+// show
+router.get('/:id', requireUser, function(req, res) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    if (err) res.send(err);
+
+    res.json({ message: 'Successfully retrieved user', data: req.session.user });
   });
 });
 
