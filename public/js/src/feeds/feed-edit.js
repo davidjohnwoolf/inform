@@ -82,7 +82,15 @@ var FeedEdit = {
     return { feedInfo: FeedInfo(), updateFeed: updateFeed, deleteFeed: deleteFeed, addSource: addSource, deleteSource: deleteSource }
   },
   view: function(ctrl) {
-    console.log(ctrl.feedInfo().data);
+    m.mount(document.getElementById('search-bar'), null);
+    layoutHelper({
+      menu: LoggedInMenu,
+      userId: m.route.param('id'),
+
+      feedSelect: FeedSelect,
+      feeds: ctrl.feedInfo().user.feeds,
+      currentFeed: 'select-feed',
+    });
     return m('div', [
       m('div', [
         m('h2', 'Edit Feed'),

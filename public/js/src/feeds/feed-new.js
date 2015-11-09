@@ -34,6 +34,7 @@ var FeedNew = {
     return { createFeed: createFeed, feeds: Feeds() };
   },
   view: function(ctrl) {
+    m.mount(document.getElementById('search-bar'), null);
     layoutHelper({
       menu: LoggedInMenu,
       userId: m.route.param('id'),
