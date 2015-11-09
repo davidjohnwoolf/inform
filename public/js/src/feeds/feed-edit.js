@@ -82,7 +82,6 @@ var FeedEdit = {
     return { feedInfo: FeedInfo(), updateFeed: updateFeed, deleteFeed: deleteFeed, addSource: addSource, deleteSource: deleteSource }
   },
   view: function(ctrl) {
-    m.mount(document.getElementById('search-bar'), null);
     layoutHelper({
       menu: LoggedInMenu,
       userId: m.route.param('id'),

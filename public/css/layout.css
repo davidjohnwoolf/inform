@@ -176,31 +176,31 @@ h2 {
     font-weight: normal;
   }
 
-  .feed-item .picture {
+  .feed-item .media-wrap {
     border: 1px #ddd solid;
     padding-bottom: 10px;
   }
 
-    .feed-item .picture img {
+    .feed-item .media-wrap img {
       width: 100%;
     }
 
-    .feed-item .picture video {
+    .feed-item .media-wrap video {
       width: 100%;
     }
 
-    .feed-item .picture a.main-link {
+    .feed-item .media-wrap a.main-link {
       margin: 10px;
       display: block;
       font-weight: bold;
     }
 
-    .feed-item .picture p {
+    .feed-item .media-wrap p {
       margin: 10px;
       font-size: .8em;
     }
 
-    .feed-item .picture small {
+    .feed-item .media-wrap small {
       color: #999;
       margin: 10px;
     }
