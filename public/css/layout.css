@@ -211,23 +211,23 @@ ul h4 {
   margin: 10px 0 5px 0;
 }
 
-.listed-source {
+.listed-item {
   border: 1px #ddd solid;
   padding: 5px 10px;
   margin-bottom: 5px;
   overflow: hidden;
 }
 
-  .listed-source h4, .listed-source a, .listed-source form {
+  .listed-item h4, .listed-item a, .listed-item form {
     display: inline;
   }
 
-  .listed-source a, .listed-source form {
+  .listed-item a, .listed-item form {
     float: right;
     margin: 10px 0 0 10px;
   }
 
-  .listed-source h4, .listed-source h4 a {
+  .listed-item h4, .listed-item h4 a {
     float: left;
     margin-top: -10px;
   }

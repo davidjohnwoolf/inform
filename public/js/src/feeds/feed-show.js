@@ -62,6 +62,7 @@ var FeedItem = {
   controller: function(args) {
     var conditionalElements = function() {
       var elements = [];
+
       if (args.video) {
         elements.push(m('video', { controls: 'controls', src: args.video }));
       } else if (args.picture) {

@@ -23,9 +23,9 @@ var FeedListing = {
     }
   },
   view: function(ctrl) {
-    return m('div', [
-      m('a', { href: '#/users/' + ctrl.userId + '/feeds/' + ctrl.feedId }, [
-        m('h4', ctrl.title)
+    return m('div.listed-item', [
+      m('h4', [
+        m('a', { href: '#/users/' + ctrl.userId + '/feeds/' + ctrl.feedId }, ctrl.title)
       ]),
       m('a', { href: '#/users/' + ctrl.userId + '/feeds/' + ctrl.feedId + '/edit' }, 'Settings')
     ])
@@ -45,7 +45,7 @@ var FeedList = {
       feeds: ctrl.feeds().user.feeds,
       currentFeed: 'select-feed',
     });
-    return m('section', [
+    return m('section.content-part', [
       m('h2', 'Feeds'),
       ctrl.feeds().data.map(function(feed) {
         return m.component(FeedListing, { feedId: feed._id, title: feed.title, userId: ctrl.feeds().user.id });
