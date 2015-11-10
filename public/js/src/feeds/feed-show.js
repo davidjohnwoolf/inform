@@ -8,7 +8,6 @@ var RefreshButton = require('../layout/refresh-button');
 
 function findLinks(string) {
   var wordArray = string.split(/[ \r\n]/);
-  console.log(wordArray);
   for (var n = 0; n < wordArray.length; n++) {
     if (wordArray[n].slice(0, 4) === 'http') {
       wordArray.splice(n, 1, '<a href=' + wordArray[n] + '>' + wordArray[n] + '</a>');
