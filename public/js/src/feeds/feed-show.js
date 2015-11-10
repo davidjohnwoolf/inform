@@ -6,34 +6,16 @@ var LoggedInMenu = require('../layout/logged-in-menu');
 var FeedSelect = require('../layout/feed-select');
 var RefreshButton = require('../layout/refresh-button');
 
-// var time = month + '/' + day + '/' + year + ' ' +hours + ':' + minutes;
-//
-// var fromField = '<h5><a href=https://facebook.com/' + data[i].from.id + ' target=_blank>' + data[i].from.name + '</a> - ' + time + '</h5>';
-//
-// var messageField = findLinks(data[i].message || data[i].story, 'h4');
-// var pictureField = '';
-// var video = '';
-// if (data[i].source) {
-//   video = '<div class="picture"><video src=' + data[i].source + ' controls></video>'
-// } else if (data[i].picture) {
-//   pictureField = '<div class="picture"><img src=' + data[i].full_picture + ' alt=' + data[i].description + '>';
-// }
-// var descriptionField = '';
-// if (data[i].description) {
-//   descriptionField = findLinks(data[i].description, 'p');
-// }
-// var captionField = '';
-// if (data[i].caption) {
-//   captionField = '<small>' + data[i].caption + '</small>';
-// } else if ((data[i].picture || data[i].source) && !data[i].caption) {
-//   captionField = '</div>'
-// }
-// var linkField = '';
-// if (data[i].link) {
-//   linkField = '<a class="main-link" href=' + data[i].link + ' target=_blank>' + (data[i].name || data[i].link) + '</a>';
-// }
-//
-// var displayString = '<article class="feed-item">' + fromField + messageField + video + pictureField + linkField + descriptionField + captionField + '</article>';
+function findLinks(string) {
+  var wordArray = string.split(/[ \r\n]/);
+  console.log(wordArray);
+  for (var n = 0; n < wordArray.length; n++) {
+    if (wordArray[n].slice(0, 4) === 'http') {
+      wordArray.splice(n, 1, '<a href=' + wordArray[n] + '>' + wordArray[n] + '</a>');
+    }
+  }
+  return wordArray.join(' ');
+}
 
 var SearchBar = {
   controller: function(args) {
@@ -93,14 +75,14 @@ var FeedItem = {
         elements.push(m('small', args.caption));
       }
       if (args.description) {
-        elements.push(m('p', args.description));
+        elements.push(m('p', m.trust(findLinks(args.description))));
       }
       return elements;
     }
     return {
       time: args.time,
       from: args.from,
-      message: args.message,
+      message: m.trust(findLinks(args.message)),
       elements: conditionalElements()
     }
   },
