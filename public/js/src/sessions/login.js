@@ -36,18 +36,21 @@ var Login = {
     layoutHelper({
       menu: LoggedOutMenu
     });
-    return m('section', [
+    return m('section.content-part', [
       m('h2', 'Login'),
-      m('div', [
+      m('div.input-block', [
         m('input', { name: 'email', type: 'email', placeholder: 'email' })
       ]),
-      m('div', [
+      m('div.input-block', [
         m('input', { name: 'password', type: 'password', placeholder: 'password' }),
       ]),
-      m('div', [
-        m('input', { onclick: ctrl.login, type: 'submit', value: 'Login' }),
-        m('a', { href: '/request-password' }, 'Forgot your password?')
-      ])
+      m('div.submit-block', [
+        m('input', { onclick: ctrl.login, type: 'submit', value: 'Login' })
+      ]),
+      m('p', 'Don\'t have an account? ', [
+        m('a', { href: '/users/new', config: m.route }, 'Sign Up for Free')
+      ]),
+      m('a', { href: '/request-password', config: m.route }, 'Forgot your password?')
     ])
   }
 }

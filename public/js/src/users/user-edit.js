@@ -52,8 +52,8 @@ var UserEdit = {
       feeds: ctrl.user().data.feeds,
       currentFeed: 'select-feed'
     });
-    return m('div.content-block', [
-      m('h2', 'Login'),
+    return m('div.content-part', [
+      m('h2', 'Edit Account'),
       m('div.input-block', [
         m('input', { type: 'email', name: 'email', value: ctrl.user().data.email })
       ]),
@@ -63,7 +63,7 @@ var UserEdit = {
       m('div.input-block', [
         m('input', { type: 'password', name: 'confirmation', placeholder: 'confirmation' }),
       ]),
-      m('div.input-block', [
+      m('div.submit-block', [
         m('input', { onclick: ctrl.updateUser, type: 'submit', value: 'Update User' })
       ])
     ])

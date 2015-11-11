@@ -26,8 +26,8 @@ var UserShow = {
       feeds: ctrl.user().data.feeds,
       currentFeed: 'select-feed'
     });
-    return m('div', [
-      m('h2', 'User Show'),
+    return m('div.content-part', [
+      m('h2', 'Profile'),
       m('p', ctrl.user().data.email)
     ])
   }

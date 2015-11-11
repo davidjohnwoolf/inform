@@ -37,8 +37,8 @@ var UserNew = {
     layoutHelper({
       menu: LoggedOutMenu
     });
-    return m('div.content-block', [
-      m('h2', 'Login'),
+    return m('div.content-part', [
+      m('h2', 'Create Account'),
       m('div.input-block', [
         m('input', { type: 'email', name: 'email', placeholder: 'email' })
       ]),
@@ -48,7 +48,7 @@ var UserNew = {
       m('div.input-block', [
         m('input', { type: 'password', name: 'confirmation', placeholder: 'confirmation' }),
       ]),
-      m('div.input-block', [
+      m('div.submit-block', [
         m('input', { onclick: ctrl.createUser, type: 'submit', value: 'Create User' })
       ])
     ])
