@@ -13,7 +13,7 @@ function asFormUrlEncoded(xhr) {
   xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 }
 
-// convert not-json errors to json
+// convert non-json errors to json
 function nonJsonErrors(xhr) {
   return xhr.status > 200 ? JSON.stringify(xhr.responseText) : xhr.responseText
 }
