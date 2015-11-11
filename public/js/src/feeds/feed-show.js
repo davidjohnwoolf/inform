@@ -124,10 +124,6 @@ var FeedShow = {
       query: ctrl.query || false
     });
 
-    var header = document.getElementById('header-wrap');
-    var content = document.getElementById('content-wrap');
-    content.style.marginTop = header.offsetHeight + 10 + 'px';
-
     return m('div', [
       ctrl.feedResults().data.map(function(item) {
         return m.component(FeedItem, {

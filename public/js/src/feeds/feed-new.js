@@ -17,10 +17,10 @@ var FeedNew = {
         serialize: reqHelpers.serialize,
         config: reqHelpers.asFormUrlEncoded
       })
-        .then(authorizeHelper)
-        .then(function() {
-          m.route('/users/' + m.route.param('id') + '/feeds');
-        });
+      .then(authorizeHelper)
+      .then(function() {
+        m.route('/users/' + m.route.param('id') + '/feeds');
+      });
     };
     return { createFeed: createFeed, feeds: Feeds() };
   },

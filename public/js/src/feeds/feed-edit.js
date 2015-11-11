@@ -20,10 +20,10 @@ var FeedEdit = {
         serialize: reqHelpers.serialize,
         config: reqHelpers.asFormUrlEncoded
       })
-        .then(authorizeHelper)
-        .then(function() {
-          m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
-        });
+      .then(authorizeHelper)
+      .then(function() {
+        m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
+      });
     };
     var deleteFeed = function() {
       m.request({
@@ -33,10 +33,10 @@ var FeedEdit = {
         serialize: reqHelpers.serialize,
         config: reqHelpers.asFormUrlEncoded
       })
-        .then(authorizeHelper)
-        .then(function() {
-          m.route('/users/' + m.route.param('id') + '/feeds/');
-        });
+      .then(authorizeHelper)
+      .then(function() {
+        m.route('/users/' + m.route.param('id') + '/feeds/');
+      });
     };
     var addSource = function() {
       m.request({
@@ -51,10 +51,10 @@ var FeedEdit = {
         serialize: reqHelpers.serialize,
         config: reqHelpers.asFormUrlEncoded
       })
-        .then(authorizeHelper)
-        .then(function() {
-          m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
-        });
+      .then(authorizeHelper)
+      .then(function() {
+        m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
+      });
     };
     var deleteSource = function(sourceId) {
       var deleteSourceFn = function() {
@@ -65,10 +65,10 @@ var FeedEdit = {
           serialize: reqHelpers.serialize,
           config: reqHelpers.asFormUrlEncoded
         })
-          .then(authorizeHelper)
-          .then(function() {
-            m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
-          });
+        .then(authorizeHelper)
+        .then(function() {
+          m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
+        });
         return deleteSourceFn;
       }
     };
