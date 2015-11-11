@@ -12,10 +12,10 @@ router.use(bodyParser.json());
 
 // user authorization helper
 function requireUser(req, res, next) {
-  if (req.session.user && (req.session.user.id === req.params.id)) {
+  if (req.session.user === req.params.id) {
     next();
   } else {
-    res.json({ fail: true,  authorizeFail: true, message: 'Not authorized' });
+    res.json({ fail: true, authorizeFail: true, message: 'Not Authorized' });
   }
 }
 
@@ -45,7 +45,12 @@ router.get('/:id/feeds/:feedId/sources/:sourceId/edit', requireUser, function(re
 
     res.json({
       message: 'Successfully recieved source info',
-      user: req.session.user,
+      user: {
+  id: user._id,
+  email: user._email,
+  feeds: user.feeds,
+  defaultFeed: user.defaultFeed
+},
       data: user.feeds.id(req.params.feedId).sources.id(req.params.sourceId)
     });
   });

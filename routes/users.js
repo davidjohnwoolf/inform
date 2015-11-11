@@ -11,10 +11,10 @@ router.use(bodyParser.json());
 
 // user authorization helper
 function requireUser(req, res, next) {
-  if (req.session.user && (req.session.user.id === req.params.id)) {
+  if (req.session.user === req.params.id) {
     next();
   } else {
-    res.json({ fail: true, authorizeFail: true, message: 'Not authorized' });
+    res.json({ fail: true, authorizeFail: true, message: 'Not Authorized' });
   }
 }
 
@@ -58,7 +58,15 @@ router.get('/:id', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
-    res.json({ message: 'Successfully retrieved user', data: req.session.user });
+    res.json({
+      message: 'Successfully retrieved user',
+      data: {
+        id: user._id,
+        email: user._email,
+        feeds: user.feeds,
+        defaultFeed: user.defaultFeed
+      }
+    });
   });
 });
 

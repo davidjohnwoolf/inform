@@ -23,13 +23,16 @@ router.post('/login', function(req, res) {
         if (err) res.send(err);
 
         if (isMatch) {
-          req.session.user = {
-            id: user._id,
-            email: user.email,
-            feeds: user.feeds,
-            defaultFeed: user.defaultFeed
-          };
-          res.json({ message: 'Successfully logged in', user: req.session.user });
+          req.session.user = user._id
+          res.json({
+            message: 'Successfully logged in',
+            user: {
+              id: user._id,
+              email: user._email,
+              feeds: user.feeds,
+              defaultFeed: user.defaultFeed
+            }
+          });
         }
 
         if (!isMatch) {

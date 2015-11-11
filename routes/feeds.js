@@ -12,7 +12,7 @@ router.use(bodyParser.json());
 
 // user authorization helper
 function requireUser(req, res, next) {
-  if (req.session.user && (req.session.user.id === req.params.id)) {
+  if (req.session.user === req.params.id) {
     next();
   } else {
     res.json({ fail: true, authorizeFail: true, message: 'Not Authorized' });
@@ -24,7 +24,12 @@ router.get('/:id/feeds', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     res.json({
       message: 'Successfully requested feeds',
-      user: req.session.user,
+      user: {
+        id: user._id,
+        email: user._email,
+        feeds: user.feeds,
+        defaultFeed: user.defaultFeed
+      },
       data: user.feeds
     })
   });
@@ -43,7 +48,15 @@ router.post('/:id/feeds/new', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.json({ message: 'Successfully created feed', user: req.session.user });
+      res.json({
+        message: 'Successfully created feed',
+        user: {
+          id: user._id,
+          email: user._email,
+          feeds: user.feeds,
+          defaultFeed: user.defaultFeed
+        }
+      });
     });
   });
 });
@@ -53,7 +66,16 @@ router.get('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
-    res.json({ message: 'Successfully retrieved feed info', user: req.session.user, data: user.feeds.id(req.params.feedId) })
+    res.json({
+      message: 'Successfully retrieved feed info',
+      user: {
+        id: user._id,
+        email: user._email,
+        feeds: user.feeds,
+        defaultFeed: user.defaultFeed
+      },
+      data: user.feeds.id(req.params.feedId)
+    })
   });
 });
 
@@ -73,7 +95,15 @@ router.put('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.json({ message: 'Successfully updated feed', user: req.session.user });
+      res.json({
+        message: 'Successfully updated feed',
+        user: {
+          id: user._id,
+          email: user._email,
+          feeds: user.feeds,
+          defaultFeed: user.defaultFeed
+        }
+      });
     });
   });
 });
@@ -89,7 +119,15 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
 
     // make sure there is at least one source
     if (sourceCount < 1) {
-      res.json({ message: 'You have no sources. Add a source by going to feed settings (Menu > Feeds > Feed Settings)', user: req.session.user });
+      res.json({
+        message: 'You have no sources. Add a source by going to feed settings (Menu > Feeds > Feed Settings)',
+        user: {
+          id: user._id,
+          email: user._email,
+          feeds: user.feeds,
+          defaultFeed: user.defaultFeed
+        }
+      });
     }
 
     // get access token
@@ -150,7 +188,15 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
           function filterResponse(feedData) {
             var filters = user.feeds.id(req.params.feedId).filters;
             if (feedData.length < 1) {
-              res.json({ message: 'No results, try again', user: req.session.user });
+              res.json({
+                message: 'No results, try again',
+                user: {
+                  id: user._id,
+                  email: user._email,
+                  feeds: user.feeds,
+                  defaultFeed: user.defaultFeed
+                }
+              });
             } else if (filters[0] === '' || filters.length < 1) {
               sortResponse(feedData);
             } else {
@@ -167,7 +213,15 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
                   }
                   if ((i === feedData.length - 1) && (c === filters.length - 1)) {
                     if (feedData.length < 1) {
-                      res.json({ message: 'No results, try again', user: req.session.user });
+                      res.json({
+                        message: 'No results, try again',
+                        user: {
+                          id: user._id,
+                          email: user._email,
+                          feeds: user.feeds,
+                          defaultFeed: user.defaultFeed
+                        }
+                      });
                     }
                     sortResponse(feedData);
                   }
@@ -191,7 +245,12 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
             // send results
             res.json({
               message: 'Successfully requested feed',
-              user: req.session.user,
+              user: {
+                id: user._id,
+                email: user._email,
+                feeds: user.feeds,
+                defaultFeed: user.defaultFeed
+              },
               data: sortedData
             });
           }
@@ -257,7 +316,15 @@ router.get('/:id/feeds/:feedId/:q', requireUser, function(req, res) {
           function filterResponse(feedData) {
             var filters = user.feeds.id(req.params.feedId).filters;
             if (feedData.length < 1) {
-              res.json({ message: 'No results, try again', user: req.session.user });
+              res.json({
+                message: 'No results, try again',
+                user: {
+                  id: user._id,
+                  email: user._email,
+                  feeds: user.feeds,
+                  defaultFeed: user.defaultFeed
+                }
+              });
             } else if (filters[0] === '' || filters.length < 1) {
               queryResponse(feedData);
             } else {
@@ -292,7 +359,15 @@ router.get('/:id/feeds/:feedId/:q', requireUser, function(req, res) {
               }
               if (i === feedData.length -1) {
                 if (feedData.length < 1) {
-                  res.json({ message: 'No results, try again', user: req.session.user });
+                  res.json({
+                    message: 'No results, try again',
+                    user: {
+                      id: user._id,
+                      email: user._email,
+                      feeds: user.feeds,
+                      defaultFeed: user.defaultFeed
+                    }
+                  });
                 }
                 sortResponse(feedData);
               }
@@ -314,7 +389,12 @@ router.get('/:id/feeds/:feedId/:q', requireUser, function(req, res) {
             // send results
             res.json({
               message: 'Successfully recieved search results',
-              user: req.session.user,
+              user: {
+                id: user._id,
+                email: user._email,
+                feeds: user.feeds,
+                defaultFeed: user.defaultFeed
+              },
               data: sortedData
             });
           }
@@ -334,7 +414,15 @@ router.delete('/:id/feeds/:feedId', requireUser, function(req, res) {
     user.save(function(err) {
       if (err) res.send(err);
 
-      res.json({ message: 'Successfully deleted feed', user: req.session.user });
+      res.json({
+        message: 'Successfully deleted feed',
+        user: {
+          id: user._id,
+          email: user._email,
+          feeds: user.feeds,
+          defaultFeed: user.defaultFeed
+        }
+      });
     });
   });
 });
