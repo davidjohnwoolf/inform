@@ -22,7 +22,7 @@ var FeedEdit = {
       })
         .then(authorizeHelper)
         .then(function() {
-          m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId'));
+          m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
         });
     };
     var deleteFeed = function() {
