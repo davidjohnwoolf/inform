@@ -42,12 +42,12 @@ var FeedNew = {
       feeds: ctrl.feeds().user.feeds,
       currentFeed: 'select-feed',
     });
-    return m('div', [
-      m('h2', 'New Feed'),
-      m('div', [
+    return m('div.content-part', [
+      m('h2', 'Create Feed'),
+      m('div.input-block', [
         m('input', { type: 'text', name: 'title', placeholder: 'feed name' })
       ]),
-      m('div', [
+      m('div.submit-block', [
         m('input', { onclick: ctrl.createFeed, type: 'submit', value: 'Create Feed' })
       ])
     ])
