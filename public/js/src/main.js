@@ -40,3 +40,16 @@ m.route(document.getElementById('app'), '/', {
   '/users/:id/feeds/:feedId/sources/:sourceId': app.SourceShow,
   '/users/:id/feeds/:feedId/sources/:sourceId/edit': app.SourceEdit,
 });
+
+// when hashed route changes
+var handleRouteChange = function() {
+  var header = document.getElementById('header-wrap');
+  var menu = document.getElementById('menu');
+  var content = document.getElementById('content-wrap');
+
+  // reset menu
+  menu.style.display = 'none';
+  content.style.marginTop = header.offsetHeight + 10 + 'px';
+}
+
+window.addEventListener('hashchange', handleRouteChange, false);

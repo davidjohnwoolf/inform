@@ -2,6 +2,11 @@ var m = require('mithril');
 var MenuIcon = require('../layout/menu-icon');
 
 function layoutHelper(args) {
+
+  var searchDiv = document.getElementById('search-bar');
+  var header = document.getElementById('header-wrap');
+  var content = document.getElementById('content-wrap');
+
   m.mount(
     document.getElementById('menu-icon'),
     m.component(MenuIcon)
@@ -44,6 +49,9 @@ function layoutHelper(args) {
       );
     }
   } else {
+    searchDiv.style.display = 'none';
+    content.style.marginTop = header.offsetHeight + 10 + 'px';
+
     m.mount(document.getElementById('search-bar'), null);
     m.mount(document.getElementById('search-icon'), null);
   }

@@ -19,11 +19,19 @@ var Login = {
       }).then(function(response) {
         console.log(response.message);
         if (!response.fail) {
+          var header = document.getElementById('header-wrap');
+          var menu = document.getElementById('menu');
+          var content = document.getElementById('content-wrap');
+
           m.route('/users/' + response.user.id + '/feeds/' + (
             response.user.defaultFeed ||
             response.user.feeds[0] ||
             'new'
           ));
+          
+          // reset menu
+          menu.style.display = 'none';
+          content.style.marginTop = header.offsetHeight + 10 + 'px';
         } else {
           document.getElementsByName('email')[0].value = '';
           document.getElementsByName('password')[0].value = '';

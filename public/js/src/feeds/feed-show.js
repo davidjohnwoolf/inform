@@ -6,6 +6,7 @@ var LoggedInMenu = require('../layout/logged-in-menu');
 var FeedSelect = require('../layout/feed-select');
 var RefreshButton = require('../layout/refresh-button');
 
+// parse feed strings and convert to urls to anchor tags
 function findLinks(string) {
   var wordArray = string.split(/[ \r\n]/);
   for (var n = 0; n < wordArray.length; n++) {
