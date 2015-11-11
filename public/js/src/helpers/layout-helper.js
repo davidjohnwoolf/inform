@@ -31,6 +31,7 @@ function layoutHelper(args) {
   }
 
   if (args.searchBar) {
+    m.mount(document.getElementById('search-icon'), args.searchIcon);
     if (args.query) {
       m.mount(
         document.getElementById('search-bar'),
@@ -44,6 +45,7 @@ function layoutHelper(args) {
     }
   } else {
     m.mount(document.getElementById('search-bar'), null);
+    m.mount(document.getElementById('search-icon'), null);
   }
 }
 

@@ -16,6 +16,29 @@ function findLinks(string) {
   return wordArray.join(' ');
 }
 
+var SearchIcon = {
+  controller: function() {
+    var showBar = function() {
+      var searchDiv = document.getElementById('search-bar');
+      var header = document.getElementById('header-wrap');
+      var content = document.getElementById('content-wrap');
+
+      if (!searchDiv.style.display || searchDiv.style.display === 'none') {
+        searchDiv.style.display = 'block';
+        content.style.marginTop = header.offsetHeight + 10 + 'px';
+      } else {
+        searchDiv.style.display = 'none';
+        content.style.marginTop = header.offsetHeight + 10 + 'px';
+      }
+    };
+
+    return { showBar: showBar };
+  },
+  view: function(ctrl) {
+    return m('span', { onclick: ctrl.showBar}, m.trust('&#9906;'));
+  }
+}
+
 var SearchBar = {
   controller: function(args) {
     var search = function() {
@@ -29,12 +52,12 @@ var SearchBar = {
   },
   view: function(ctrl) {
     if (ctrl.query) {
-      return m('div#search-container', [
+      return m('div.search-container', [
         m('input', { type: 'text', name: 'query', value: ctrl.query }),
         m('input', { onclick: ctrl.search, type: 'submit', name: 'search', value: 'Go' }),
       ]);
     } else {
-      return m('div#search-container', [
+      return m('div.search-container', [
         m('input', { type: 'text', name: 'query' }),
         m('input', { onclick: ctrl.search, type: 'submit', name: 'search', value: 'Go' }),
       ]);
@@ -119,8 +142,13 @@ var FeedShow = {
       refreshButton: RefreshButton,
 
       searchBar: SearchBar,
+      searchIcon: SearchIcon,
       query: ctrl.query || false
     });
+
+    var header = document.getElementById('header-wrap');
+    var content = document.getElementById('content-wrap');
+    content.style.marginTop = header.offsetHeight + 10 + 'px';
 
     return m('div', [
       ctrl.feedItems().data.map(function(item) {
