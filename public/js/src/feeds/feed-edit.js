@@ -1,17 +1,10 @@
 var m = require('mithril');
 var reqHelpers = require('../helpers/request-helpers');
-var layoutHelper = require('../helpers/layout-helper');
 var authorizeHelper = require('../helpers/authorize-helper');
+var layoutHelper = require('../helpers/layout-helper');
 var LoggedInMenu = require('../layout/logged-in-menu.js');
 var FeedSelect = require('../layout/feed-select');
-
-var FeedInfo = function() {
-  return m.request({
-    method: 'GET',
-    url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit',
-    extract: reqHelpers.nonJsonErrors
-  }).then(authorizeHelper);
-};
+var FeedInfo = require('./models/feed-info');
 
 var FeedEdit = {
   controller: function() {

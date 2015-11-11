@@ -5,17 +5,9 @@ var layoutHelper = require('../helpers/layout-helper');
 var LoggedInMenu = require('../layout/logged-in-menu');
 var FeedSelect = require('../layout/feed-select');
 var RefreshButton = require('../layout/refresh-button');
-
-// parse feed strings and convert to urls to anchor tags
-function findLinks(string) {
-  var wordArray = string.split(/[ \r\n]/);
-  for (var n = 0; n < wordArray.length; n++) {
-    if (wordArray[n].slice(0, 4) === 'http') {
-      wordArray.splice(n, 1, '<a href=' + wordArray[n] + '>' + wordArray[n] + '</a>');
-    }
-  }
-  return wordArray.join(' ');
-}
+var FeedResults = require('./models/feed-results');
+var SearchResults = require('./models/search-results');
+var findLinks = require('../helpers/find-links');
 
 var SearchIcon = {
   controller: function() {
@@ -66,22 +58,6 @@ var SearchBar = {
   }
 };
 
-var FeedItems = function() {
-  return m.request({
-    method: 'GET',
-    url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId'),
-    extract: reqHelpers.nonJsonErrors,
-  }).then(authorizeHelper);
-};
-
-var SearchResults = function(query) {
-  return m.request({
-    method: 'GET',
-    url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/' + query,
-    extract: reqHelpers.nonJsonErrors,
-  }).then(authorizeHelper);
-};
-
 var FeedItem = {
   controller: function(args) {
     var conditionalElements = function() {
@@ -95,12 +71,13 @@ var FeedItem = {
       if (args.link) {
         elements.push(m('a.main-link', { href: args.link, target: '_blank' }, args.name || args.link));
       }
-      if (args.caption) {
-        elements.push(m('small', args.caption));
-      }
       if (args.description) {
         elements.push(m('p', m.trust(findLinks(args.description))));
       }
+      if (args.caption) {
+        elements.push(m('small', args.caption));
+      }
+
       return elements;
     }
     return {
@@ -126,9 +103,9 @@ var FeedItem = {
 var FeedShow = {
   controller: function(args) {
     if (args && args.query) {
-      return { feedItems: SearchResults(args.query), query: args.query };
+      return { feedResults: SearchResults(args.query), query: args.query };
     } else {
-      return { feedItems: FeedItems() };
+      return { feedResults: FeedResults() };
     }
   },
   view: function(ctrl) {
@@ -137,7 +114,7 @@ var FeedShow = {
       userId: m.route.param('id'),
 
       feedSelect: FeedSelect,
-      feeds: ctrl.feedItems().user.feeds,
+      feeds: ctrl.feedResults().user.feeds,
       currentFeed: m.route.param('feedId'),
 
       refreshButton: RefreshButton,
@@ -152,7 +129,7 @@ var FeedShow = {
     content.style.marginTop = header.offsetHeight + 10 + 'px';
 
     return m('div', [
-      ctrl.feedItems().data.map(function(item) {
+      ctrl.feedResults().data.map(function(item) {
         return m.component(FeedItem, {
           time: item.created_time,
           from: item.from,
