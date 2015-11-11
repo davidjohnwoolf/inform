@@ -1,32 +1,5 @@
 var m = require('mithril');
-
-var header = document.getElementById('header-wrap');
-var menu = document.getElementById('menu');
-var content = document.getElementById('content-wrap');
-
-// temporary menu initializer
-menu.style.display = 'none';
-content.style.marginTop = header.offsetHeight + 10 + 'px';
-
-var MenuIcon = {
-  controller: function() {
-    var showMenu = function() {
-      console.log('show menu');
-      if (menu.style.display === 'none') {
-        menu.style.display = 'block';
-        content.style.marginTop = header.offsetHeight + 10 + 'px';
-      } else {
-        menu.style.display = 'none';
-        content.style.marginTop = header.offsetHeight + 10 + 'px';
-      }
-    };
-
-    return { showMenu: showMenu };
-  },
-  view: function(ctrl) {
-    return m('span', { onclick: ctrl.showMenu }, m.trust('&#9776;'))
-  }
-}
+var MenuIcon = require('../layout/menu-icon');
 
 function layoutHelper(args) {
   m.mount(

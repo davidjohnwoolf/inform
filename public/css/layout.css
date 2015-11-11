@@ -132,6 +132,7 @@ h2 {
         background-color: #555;
         border-top: 2px #444 solid;
         text-align: center;
+        display: none;
       }
 
         #menu a {

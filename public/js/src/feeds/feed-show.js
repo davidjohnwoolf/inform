@@ -87,7 +87,6 @@ var FeedItem = {
     }
   },
   view: function(ctrl) {
-
     return m('article.feed-item', [
       m('a[href=https://facebook.com/' + ctrl.from.id  + ']', { target: '_blank'}, [
         m('h5', ctrl.from.name + ' ' + ctrl.time)
@@ -122,6 +121,7 @@ var FeedShow = {
       searchBar: SearchBar,
       query: ctrl.query || false
     });
+
     return m('div', [
       ctrl.feedItems().data.map(function(item) {
         return m.component(FeedItem, {
