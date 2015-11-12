@@ -4,14 +4,9 @@ var authorizeHelper = require('../helpers/authorize-helper');
 var layoutHelper = require('../helpers/layout-helper');
 var LoggedInMenu = require('../layout/logged-in-menu.js');
 var FeedSelect = require('../layout/feed-select');
+var FeedList = require('../feeds/feed-list');
+var User = require('./models/user');
 
-var User = function() {
-  return m.request({
-    method: 'GET',
-    url: '/users/' + m.route.param('id'),
-    extract: reqHelpers.nonJsonErrors
-  }).then(authorizeHelper);
-};
 
 var UserShow = {
   controller: function() {
@@ -31,6 +26,6 @@ var UserShow = {
       m('p', ctrl.user().data.email)
     ])
   }
-}
+};
 
 module.exports = UserShow;

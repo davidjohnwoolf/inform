@@ -4,14 +4,7 @@ var authorizeHelper = require('../helpers/authorize-helper');
 var layoutHelper = require('../helpers/layout-helper');
 var LoggedInMenu = require('../layout/logged-in-menu.js');
 var FeedSelect = require('../layout/feed-select');
-
-var User = function() {
-  return m.request({
-    method: 'GET',
-    url: '/users/' + m.route.param('id'),
-    extract: reqHelpers.nonJsonErrors
-  }).then(authorizeHelper);
-};
+var User = require('./models/user');
 
 var UserEdit = {
   controller: function() {
