@@ -26,7 +26,7 @@ router.get('/:id/feeds', requireUser, function(req, res) {
       message: 'Successfully requested feeds',
       user: {
         id: user._id,
-        email: user._email,
+        email: user.email,
         feeds: user.feeds,
         defaultFeed: user.defaultFeed
       },
@@ -52,7 +52,7 @@ router.post('/:id/feeds/new', requireUser, function(req, res) {
         message: 'Successfully created feed',
         user: {
           id: user._id,
-          email: user._email,
+          email: user.email,
           feeds: user.feeds,
           defaultFeed: user.defaultFeed
         }
@@ -70,7 +70,7 @@ router.get('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
       message: 'Successfully retrieved feed info',
       user: {
         id: user._id,
-        email: user._email,
+        email: user.email,
         feeds: user.feeds,
         defaultFeed: user.defaultFeed
       },
@@ -99,7 +99,7 @@ router.put('/:id/feeds/:feedId/edit', requireUser, function(req, res) {
         message: 'Successfully updated feed',
         user: {
           id: user._id,
-          email: user._email,
+          email: user.email,
           feeds: user.feeds,
           defaultFeed: user.defaultFeed
         }
@@ -123,7 +123,7 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
         message: 'You have no sources. Add a source by going to feed settings (Menu > Feeds > Feed Settings)',
         user: {
           id: user._id,
-          email: user._email,
+          email: user.email,
           feeds: user.feeds,
           defaultFeed: user.defaultFeed
         }
@@ -192,7 +192,7 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
                 message: 'No results, try again',
                 user: {
                   id: user._id,
-                  email: user._email,
+                  email: user.email,
                   feeds: user.feeds,
                   defaultFeed: user.defaultFeed
                 }
@@ -217,7 +217,7 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
                         message: 'No results, try again',
                         user: {
                           id: user._id,
-                          email: user._email,
+                          email: user.email,
                           feeds: user.feeds,
                           defaultFeed: user.defaultFeed
                         }
@@ -247,7 +247,7 @@ router.get('/:id/feeds/:feedId', requireUser, function(req, res) {
               message: 'Successfully requested feed',
               user: {
                 id: user._id,
-                email: user._email,
+                email: user.email,
                 feeds: user.feeds,
                 defaultFeed: user.defaultFeed
               },
@@ -320,7 +320,7 @@ router.get('/:id/feeds/:feedId/:q', requireUser, function(req, res) {
                 message: 'No results, try again',
                 user: {
                   id: user._id,
-                  email: user._email,
+                  email: user.email,
                   feeds: user.feeds,
                   defaultFeed: user.defaultFeed
                 }
@@ -363,7 +363,7 @@ router.get('/:id/feeds/:feedId/:q', requireUser, function(req, res) {
                     message: 'No results, try again',
                     user: {
                       id: user._id,
-                      email: user._email,
+                      email: user.email,
                       feeds: user.feeds,
                       defaultFeed: user.defaultFeed
                     }
@@ -391,7 +391,7 @@ router.get('/:id/feeds/:feedId/:q', requireUser, function(req, res) {
               message: 'Successfully recieved search results',
               user: {
                 id: user._id,
-                email: user._email,
+                email: user.email,
                 feeds: user.feeds,
                 defaultFeed: user.defaultFeed
               },
@@ -418,7 +418,7 @@ router.delete('/:id/feeds/:feedId', requireUser, function(req, res) {
         message: 'Successfully deleted feed',
         user: {
           id: user._id,
-          email: user._email,
+          email: user.email,
           feeds: user.feeds,
           defaultFeed: user.defaultFeed
         }

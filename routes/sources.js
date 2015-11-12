@@ -47,7 +47,7 @@ router.get('/:id/feeds/:feedId/sources/:sourceId/edit', requireUser, function(re
       message: 'Successfully recieved source info',
       user: {
   id: user._id,
-  email: user._email,
+  email: user.email,
   feeds: user.feeds,
   defaultFeed: user.defaultFeed
 },

@@ -28,7 +28,7 @@ router.post('/login', function(req, res) {
             message: 'Successfully logged in',
             user: {
               id: user._id,
-              email: user._email,
+              email: user.email,
               feeds: user.feeds,
               defaultFeed: user.defaultFeed
             }

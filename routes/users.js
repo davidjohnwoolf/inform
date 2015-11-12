@@ -62,7 +62,7 @@ router.get('/:id', requireUser, function(req, res) {
       message: 'Successfully retrieved user',
       data: {
         id: user._id,
-        email: user._email,
+        email: user.email,
         feeds: user.feeds,
         defaultFeed: user.defaultFeed
       }
