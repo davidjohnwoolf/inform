@@ -1,4 +1,6 @@
 var m = require('mithril');
+var reqHelpers = require('../helpers/request-helpers');
+var authorizeHelper = require('../helpers/authorize-helper');
 var layoutHelper = require('../helpers/layout-helper');
 var LoggedInMenu = require('../layout/logged-in-menu.js');
 var FeedSelect = require('../layout/feed-select');

@@ -24,11 +24,7 @@ var Login = {
           var menu = document.getElementById('menu');
           var content = document.getElementById('content-wrap');
 
-          m.route('/users/' + response.user.id + '/feeds/' + (
-            response.user.defaultFeed ||
-            response.user.feeds[0] ||
-            'new'
-          ));
+          m.route('/users/' + response.user.id + '/feeds');
 
           // reset menu
           menu.style.display = 'none';

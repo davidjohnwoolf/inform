@@ -21,18 +21,18 @@ var UserEdit = {
         serialize: reqHelpers.serialize,
         config: reqHelpers.asFormUrlEncoded
       })
-        .then(function(data) {
-          if (!data.fail) {
-            console.log(data.message);
-            m.route('/users/' + m.route.param('id'));
-          } else {
-            console.log(data.message);
-            m.route('/users/' + m.route.param('id'));
-            document.getElementsByName('email')[0].value = '';
-            document.getElementsByName('password')[0].value = '';
-            document.getElementsByName('confirmation')[0].value = '';
-          }
-        });
+      .then(function(data) {
+        if (!data.fail) {
+          console.log(data.message);
+          m.route('/users/' + m.route.param('id'));
+        } else {
+          console.log(data.message);
+          m.route('/users/' + m.route.param('id'));
+          document.getElementsByName('email')[0].value = User().data.email;
+          document.getElementsByName('password')[0].value = '';
+          document.getElementsByName('confirmation')[0].value = '';
+        }
+      });
     }
     return { user: User(), updateUser: updateUser };
   },

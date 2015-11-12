@@ -1,4 +1,6 @@
 var m = require('mithril');
+var reqHelpers = require('../../helpers/request-helpers');
+var authorizeHelper = require('../../helpers/authorize-helper');
 
 var User = function() {
   return m.request({
