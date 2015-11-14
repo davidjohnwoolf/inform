@@ -14,6 +14,7 @@ var UserEdit = {
         url: '/users/' + m.route.param('id') + '/edit',
         data: {
           email: document.getElementsByName('email')[0].value,
+          defaultFeed: document.getElementsByName('defaultFeed')[0].value,
           password: document.getElementsByName('password')[0].value,
           confirmation: document.getElementsByName('confirmation')[0].value,
         },
@@ -48,10 +49,19 @@ var UserEdit = {
         m('input', { type: 'email', name: 'email', value: ctrl.user().data.email })
       ]),
       m('div.input-block', [
-        m('input', { type: 'password', name: 'password', placeholder: 'password' }),
+        m('label', 'Default Feed'),
+        m('select', { name: 'defaultFeed', value: ctrl.user().data.defaultFeed || 'select-feed'}, [
+          m('option', { value: '' }, 'Select Feed'),
+          ctrl.user().data.feeds.map(function(feed) {
+            return m('option', { value: feed._id }, feed.title)
+          })
+        ])
       ]),
       m('div.input-block', [
-        m('input', { type: 'password', name: 'confirmation', placeholder: 'confirmation' }),
+        m('input', { type: 'password', name: 'password', placeholder: 'password' })
+      ]),
+      m('div.input-block', [
+        m('input', { type: 'password', name: 'confirmation', placeholder: 'confirmation' })
       ]),
       m('div.submit-block', [
         m('input', { onclick: ctrl.updateUser, type: 'submit', value: 'Update User' })

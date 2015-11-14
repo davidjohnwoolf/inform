@@ -2,26 +2,8 @@ var m = require('mithril');
 var layoutHelper = require('../helpers/layout-helper');
 var LoggedInMenu = require('../layout/logged-in-menu.js');
 var FeedSelect = require('../layout/feed-select');
+var FeedListing = require('../feeds/feed-listing');
 var Feeds = require('./models/feeds');
-
-var FeedListing = {
-  controller: function(args) {
-    return {
-      id: args.id,
-      title: args.title,
-      userId: args.userId,
-      feedId: args.feedId
-    }
-  },
-  view: function(ctrl) {
-    return m('div.listed-item', [
-      m('h4', [
-        m('a', { href: '#/users/' + ctrl.userId + '/feeds/' + ctrl.feedId }, ctrl.title)
-      ]),
-      m('a', { href: '#/users/' + ctrl.userId + '/feeds/' + ctrl.feedId + '/edit' }, 'Settings')
-    ])
-  }
-};
 
 var FeedList = {
   controller: function() {
