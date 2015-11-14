@@ -2,9 +2,10 @@
 
 var express = require('express');
 var router = express.Router();
-var feedsController = require('../controllers/feeds-controller');
-var requireUser = require('../helpers/application-helper').requireUser;
 var bodyParser = require('body-parser');
+var feedsController = require('../controllers/feeds-controller');
+var applicationHelper = require('../helpers/application-helper');
+var requireUser = applicationHelper.requireUser;
 
 // body parser middleware
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -22,11 +23,11 @@ router.get('/:id/feeds/:feedId/edit', requireUser, feedsController.edit);
 // update
 router.put('/:id/feeds/:feedId/edit', requireUser, feedsController.update);
 
-// request
-router.get('/:id/feeds/:feedId', requireUser, feedsController.facebookRequest);
+// show
+router.get('/:id/feeds/:feedId', requireUser, feedsController.show);
 
 // search
-router.get('/:id/feeds/:feedId/:q', requireUser, feedsController.facebookSearch);
+router.get('/:id/feeds/:feedId/:q', requireUser, feedsController.search);
 
 // destroy
 router.delete('/:id/feeds/:feedId', requireUser, feedsController.destroy);

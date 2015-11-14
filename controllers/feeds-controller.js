@@ -92,8 +92,8 @@ function update(req, res) {
   });
 }
 
-// facebook request
-function facebookRequest(req, res) {
+// show
+function show(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
@@ -244,8 +244,8 @@ function facebookRequest(req, res) {
   });
 }
 
-// facebook search
-function facebookSearch(req, res) {
+// search
+function search(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
     if (err) res.send(err);
 
@@ -416,7 +416,7 @@ module.exports = {
   create: create,
   edit: edit,
   update: update,
-  facebookRequest: facebookRequest,
-  facebookSearch: facebookSearch,
+  show: show,
+  search: search,
   destroy: destroy
 };
