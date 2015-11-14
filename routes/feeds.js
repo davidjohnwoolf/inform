@@ -3,20 +3,12 @@
 var express = require('express');
 var router = express.Router();
 var feedsController = require('../controllers/feeds-controller');
+var requireUser = require('../helpers/application-helper').requireUser;
 var bodyParser = require('body-parser');
 
 // body parser middleware
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
-
-// user authorization helper
-function requireUser(req, res, next) {
-  if (req.session.user === req.params.id) {
-    next();
-  } else {
-    res.json({ fail: true, authorizeFail: true, message: 'Not Authorized' });
-  }
-}
 
 // index
 router.get('/:id/feeds', requireUser, feedsController.index);
