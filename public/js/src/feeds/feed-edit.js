@@ -121,10 +121,10 @@ var FeedEdit = {
         ctrl.feedInfo().data.sources.map(function(source) {
           return m('div.listed-item', [
             m('h4', [
-              m('a', { href: '#/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + source._id }, source.name)
+              m('a', { href: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + source._id, config: m.route }, source.name)
             ]),
             m('a.delete-button', { onclick: ctrl.deleteSource(source._id), href: ''}, 'Delete Source'),
-            m('a', { href: '#/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + source._id + '/edit' }, 'Edit Source')
+            m('a', { href: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + source._id + '/edit', config: m.route }, 'Edit Source')
           ])
         })
       ])
