@@ -25,18 +25,20 @@ var FeedEdit = {
         m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
       });
     };
-    var deleteFeed = function() {
-      m.request({
-        method: 'DELETE',
-        url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId'),
-        extract: reqHelpers.nonJsonErrors,
-        serialize: reqHelpers.serialize,
-        config: reqHelpers.asFormUrlEncoded
-      })
-      .then(authorizeHelper)
-      .then(function() {
-        m.route('/users/' + m.route.param('id') + '/feeds/');
-      });
+    var deleteFeed = function(e) {
+      if (confirm('Are you sure')) {
+        m.request({
+          method: 'DELETE',
+          url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId'),
+          extract: reqHelpers.nonJsonErrors,
+          serialize: reqHelpers.serialize,
+          config: reqHelpers.asFormUrlEncoded
+        })
+        .then(authorizeHelper)
+        .then(function() {
+          m.route('/users/' + m.route.param('id') + '/feeds/');
+        });
+      }
     };
     var addSource = function() {
       m.request({
@@ -57,19 +59,22 @@ var FeedEdit = {
       });
     };
     var deleteSource = function(sourceId) {
+
       var deleteSourceFn = function() {
-        m.request({
-          method: 'DELETE',
-          url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + sourceId,
-          extract: reqHelpers.nonJsonErrors,
-          serialize: reqHelpers.serialize,
-          config: reqHelpers.asFormUrlEncoded
-        })
-        .then(authorizeHelper)
-        .then(function() {
-          m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
-        });
-        return deleteSourceFn;
+        if (confirm('Are you sure')) {
+          m.request({
+            method: 'DELETE',
+            url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + sourceId,
+            extract: reqHelpers.nonJsonErrors,
+            serialize: reqHelpers.serialize,
+            config: reqHelpers.asFormUrlEncoded
+          })
+          .then(authorizeHelper)
+          .then(function() {
+            m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
+          });
+          return deleteSourceFn;
+        }
       }
     };
     return { feedInfo: FeedInfo(), updateFeed: updateFeed, deleteFeed: deleteFeed, addSource: addSource, deleteSource: deleteSource }

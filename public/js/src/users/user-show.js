@@ -10,22 +10,24 @@ var Feeds = require('../feeds//models/feeds');
 var UserShow = {
   controller: function() {
     var deleteAccount = function(e) {
-      m.request({
-        method: 'DELETE',
-        url: '/users/' + m.route.param('id'),
-        extract: reqHelpers.nonJsonErrors,
-        serialize: reqHelpers.serialize,
-        config: reqHelpers.asFormUrlEncoded
-      })
-      .then(function(data) {
-        if (!data.fail) {
-          console.log(data.message);
-          m.route('/login');
-        } else {
-          console.log(data.message);
-          m.route('/users/' + m.route.param('id'));
-        }
-      });
+      if (confirm('Are you sure')) {
+        m.request({
+          method: 'DELETE',
+          url: '/users/' + m.route.param('id'),
+          extract: reqHelpers.nonJsonErrors,
+          serialize: reqHelpers.serialize,
+          config: reqHelpers.asFormUrlEncoded
+        })
+        .then(function(data) {
+          if (!data.fail) {
+            console.log(data.message);
+            m.route('/login');
+          } else {
+            console.log(data.message);
+            m.route('/users/' + m.route.param('id'));
+          }
+        });
+      }
     }
     return { user: User(), feeds: Feeds() };
   },
