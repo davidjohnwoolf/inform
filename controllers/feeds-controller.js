@@ -105,6 +105,7 @@ function show(req, res) {
     if (sourceCount < 1) {
       res.json({
         message: 'You have no sources. Add a source by going to feed settings (Menu > Feeds > Feed Settings)',
+        data: [],
         user: {
           id: user._id,
           email: user.email,
@@ -140,7 +141,16 @@ function show(req, res) {
             // make sure all sources are valid
             for (var i = 0; i < result.length; i++) {
               if (result[i].code !== 200) {
-                res.json({ message: 'Error retrieving feed, check your feed\'s source values and try again' });
+                res.json({
+                  message: 'Error retrieving feed, check your feed\'s source values and try again',
+                  data: [],
+                  user: {
+                    id: user._id,
+                    email: user.email,
+                    feeds: user.feeds,
+                    defaultFeed: user.defaultFeed
+                  },
+                });
                 break;
               }
               if (i === result.length - 1) {
@@ -173,7 +183,8 @@ function show(req, res) {
             var filters = user.feeds.id(req.params.feedId).filters;
             if (feedData.length < 1) {
               res.json({
-                message: 'No results, try again',
+                message: 'No results, try editing your filters',
+                data: [],
                 user: {
                   id: user._id,
                   email: user.email,
@@ -198,7 +209,8 @@ function show(req, res) {
                   if ((i === feedData.length - 1) && (c === filters.length - 1)) {
                     if (feedData.length < 1) {
                       res.json({
-                        message: 'No results, try again',
+                        message: 'No results, try editing your filters',
+                        data: [],
                         user: {
                           id: user._id,
                           email: user.email,
@@ -301,7 +313,7 @@ function search(req, res) {
             var filters = user.feeds.id(req.params.feedId).filters;
             if (feedData.length < 1) {
               res.json({
-                message: 'No results, try again',
+                message: 'No results, try editing your filters',
                 user: {
                   id: user._id,
                   email: user.email,
@@ -324,6 +336,18 @@ function search(req, res) {
                     break feedDataLoop;
                   }
                   if ((i === feedData.length - 1) && (c === filters.length - 1)) {
+                    if (feedData.length < 1) {
+                      res.json({
+                        message: 'No results, try editing your filters',
+                        data: [],
+                        user: {
+                          id: user._id,
+                          email: user.email,
+                          feeds: user.feeds,
+                          defaultFeed: user.defaultFeed
+                        }
+                      });
+                    }
                     queryResponse(feedData);
                   }
                 }
@@ -333,6 +357,18 @@ function search(req, res) {
 
           // parse by search query
           function queryResponse(feedData) {
+            if (feedData.length < 1) {
+              res.json({
+                message: 'No results, try a different search',
+                data: [],
+                user: {
+                  id: user._id,
+                  email: user.email,
+                  feeds: user.feeds,
+                  defaultFeed: user.defaultFeed
+                }
+              });
+            }
             for (var i = 0; i < feedData.length; i++) {
               var stringValue = JSON.stringify(feedData[i]).toLowerCase();
               var query = req.params.q.toLowerCase();
@@ -344,7 +380,8 @@ function search(req, res) {
               if (i === feedData.length -1) {
                 if (feedData.length < 1) {
                   res.json({
-                    message: 'No results, try again',
+                    message: 'No results, try a different search',
+                    data: [],
                     user: {
                       id: user._id,
                       email: user.email,

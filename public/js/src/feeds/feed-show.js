@@ -59,22 +59,25 @@ var FeedShow = {
       searchIcon: SearchIcon,
       query: ctrl.query || false
     });
-
-    return m('div', [
-      ctrl.feedResults().data.map(function(item) {
-        return m.component(FeedItem, {
-          time: item.created_time,
-          from: item.from,
-          message: item.message || item.story,
-          video: item.source,
-          picture: item.full_picture,
-          name: item.name,
-          link: item.link,
-          description: item.description,
-          caption: item.caption,
-        });
-      })
-    ]);
+    if (ctrl.feedResults().data.length < 1) {
+      return m('p.feed-message', ctrl.feedResults().message)
+    } else {
+      return m('div', [
+        ctrl.feedResults().data.map(function(item) {
+          return m.component(FeedItem, {
+            time: item.created_time,
+            from: item.from,
+            message: item.message || item.story,
+            video: item.source,
+            picture: item.full_picture,
+            name: item.name,
+            link: item.link,
+            description: item.description,
+            caption: item.caption,
+          });
+        })
+      ]);
+    }
   }
 };
 
