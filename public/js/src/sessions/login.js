@@ -25,7 +25,7 @@ var Login = {
           var menu = document.getElementById('menu');
           var content = document.getElementById('content-wrap');
 
-          m.route('/users/' + response.user.id + '/feeds');
+          m.route('/users/' + response.user.id + '/feeds/' + (response.user.defaultFeed || response.user.feeds[0]._id || 'new'));
 
           // reset menu
           menu.style.display = 'none';
