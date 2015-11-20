@@ -4,14 +4,7 @@ var authorizeHelper = require('../helpers/authorize-helper');
 var layoutHelper = require('../helpers/layout-helper');
 var LoggedInMenu = require('../layout/logged-in-menu.js');
 var FeedSelect = require('../layout/feed-select');
-
-var User = function() {
-  return m.request({
-    method: 'GET',
-    url: '/users/' + m.route.param('id'),
-    extract: reqHelpers.nonJsonErrors
-  }).then(authorizeHelper);
-};
+var User = require('./models/user');
 
 var UserEdit = {
   controller: function() {
@@ -21,6 +14,7 @@ var UserEdit = {
         url: '/users/' + m.route.param('id') + '/edit',
         data: {
           email: document.getElementsByName('email')[0].value,
+          defaultFeed: document.getElementsByName('defaultFeed')[0].value,
           password: document.getElementsByName('password')[0].value,
           confirmation: document.getElementsByName('confirmation')[0].value,
         },
@@ -28,18 +22,15 @@ var UserEdit = {
         serialize: reqHelpers.serialize,
         config: reqHelpers.asFormUrlEncoded
       })
-        .then(function(data) {
-          if (!data.fail) {
-            console.log(data.message);
-            m.route('/users/' + m.route.param('id'));
-          } else {
-            console.log(data.message);
-            m.route('/users/' + m.route.param('id'));
-            document.getElementsByName('email')[0].value = '';
-            document.getElementsByName('password')[0].value = '';
-            document.getElementsByName('confirmation')[0].value = '';
-          }
-        });
+      .then(function(data) {
+        if (!data.fail) {
+          console.log(data.message);
+          m.route('/users/' + m.route.param('id'));
+        } else {
+          console.log(data.message);
+          m.route('/users/' + m.route.param('id') + '/edit');
+        }
+      });
     }
     return { user: User(), updateUser: updateUser };
   },
@@ -58,10 +49,19 @@ var UserEdit = {
         m('input', { type: 'email', name: 'email', value: ctrl.user().data.email })
       ]),
       m('div.input-block', [
-        m('input', { type: 'password', name: 'password', placeholder: 'password' }),
+        m('label', 'Default Feed'),
+        m('select', { name: 'defaultFeed', value: ctrl.user().data.defaultFeed || 'select-feed'}, [
+          m('option', { value: '' }, 'Select Feed'),
+          ctrl.user().data.feeds.map(function(feed) {
+            return m('option', { value: feed._id }, feed.title)
+          })
+        ])
       ]),
       m('div.input-block', [
-        m('input', { type: 'password', name: 'confirmation', placeholder: 'confirmation' }),
+        m('input', { type: 'password', name: 'password', placeholder: 'password' })
+      ]),
+      m('div.input-block', [
+        m('input', { type: 'password', name: 'confirmation', placeholder: 'confirmation' })
       ]),
       m('div.submit-block', [
         m('input', { onclick: ctrl.updateUser, type: 'submit', value: 'Update User' })

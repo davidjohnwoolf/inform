@@ -1,36 +1,9 @@
 var m = require('mithril');
-var reqHelpers = require('../helpers/request-helpers');
-var authorizeHelper = require('../helpers/authorize-helper');
 var layoutHelper = require('../helpers/layout-helper');
 var LoggedInMenu = require('../layout/logged-in-menu.js');
 var FeedSelect = require('../layout/feed-select');
-
-var Feeds = function() {
-  return m.request({
-    method: 'GET',
-    url: '/users/' + m.route.param('id') + '/feeds',
-    extract: reqHelpers.nonJsonErrors
-  }).then(authorizeHelper);
-};
-
-var FeedListing = {
-  controller: function(args) {
-    return {
-      id: args.id,
-      title: args.title,
-      userId: args.userId,
-      feedId: args.feedId
-    }
-  },
-  view: function(ctrl) {
-    return m('div.listed-item', [
-      m('h4', [
-        m('a', { href: '#/users/' + ctrl.userId + '/feeds/' + ctrl.feedId }, ctrl.title)
-      ]),
-      m('a', { href: '#/users/' + ctrl.userId + '/feeds/' + ctrl.feedId + '/edit' }, 'Settings')
-    ])
-  }
-};
+var FeedListing = require('../feeds/feed-listing');
+var Feeds = require('./models/feeds');
 
 var FeedList = {
   controller: function() {

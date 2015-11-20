@@ -7,7 +7,6 @@ var MenuIcon = {
     var content = document.getElementById('content-wrap');
 
     var showMenu = function() {
-      console.log('show menu');
       if (!menu.style.display || menu.style.display === 'none') {
         menu.style.display = 'block';
         content.style.marginTop = header.offsetHeight + 10 + 'px';

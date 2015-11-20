@@ -323,12 +323,6 @@ ul h4 {
 
 /* Messages */
 
-#loading-message {
-  text-align: center;
-  color: #666;
-  font-size: 1.2em;
-}
-
 .feed-error {
   text-align: center;
   color: #cc4040;

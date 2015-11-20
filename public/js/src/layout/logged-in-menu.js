@@ -7,19 +7,19 @@ var LoggedInMenu = {
   view: function(ctrl) {
     return m('div', [
       m('li', [
-        m('a', { href: '#/users/' + ctrl.userId }, 'Profile'),
+        m('a', { href: '/users/' + ctrl.userId, config: m.route }, 'Profile'),
       ]),
       m('li', [
-        m('a', { href: '#/users/' + ctrl.userId + '/feeds' }, 'Feeds'),
+        m('a', { href: '/users/' + ctrl.userId + '/feeds', config: m.route }, 'Feeds'),
       ]),
       m('li', [
-        m('a', { href: '#/users/' + ctrl.userId + '/feeds/new' }, 'New Feed'),
+        m('a', { href: '/users/' + ctrl.userId + '/feeds/new', config: m.route }, 'New Feed'),
       ]),
       m('li', [
-        m('a', { href: '#/users/' + ctrl.userId + '/edit' }, 'Edit Account'),
+        m('a', { href: '/users/' + ctrl.userId + '/edit', config: m.route }, 'Edit Account'),
       ]),
       m('li', [
-        m('a', { href: '#/logout' }, 'Logout')
+        m('a', { href: '/logout', config: m.route }, 'Logout')
       ])
     ])
   }

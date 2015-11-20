@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var flash = require('connect-flash');
 var application = require('./routes/application');
 var sessions = require('./routes/sessions');
 var users = require('./routes/users');
@@ -31,14 +30,11 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
-app.use(flash());
 app.use(function(req, res, next) {
-  // set session and flash info to locals
   res.locals.session = req.session;
-  res.locals.flashAlert = req.flash('alert');
-  res.locals.flashNotice = req.flash('notice');
   next();
 });
+
 app.use(express.static(__dirname + '/public'));
 
 app.use('/', application);

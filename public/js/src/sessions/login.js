@@ -16,19 +16,16 @@ var Login = {
         extract: reqHelpers.nonJsonErrors,
         serialize: reqHelpers.serialize,
         config: reqHelpers.asFormUrlEncoded
-      }).then(function(response) {
+      })
+      .then(function(response) {
         console.log(response.message);
         if (!response.fail) {
           var header = document.getElementById('header-wrap');
           var menu = document.getElementById('menu');
           var content = document.getElementById('content-wrap');
 
-          m.route('/users/' + response.user.id + '/feeds/' + (
-            response.user.defaultFeed ||
-            response.user.feeds[0] ||
-            'new'
-          ));
-          
+          m.route('/users/' + response.user.id + '/feeds');
+
           // reset menu
           menu.style.display = 'none';
           content.style.marginTop = header.offsetHeight + 10 + 'px';

@@ -5,40 +5,10 @@ var layoutHelper = require('../helpers/layout-helper');
 var LoggedInMenu = require('../layout/logged-in-menu');
 var FeedSelect = require('../layout/feed-select');
 var RefreshButton = require('../layout/refresh-button');
-
-// parse feed strings and convert to urls to anchor tags
-function findLinks(string) {
-  var wordArray = string.split(/[ \r\n]/);
-  for (var n = 0; n < wordArray.length; n++) {
-    if (wordArray[n].slice(0, 4) === 'http') {
-      wordArray.splice(n, 1, '<a href=' + wordArray[n] + '>' + wordArray[n] + '</a>');
-    }
-  }
-  return wordArray.join(' ');
-}
-
-var SearchIcon = {
-  controller: function() {
-    var showBar = function() {
-      var searchDiv = document.getElementById('search-bar');
-      var header = document.getElementById('header-wrap');
-      var content = document.getElementById('content-wrap');
-
-      if (!searchDiv.style.display || searchDiv.style.display === 'none') {
-        searchDiv.style.display = 'block';
-        content.style.marginTop = header.offsetHeight + 10 + 'px';
-      } else {
-        searchDiv.style.display = 'none';
-        content.style.marginTop = header.offsetHeight + 10 + 'px';
-      }
-    };
-
-    return { showBar: showBar };
-  },
-  view: function(ctrl) {
-    return m('span', { onclick: ctrl.showBar}, m.trust('&#9906;'));
-  }
-}
+var FeedResults = require('./models/feed-results');
+var SearchResults = require('./models/search-results');
+var FeedItem = require('./feed-item');
+var SearchIcon = require('../layout/search-icon');
 
 var SearchBar = {
   controller: function(args) {
@@ -66,69 +36,12 @@ var SearchBar = {
   }
 };
 
-var FeedItems = function() {
-  return m.request({
-    method: 'GET',
-    url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId'),
-    extract: reqHelpers.nonJsonErrors,
-  }).then(authorizeHelper);
-};
-
-var SearchResults = function(query) {
-  return m.request({
-    method: 'GET',
-    url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/' + query,
-    extract: reqHelpers.nonJsonErrors,
-  }).then(authorizeHelper);
-};
-
-var FeedItem = {
-  controller: function(args) {
-    var conditionalElements = function() {
-      var elements = [];
-
-      if (args.video) {
-        elements.push(m('video', { controls: 'controls', src: args.video }));
-      } else if (args.picture) {
-        elements.push(m('img', { src: args.picture, alt: args.description }));
-      }
-      if (args.link) {
-        elements.push(m('a.main-link', { href: args.link, target: '_blank' }, args.name || args.link));
-      }
-      if (args.caption) {
-        elements.push(m('small', args.caption));
-      }
-      if (args.description) {
-        elements.push(m('p', m.trust(findLinks(args.description))));
-      }
-      return elements;
-    }
-    return {
-      time: args.time,
-      from: args.from,
-      message: m.trust(findLinks(args.message)),
-      elements: conditionalElements()
-    }
-  },
-  view: function(ctrl) {
-    return m('article.feed-item', [
-      m('a[href=https://facebook.com/' + ctrl.from.id  + ']', { target: '_blank'}, [
-        m('h5', ctrl.from.name + ' ' + ctrl.time)
-      ]),
-      m('h4', ctrl.message),
-      m('div.media-wrap', [
-        ctrl.elements
-      ])
-    ])
-  }
-};
-
 var FeedShow = {
   controller: function(args) {
     if (args && args.query) {
-      return { feedItems: SearchResults(args.query), query: args.query };
+      return { feedResults: SearchResults(args.query), query: args.query };
     } else {
-      return { feedItems: FeedItems() };
+      return { feedResults: FeedResults() };
     }
   },
   view: function(ctrl) {
@@ -137,7 +50,7 @@ var FeedShow = {
       userId: m.route.param('id'),
 
       feedSelect: FeedSelect,
-      feeds: ctrl.feedItems().user.feeds,
+      feeds: ctrl.feedResults().user.feeds,
       currentFeed: m.route.param('feedId'),
 
       refreshButton: RefreshButton,
@@ -146,26 +59,25 @@ var FeedShow = {
       searchIcon: SearchIcon,
       query: ctrl.query || false
     });
-
-    var header = document.getElementById('header-wrap');
-    var content = document.getElementById('content-wrap');
-    content.style.marginTop = header.offsetHeight + 10 + 'px';
-
-    return m('div', [
-      ctrl.feedItems().data.map(function(item) {
-        return m.component(FeedItem, {
-          time: item.created_time,
-          from: item.from,
-          message: item.message || item.story,
-          video: item.source,
-          picture: item.full_picture,
-          name: item.name,
-          link: item.link,
-          description: item.description,
-          caption: item.caption,
-        });
-      })
-    ]);
+    if (ctrl.feedResults().data.length < 1) {
+      return m('p.feed-error', ctrl.feedResults().message)
+    } else {
+      return m('div', [
+        ctrl.feedResults().data.map(function(item) {
+          return m.component(FeedItem, {
+            time: item.created_time,
+            from: item.from,
+            message: item.message || item.story,
+            video: item.source,
+            picture: item.full_picture,
+            name: item.name,
+            link: item.link,
+            description: item.description,
+            caption: item.caption,
+          });
+        })
+      ]);
+    }
   }
 };
 
