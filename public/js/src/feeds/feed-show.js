@@ -60,7 +60,7 @@ var FeedShow = {
       query: ctrl.query || false
     });
     if (ctrl.feedResults().data.length < 1) {
-      return m('p.feed-message', ctrl.feedResults().message)
+      return m('p.feed-error', ctrl.feedResults().message)
     } else {
       return m('div', [
         ctrl.feedResults().data.map(function(item) {
