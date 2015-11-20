@@ -206,7 +206,7 @@ h2 {
       margin: 10px;
     }
 
-/* What page? */
+/* Feed and Source Lists */
 
 ul h4 {
   margin: 10px 0 5px 0;
@@ -233,7 +233,7 @@ ul h4 {
     margin-top: -10px;
   }
 
-/*login and create*/
+/* Login and create */
 
 .content-part {
   background-color: #fff;
@@ -303,16 +303,6 @@ ul h4 {
       background: #3b80ad;
       border: 2px #3b80ad solid;
     }
-
-/* Flash Stuff */
-
-.flash-alert p {
-  color: #cc4040;
-}
-
-.flash-notice p {
-  color: #3B80AD;
-}
 
 /* Reload button*/
 
