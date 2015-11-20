@@ -5,9 +5,6 @@ var LoggedOutMenu = require('../layout/logged-out-menu.js');
 
 var Login = {
   controller: function() {
-    if (localStorage.getItem('userId')) {
-      m.route('/users/' + localStorage.getItem('userId'));
-    }
     var login = function() {
       m.request({
         method: 'POST',
