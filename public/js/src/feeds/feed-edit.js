@@ -73,9 +73,9 @@ var FeedEdit = {
           .then(function() {
             m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
           });
-          return deleteSourceFn;
         }
       }
+      return deleteSourceFn;
     };
     return { feedInfo: FeedInfo(), updateFeed: updateFeed, deleteFeed: deleteFeed, addSource: addSource, deleteSource: deleteSource }
   },
