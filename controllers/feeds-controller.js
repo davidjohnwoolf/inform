@@ -23,7 +23,7 @@ function index(req, res) {
 // create
 function create(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
+    if (err) return res.json(err);
 
     user.feeds.push({
       title: req.body.title,
@@ -31,7 +31,7 @@ function create(req, res) {
     });
 
     user.save(function(err) {
-      if (err) res.send(err);
+      if (err) return res.json(err);
 
       res.json({
         message: 'Successfully created feed',
@@ -49,7 +49,7 @@ function create(req, res) {
 // edit
 function edit(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
+    if (err) return res.json(err);
 
     res.json({
       message: 'Successfully retrieved feed info',
@@ -67,7 +67,7 @@ function edit(req, res) {
 // update
 function update(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
+    if (err) return res.json(err);
 
     if (req.body.filters) {
       req.body.filters = req.body.filters.split(',');
@@ -78,7 +78,7 @@ function update(req, res) {
     }
 
     user.save(function(err) {
-      if (err) res.send(err);
+      if (err) return res.json(err);
 
       res.json({
         message: 'Successfully updated feed',
@@ -96,7 +96,7 @@ function update(req, res) {
 // show
 function show(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
+    if (err) return res.json(err);
 
     var feedsHelper = FeedsHelper(user, req, res);
     var sourceCount = user.feeds.id(req.params.feedId).sources.length;
@@ -127,7 +127,7 @@ function show(req, res) {
 // search
 function search(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
+    if (err) return res.json(err);
 
     var feedsHelper = FeedsHelper(user, req, res);
     var sourceCount = user.feeds.id(req.params.feedId).sources.length;
@@ -160,12 +160,12 @@ function search(req, res) {
 // destroy
 function destroy(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
+    if (err) return res.json(err);
 
     user.feeds.id(req.params.feedId).remove();
 
     user.save(function(err) {
-      if (err) res.send(err);
+      if (err) return res.json(err);
 
       res.json({
         message: 'Successfully deleted feed',

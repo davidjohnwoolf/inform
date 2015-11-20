@@ -5,7 +5,7 @@ var User = require('../models/user');
 // create
 function create(req, res) {
   User.findOne({ email: req.body.email }, function(err, user) {
-    if (err) res.send(err);
+    if (err) return res.json(err);
 
     if (!user) {
 
@@ -18,7 +18,7 @@ function create(req, res) {
           });
 
           user.save(function(err) {
-            if (err) res.send(err);
+            if (err) return res.json(err);
 
             res.json({ message: 'Successfully created user' });
           });
@@ -40,7 +40,7 @@ function create(req, res) {
 // show
 function show(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
+    if (err) return res.json(err);
 
     res.json({
       message: 'Successfully retrieved user',
@@ -60,7 +60,7 @@ function update(req, res) {
     res.json({ fail: true, message: 'Passwords must match'});
   } else {
     User.findOne({ _id: req.params.id }, function(err, user) {
-      if (err) res.send(err);
+      if (err) return res.json(err);
 
       if (req.body.password === '') {
         delete req.body.password;
@@ -71,7 +71,7 @@ function update(req, res) {
       }
 
       user.save(function(err) {
-        if (err) res.send(err);
+        if (err) return res.json(err);
 
         res.json({ message: 'Successfully updated user' });
       });
@@ -83,10 +83,10 @@ function update(req, res) {
 // destroy
 function destroy(req, res) {
   User.remove({ _id: req.params.id }, function(err, user) {
-    if (err) res.send(err);
+    if (err) return res.json(err);
 
     req.session.destroy(function(err) {
-      if (err) res.send(err);
+      if (err) return res.json(err);
 
       res.json({ message: 'Successfully deleted user' });
     });

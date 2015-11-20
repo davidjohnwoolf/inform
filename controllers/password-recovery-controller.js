@@ -7,13 +7,13 @@ var User = require('../models/user');
 // request password
 function forgot(req, res) {
   User.findOne({ email: req.body.email }, function(err, user) {
-    if (err) res.send(err);
+    if (err) return res.json(err);
 
     if (!user) {
       res.json({ fail: true, message: 'Email doesn\'nt match a record' });
     } else {
       crypto.randomBytes(20, function(err, buf) {
-        if (err) res.send(err);
+        if (err) return res.json(err);
 
         var token = buf.toString('hex');
         setResetToken(token);
@@ -25,7 +25,7 @@ function forgot(req, res) {
       user.resetPasswordExpires = Date.now() + 3600000;
 
       user.save(function(err) {
-        if (err) res.send(err);
+        if (err) return res.json(err);
 
         sendResetEmail(token);
       });
@@ -51,7 +51,7 @@ function forgot(req, res) {
       };
 
       transporter.sendMail(mailOptions, function(err) {
-        if (err) res.send(err);
+        if (err) return res.json(err);
 
         res.json({ message: 'An e-mail has been sent to ' + user.email + ' with further instructions.' });
       });
@@ -83,7 +83,7 @@ function reset(req, res) {
       user.resetPasswordExpires = undefined;
 
       user.save(function(err) {
-        if (err) res.send(err);
+        if (err) return res.json(err);
 
         sendConfirmationEmail();
       });
@@ -107,7 +107,7 @@ function reset(req, res) {
       };
 
       transporter.sendMail(mailOptions, function(err) {
-        if (err) res.send(err);
+        if (err) return res.json(err);
 
         res.json({ message: 'Successfully reset password' });
       });
