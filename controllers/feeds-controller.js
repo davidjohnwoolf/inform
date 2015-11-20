@@ -104,19 +104,23 @@ function show(req, res) {
 
     feedsHelper.checkSources();
 
-    request(facebookGraphUrl + 'oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials')
-      .then(function(accessToken) {
+    request(facebookGraphUrl
+      + 'oauth/access_token?client_id='
+      + process.env.FB_ID + '&client_secret='
+      + process.env.FB_SECRET
+      + '&grant_type=client_credentials')
 
-        var batchUrl = feedsHelper.createBatchUrl();
+    .then(function(accessToken) {
+      request(facebookGraphUrl
+        + '?' + feedsHelper.createBatchUrl()
+        + '&' + accessToken + '&method=post')
 
-        request(facebookGraphUrl + '?' + batchUrl + '&' + accessToken + '&method=post')
-          .then(feedsHelper.testResponse)
-          .then(feedsHelper.parseResponse)
-          .then(feedsHelper.filterResponse)
-          .then(feedsHelper.sortResponse)
-          .then(feedsHelper.sendResponse)
-      });
-
+      .then(feedsHelper.testResponse)
+      .then(feedsHelper.parseResponse)
+      .then(feedsHelper.filterResponse)
+      .then(feedsHelper.sortResponse)
+      .then(feedsHelper.sendResponse)
+    });
   });
 }
 
@@ -131,20 +135,25 @@ function search(req, res) {
 
     feedsHelper.checkSources();
 
-    request(facebookGraphUrl + 'oauth/access_token?client_id=' + process.env.FB_ID + '&client_secret=' + process.env.FB_SECRET + '&grant_type=client_credentials')
-      .then(function(accessToken) {
+    request(facebookGraphUrl
+      + 'oauth/access_token?client_id='
+      + process.env.FB_ID
+      + '&client_secret='
+      + process.env.FB_SECRET
+      + '&grant_type=client_credentials')
 
-        var batchUrl = feedsHelper.createBatchUrl();
+    .then(function(accessToken) {
+      request(facebookGraphUrl
+        + '?' + feedsHelper.createBatchUrl()
+        + '&' + accessToken + '&method=post')
 
-        request(facebookGraphUrl + '?' + batchUrl + '&' + accessToken + '&method=post')
-          .then(feedsHelper.testResponse)
-          .then(feedsHelper.parseResponse)
-          .then(feedsHelper.filterResponse)
-          .then(feedsHelper.queryResponse)
-          .then(feedsHelper.sortResponse)
-          .then(feedsHelper.sendResponse)
-      })
-
+      .then(feedsHelper.testResponse)
+      .then(feedsHelper.parseResponse)
+      .then(feedsHelper.filterResponse)
+      .then(feedsHelper.queryResponse)
+      .then(feedsHelper.sortResponse)
+      .then(feedsHelper.sendResponse)
+    });
   });
 }
 
