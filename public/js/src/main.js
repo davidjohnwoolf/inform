@@ -11,7 +11,7 @@ var app = {
   FeedShow: require('./feeds/feed-show'),
   FeedEdit: require('./feeds/feed-edit'),
   SourceShow: require('./sources/source-show'),
-  SourceEdit: require('./sources/source-edit'),
+  SourceEdit: require('./sources/source-edit')
 };
 
 m.route.mode = 'hash';
