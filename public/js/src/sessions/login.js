@@ -18,8 +18,6 @@ var Login = {
         config: reqHelpers.asFormUrlEncoded
       })
       .then(function(response) {
-        console.log(response.message);
-        localStorage.setItem('userId', response.user.id);
         if (!response.fail) {
 
           m.route(
