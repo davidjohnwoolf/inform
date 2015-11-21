@@ -33,7 +33,12 @@ var Login = {
         }
       });
     }
-    return { login: login };
+
+    var form = {
+      email: m.prop('')
+    };
+
+    return { login: login, form: form };
   },
   view: function(ctrl) {
     layoutHelper({
@@ -42,7 +47,7 @@ var Login = {
     return m('section.content-part', [
       m('h2', 'Login'),
       m('div.input-block', [
-        m('input', { name: 'email', type: 'email', placeholder: 'email' })
+        m('input', { name: 'email', type: 'email', placeholder: 'email', onchange: m.withAttr('value', ctrl.form.email), value: ctrl.form.email() })
       ]),
       m('div.input-block', [
         m('input', { name: 'password', type: 'password', placeholder: 'password' }),

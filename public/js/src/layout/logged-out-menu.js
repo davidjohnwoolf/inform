@@ -4,7 +4,7 @@ var LoggedOutMenu = {
   view: function() {
     return m('div', [
       m('li', [
-        m('a', { href: '/login', config: m.route }, 'Login'),
+        m('a', { href: '/', config: m.route }, 'Login'),
       ]),
       m('li', [
         m('a', { href: '/users/new', config: m.route }, 'Create Account')

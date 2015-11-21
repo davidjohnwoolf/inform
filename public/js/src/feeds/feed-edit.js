@@ -86,6 +86,7 @@ var FeedEdit = {
 
       return deleteSourceFn;
     };
+
     return { feedInfo: FeedInfo(), updateFeed: updateFeed, deleteFeed: deleteFeed, addSource: addSource, deleteSource: deleteSource }
   },
   view: function(ctrl) {

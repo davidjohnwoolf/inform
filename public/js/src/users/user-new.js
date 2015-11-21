@@ -18,20 +18,25 @@ var UserNew = {
         serialize: reqHelpers.serialize,
         config: reqHelpers.asFormUrlEncoded
       })
-        .then(function(data) {
-          if (!data.fail) {
-            console.log(data.message);
-            m.route('/login');
-          } else {
-            console.log(data.message);
-            m.route('/users/new');
-            document.getElementsByName('email')[0].value = '';
-            document.getElementsByName('password')[0].value = '';
-            document.getElementsByName('confirmation')[0].value = '';
-          }
-        });
+      .then(function(data) {
+        if (!data.fail) {
+          console.log(data.message);
+          m.route('/login');
+        } else {
+          console.log(data.message);
+          m.route('/users/new');
+          document.getElementsByName('email')[0].value = '';
+          document.getElementsByName('password')[0].value = '';
+          document.getElementsByName('confirmation')[0].value = '';
+        }
+      });
     }
-    return { createUser: createUser };
+
+    var form = {
+      email: m.prop('')
+    }
+
+    return { createUser: createUser, form: form };
   },
   view: function(ctrl) {
     layoutHelper({
@@ -40,7 +45,7 @@ var UserNew = {
     return m('div.content-part', [
       m('h2', 'Create Account'),
       m('div.input-block', [
-        m('input', { type: 'email', name: 'email', placeholder: 'email' })
+        m('input', { type: 'email', name: 'email', placeholder: 'email', onchange: m.withAttr('value', ctrl.form.email), value: ctrl.form.email() })
       ]),
       m('div.input-block', [
         m('input', { type: 'password', name: 'password', placeholder: 'password' }),

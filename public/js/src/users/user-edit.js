@@ -32,6 +32,7 @@ var UserEdit = {
         }
       });
     }
+
     return { user: User(), updateUser: updateUser };
   },
   view: function(ctrl) {
@@ -50,7 +51,7 @@ var UserEdit = {
       ]),
       m('div.input-block', [
         m('label', 'Default Feed'),
-        m('select', { name: 'defaultFeed', value: ctrl.user().data.defaultFeed || 'select-feed'}, [
+        m('select', { name: 'defaultFeed', value: ctrl.user().data.defaultFeed || 'select-feed' }, [
           m('option', { value: '' }, 'Select Feed'),
           ctrl.user().data.feeds.map(function(feed) {
             return m('option', { value: feed._id }, feed.title)
