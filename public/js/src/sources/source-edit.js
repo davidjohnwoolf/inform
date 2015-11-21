@@ -2,16 +2,10 @@ var m = require('mithril');
 var reqHelpers = require('../helpers/request-helpers');
 var layoutHelper = require('../helpers/layout-helper');
 var authorizeHelper = require('../helpers/authorize-helper');
-var LoggedInMenu = require('../layout/logged-in-menu.js');
+var LoggedInMenu = require('../layout/logged-in-menu');
 var FeedSelect = require('../layout/feed-select');
-
-var SourceInfo = function() {
-  return m.request({
-    method: 'GET',
-    url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + m.route.param('sourceId') + '/edit',
-    extract: reqHelpers.nonJsonErrors
-  }).then(authorizeHelper);
-};
+var SourceInfo = require('./models/source-info');
+var Messages = require('../helpers/messages');
 
 var SourceEdit = {
   controller: function() {
@@ -28,8 +22,16 @@ var SourceEdit = {
         config: reqHelpers.asFormUrlEncoded
       })
         .then(authorizeHelper)
-        .then(function() {
-          m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + m.route.param('sourceId'));
+        .then(function(response) {
+          if (!response.fail) {
+            var noticeMessage = Messages.NoticeMessage(response);
+            m.mount(document.getElementById('message'), noticeMessage);
+
+            m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + m.route.param('sourceId') + '/edit');
+          } else {
+            var alertMessage = Messages.AlertMessage(response);
+            m.mount(document.getElementById('message'), alertMessage);
+          }
         });
     };
 
@@ -45,13 +47,17 @@ var SourceEdit = {
       feeds: ctrl.sourceInfo().user.feeds,
       currentFeed: 'select-feed',
     });
-    return m('div', [
-      m('div', [
-        m('h2', 'Edit Source'),
-        m('input', { type: 'text', name: 'name', placeholder: 'edit name', value: ctrl.sourceInfo().data.name || ''}),
-        m('input', { type: 'text', name: 'value', placeholder: 'edit value', value: ctrl.sourceInfo().data.value || '' }),
+    return m('div.content-part', [
+      m('h2', 'Edit Source'),
+      m('div.input-block', [
+        m('input', { type: 'text', name: 'name', placeholder: 'edit name', value: ctrl.sourceInfo().data.name || ''})
+      ]),
+      m('div.input-block', [
+        m('input', { type: 'text', name: 'value', placeholder: 'edit value', value: ctrl.sourceInfo().data.value || '' })
+      ]),
+      m('div.submit-block', [
         m('input', { onclick: ctrl.updateSource, type: 'submit', value: 'Update Source' })
-      ])
+      ]),
     ])
   }
 }
