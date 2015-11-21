@@ -1,7 +1,8 @@
 'use strict';
 
-var request = require('request');
+var request = require('request-promise');
 var User = require('../models/user');
+var FeedsHelper = require('../helpers/feeds-helper');
 
 // create
 function create(req, res) {

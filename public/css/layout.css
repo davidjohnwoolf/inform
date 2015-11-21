@@ -327,3 +327,12 @@ ul h4 {
   color: #93D135;
   padding: 0 5px;
 }
+
+/* Source View */
+
+.source-name {
+  font-size: .8em;
+  float: left;
+  margin-top: 5px;
+  margin-left: 10px;
+}

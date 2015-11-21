@@ -37,7 +37,7 @@ var FeedsHelper = function(user, req, res) {
   function createSourceUrl() {
     var batchUrl = 'batch=['
       + '{"method":"GET","relative_url":"'
-      + user.feeds.id(req.params.feedId).sources(req.params.sourceId).value
+      + user.feeds.id(req.params.feedId).sources.id(req.params.sourceId).value
       + fieldsUrl + '"}'
       + ']';
     return batchUrl;
@@ -205,6 +205,7 @@ var FeedsHelper = function(user, req, res) {
   return {
     checkSources: checkSources,
     createBatchUrl: createBatchUrl,
+    createSourceUrl: createSourceUrl,
     testResponse: testResponse,
     parseResponse: parseResponse,
     filterResponse: filterResponse,
