@@ -22,16 +22,16 @@ var FeedItem = {
       }
       if (elements.length > 0) {
         return m('div.media-wrap', [
-          elements;
+          elements
         ]);
       } else {
         return m('div', [
-          elements;
+          elements
         ]);
       }
     }
     return {
-      time: args.time,
+      time: args.time.slice(0, 10),
       from: args.from,
       message: m.trust(findLinks(args.message)),
       elements: conditionalElements()
@@ -40,7 +40,7 @@ var FeedItem = {
   view: function(ctrl) {
     return m('article.feed-item', [
       m('a[href=https://facebook.com/' + ctrl.from.id  + ']', { target: '_blank'}, [
-        m('h5', ctrl.from.name + ' ' + ctrl.time)
+        m('h5', ctrl.from.name + ' - ' + ctrl.time)
       ]),
       m('h4', ctrl.message),
       ctrl.elements
