@@ -41,15 +41,29 @@ m.route(document.getElementById('app'), '/', {
   '/users/:id/feeds/:feedId/sources/:sourceId/edit': app.SourceEdit,
 });
 
-// when hashed route changes
-var handleRouteChange = function() {
-  var header = document.getElementById('header-wrap');
-  var menu = document.getElementById('menu');
-  var content = document.getElementById('content-wrap');
+// when hashed route changes, reset the menu
+(function(history) {
 
-  // reset menu
-  menu.style.display = 'none';
-  content.style.marginTop = header.offsetHeight + 10 + 'px';
-}
+  var pushState = history.pushState;
+  var handleRouteChange = function() {
+    var header = document.getElementById('header-wrap');
+    var menu = document.getElementById('menu');
+    var content = document.getElementById('content-wrap');
 
-window.addEventListener('hashchange', handleRouteChange, false);
+    // reset menu
+    menu.style.display = 'none';
+    content.style.marginTop = header.offsetHeight + 10 + 'px';
+  }
+
+  history.pushState = function(state) {
+      if (typeof history.onpushstate == "function") {
+          history.onpushstate({state: state});
+      }
+      // ... whatever else you want to do
+      // maybe call onhashchange e.handler
+      return pushState.apply(history, arguments);
+  }
+
+  window.onpopstate = history.onpushstate = handleRouteChange;
+
+})(window.history);

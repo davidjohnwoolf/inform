@@ -21,9 +21,6 @@ var Login = {
         console.log(response.message);
         localStorage.setItem('userId', response.user.id);
         if (!response.fail) {
-          var header = document.getElementById('header-wrap');
-          var menu = document.getElementById('menu');
-          var content = document.getElementById('content-wrap');
 
           m.route(
             '/users/'
@@ -32,9 +29,6 @@ var Login = {
             + (response.user.defaultFeed || response.user.feeds[0]._id || 'new')
           );
 
-          // reset menu
-          menu.style.display = 'none';
-          content.style.marginTop = header.offsetHeight + 10 + 'px';
         } else {
           document.getElementsByName('email')[0].value = '';
           document.getElementsByName('password')[0].value = '';
