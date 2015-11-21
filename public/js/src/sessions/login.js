@@ -37,11 +37,7 @@ var Login = {
       });
     }
 
-    var form = {
-      email: m.prop('')
-    };
-
-    return { login: login, form: form };
+    return { login: login };
   },
   view: function(ctrl) {
     layoutHelper({
@@ -50,7 +46,7 @@ var Login = {
     return m('section.content-part', [
       m('h2', 'Login'),
       m('div.input-block', [
-        m('input', { name: 'email', type: 'email', placeholder: 'email', onchange: m.withAttr('value', ctrl.form.email), value: ctrl.form.email() })
+        m('input', { name: 'email', type: 'email', placeholder: 'email' })
       ]),
       m('div.input-block', [
         m('input', { name: 'password', type: 'password', placeholder: 'password' }),
