@@ -153,9 +153,7 @@ h2 {
   margin-top: 50px;
 }
 
-/*=========*/
-/*==Other Pages==*/
-/*=========*/
+/* Feed Items */
 
 .feed-item {
   background-color: #fff;
@@ -167,7 +165,6 @@ h2 {
 }
 
   .feed-item h5 {
-    color: #999;
     font-size: .8em;
     margin: 5px 0 20px 0;
   }
