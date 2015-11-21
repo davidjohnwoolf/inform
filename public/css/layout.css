@@ -220,7 +220,7 @@ ul h4 {
     display: inline;
   }
 
-  .listed-item a, .listed-item form {
+  .listed-item a, .listed-item button {
     float: right;
     margin: 10px 0 0 10px;
   }

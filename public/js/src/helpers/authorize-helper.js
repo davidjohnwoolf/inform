@@ -1,7 +1,7 @@
 var m = require('mithril');
 
 // check if request response is authorized
-function authorize(response) {
+function authorizeHelper(response) {
   if (!response.authorizeFail) {
     console.log(response.message);
     return response;
@@ -11,4 +11,4 @@ function authorize(response) {
   }
 }
 
-module.exports = authorize;
+module.exports = authorizeHelper;

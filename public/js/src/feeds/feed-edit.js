@@ -54,8 +54,12 @@ var FeedEdit = {
         config: reqHelpers.asFormUrlEncoded
       })
       .then(authorizeHelper)
-      .then(function() {
-        m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
+      .then(function(response) {
+        if (!response.fail) {
+          m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
+        } else {
+          console.log('Failure occured after authorization');
+        }
       });
     };
     var deleteSource = function(sourceId) {
@@ -70,11 +74,16 @@ var FeedEdit = {
             config: reqHelpers.asFormUrlEncoded
           })
           .then(authorizeHelper)
-          .then(function() {
-            m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
+          .then(function(response) {
+            if (!response.fail) {
+              m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
+            } else {
+              console.log('Failure occured after authorization');
+            }
           });
         }
       }
+
       return deleteSourceFn;
     };
     return { feedInfo: FeedInfo(), updateFeed: updateFeed, deleteFeed: deleteFeed, addSource: addSource, deleteSource: deleteSource }
@@ -128,7 +137,7 @@ var FeedEdit = {
             m('h4', [
               m('a', { href: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + source._id, config: m.route }, source.name)
             ]),
-            m('a.delete-button', { onclick: ctrl.deleteSource(source._id), href: ''}, 'Delete Source'),
+            m('button.delete-button', { onclick: ctrl.deleteSource(source._id)}, 'Delete Source'),
             m('a', { href: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + source._id + '/edit', config: m.route }, 'Edit Source')
           ])
         })
