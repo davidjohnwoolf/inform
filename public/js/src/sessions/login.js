@@ -1,7 +1,8 @@
 var m = require('mithril');
 var reqHelpers = require('../helpers/request-helpers');
 var layoutHelper = require('../helpers/layout-helper');
-var LoggedOutMenu = require('../layout/logged-out-menu.js');
+var LoggedOutMenu = require('../layout/logged-out-menu');
+var Messages = require('../helpers/messages');
 
 var Login = {
   controller: function() {
@@ -28,7 +29,9 @@ var Login = {
           );
 
         } else {
-          document.getElementsByName('email')[0].value = '';
+          var alertMessage = Messages.AlertMessage(response);
+          m.mount(document.getElementById('message'), alertMessage);
+
           document.getElementsByName('password')[0].value = '';
         }
       });

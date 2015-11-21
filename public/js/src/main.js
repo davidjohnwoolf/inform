@@ -41,7 +41,7 @@ m.route(document.getElementById('app'), '/', {
   '/users/:id/feeds/:feedId/sources/:sourceId/edit': app.SourceEdit,
 });
 
-// when hashed route changes, reset the menu
+// when hashed route changes, reset the menu and messages
 (function(history) {
 
   var pushState = history.pushState;
@@ -49,6 +49,10 @@ m.route(document.getElementById('app'), '/', {
     var header = document.getElementById('header-wrap');
     var menu = document.getElementById('menu');
     var content = document.getElementById('content-wrap');
+
+    // reset messages
+    m.mount(document.getElementById('message'), null);
+    document.getElementById('message').innerHTML = '';
 
     // reset menu
     menu.style.display = 'none';

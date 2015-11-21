@@ -2,9 +2,10 @@ var m = require('mithril');
 var reqHelpers = require('../helpers/request-helpers');
 var authorizeHelper = require('../helpers/authorize-helper');
 var layoutHelper = require('../helpers/layout-helper');
-var LoggedInMenu = require('../layout/logged-in-menu.js');
+var LoggedInMenu = require('../layout/logged-in-menu');
 var FeedSelect = require('../layout/feed-select');
 var FeedInfo = require('./models/feed-info');
+var Messages = require('../helpers/messages');
 
 var FeedEdit = {
   controller: function() {
@@ -21,8 +22,20 @@ var FeedEdit = {
         config: reqHelpers.asFormUrlEncoded
       })
       .then(authorizeHelper)
-      .then(function() {
-        m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
+      .then(function(response) {
+        if (!response.fail) {
+
+          var noticeMessage = Messages.NoticeMessage(response);
+
+          m.mount(document.getElementById('message'), noticeMessage);
+
+          m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
+        } else {
+
+          var alertMessage = Messages.AlertMessage(response);
+
+          m.mount(document.getElementById('message'), alertMessage);
+        }
       });
     };
     var deleteFeed = function(e) {
@@ -56,9 +69,15 @@ var FeedEdit = {
       .then(authorizeHelper)
       .then(function(response) {
         if (!response.fail) {
+          var noticeMessage = Messages.NoticeMessage(response);
+
+          m.mount(document.getElementById('message'), noticeMessage);
+
           m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
         } else {
-          console.log('Failure occured after authorization');
+          var alertMessage = Messages.AlertMessage(response);
+
+          m.mount(document.getElementById('message'), alertMessage);
         }
       });
     };
@@ -77,8 +96,12 @@ var FeedEdit = {
           .then(function(response) {
             if (!response.fail) {
               m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit');
+
+              var noticeMessage = Messages.NoticeMessage(response);
+              m.mount(document.getElementById('message'), noticeMessage);
             } else {
-              console.log('Failure occured after authorization');
+              var alertMessage = Messages.AlertMessage(response);
+              m.mount(document.getElementById('message'), alertMessage);
             }
           });
         }

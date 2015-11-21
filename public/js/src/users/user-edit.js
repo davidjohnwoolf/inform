@@ -2,9 +2,10 @@ var m = require('mithril');
 var reqHelpers = require('../helpers/request-helpers');
 var authorizeHelper = require('../helpers/authorize-helper');
 var layoutHelper = require('../helpers/layout-helper');
-var LoggedInMenu = require('../layout/logged-in-menu.js');
+var LoggedInMenu = require('../layout/logged-in-menu');
 var FeedSelect = require('../layout/feed-select');
 var User = require('./models/user');
+var Messages = require('../helpers/messages');
 
 var UserEdit = {
   controller: function() {
@@ -22,13 +23,14 @@ var UserEdit = {
         serialize: reqHelpers.serialize,
         config: reqHelpers.asFormUrlEncoded
       })
-      .then(function(data) {
-        if (!data.fail) {
-          console.log(data.message);
+      .then(function(response) {
+        if (!response.fail) {
           m.route('/users/' + m.route.param('id'));
         } else {
-          console.log(data.message);
           m.route('/users/' + m.route.param('id') + '/edit');
+
+          var alertMessage = Messages.AlertMessage(response);
+          m.mount(document.getElementById('message'), alertMessage);
         }
       });
     }

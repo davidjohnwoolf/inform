@@ -315,3 +315,15 @@ ul h4 {
   color: #cc4040;
   padding: 0 5px;
 }
+
+.alert {
+  text-align: center;
+  color: #cc4040;
+  padding: 0 5px;
+}
+
+.notice {
+  text-align: center;
+  color: #93D135;
+  padding: 0 5px;
+}
