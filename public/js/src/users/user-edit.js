@@ -60,6 +60,7 @@ var UserEdit = {
           })
         ])
       ]),
+      m('small', 'To keep your password the same, leave blank'),
       m('div.input-block', [
         m('input', { type: 'password', name: 'password', placeholder: 'password' })
       ]),
