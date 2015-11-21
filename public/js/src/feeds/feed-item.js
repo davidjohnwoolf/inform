@@ -20,8 +20,15 @@ var FeedItem = {
       if (args.caption) {
         elements.push(m('small', args.caption));
       }
-
-      return elements;
+      if (elements.length > 0) {
+        return m('div.media-wrap', [
+          elements;
+        ]);
+      } else {
+        return m('div', [
+          elements;
+        ]);
+      }
     }
     return {
       time: args.time,
@@ -36,9 +43,7 @@ var FeedItem = {
         m('h5', ctrl.from.name + ' ' + ctrl.time)
       ]),
       m('h4', ctrl.message),
-      m('div.media-wrap', [
-        ctrl.elements
-      ])
+      ctrl.elements
     ])
   }
 };
