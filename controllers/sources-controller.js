@@ -57,6 +57,65 @@ function update(req, res) {
   });
 }
 
+// show
+function show(req, res) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    if (err) return res.json(err);
+
+    var feedsHelper = FeedsHelper(user, req, res);
+    var facebookGraphUrl = 'https://graph.facebook.com/';
+
+    request(facebookGraphUrl
+      + 'oauth/access_token?client_id='
+      + process.env.FB_ID + '&client_secret='
+      + process.env.FB_SECRET
+      + '&grant_type=client_credentials')
+
+    .then(function(accessToken) {
+      request(facebookGraphUrl
+        + '?' + feedsHelper.createSourceUrl()
+        + '&' + accessToken + '&method=post')
+
+      .then(feedsHelper.testResponse)
+      .then(feedsHelper.parseResponse)
+      .then(feedsHelper.filterResponse)
+      .then(feedsHelper.sortResponse)
+      .then(feedsHelper.sendResponse)
+    });
+  });
+}
+
+// search
+function search(req, res) {
+  User.findOne({ _id: req.params.id }, function(err, user) {
+    if (err) return res.json(err);
+
+    var feedsHelper = FeedsHelper(user, req, res);
+    var facebookGraphUrl = 'https://graph.facebook.com/';
+
+    request(facebookGraphUrl
+      + 'oauth/access_token?client_id='
+      + process.env.FB_ID
+      + '&client_secret='
+      + process.env.FB_SECRET
+      + '&grant_type=client_credentials')
+
+    .then(function(accessToken) {
+      request(facebookGraphUrl
+        + '?' + feedsHelper.createSourceUrl()
+        + '&' + accessToken + '&method=post')
+
+      .then(feedsHelper.testResponse)
+      .then(feedsHelper.parseResponse)
+      .then(feedsHelper.filterResponse)
+      .then(feedsHelper.queryResponse)
+      .then(feedsHelper.sortResponse)
+      .then(feedsHelper.sendResponse)
+    });
+  });
+}
+
+
 // destroy
 function destroy(req, res) {
   User.findOne({ _id: req.params.id }, function(err, user) {
@@ -76,5 +135,7 @@ module.exports = {
   create: create,
   edit: edit,
   update: update,
+  show: show,
+  search: search,
   destroy: destroy
 };

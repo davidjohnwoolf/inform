@@ -33,6 +33,16 @@ var FeedsHelper = function(user, req, res) {
     return batchUrl;
   }
 
+  // set batch string to a single source
+  function createSourceUrl() {
+    var batchUrl = 'batch=['
+      + '{"method":"GET","relative_url":"'
+      + user.feeds.id(req.params.feedId).sources(req.params.sourceId).value
+      + fieldsUrl + '"}'
+      + ']';
+    return batchUrl;
+  }
+
   // make sure all sources are valid
   function testResponse(body) {
     var result = JSON.parse(body)

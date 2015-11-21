@@ -20,6 +20,12 @@ router.get('/:id/feeds/:feedId/sources/:sourceId/edit', requireUser, sourcesCont
 // update
 router.put('/:id/feeds/:feedId/sources/:sourceId/edit', requireUser, sourcesController.update);
 
+// show
+router.get('/:id/feeds/:feedId/sources/:sourceId', requireUser, sourcesController.show);
+
+// search
+router.get('/:id/feeds/:feedId/sources/:sourceId/:q', requireUser, sourcesController.search);
+
 // destroy
 router.delete('/:id/feeds/:feedId/sources/:sourceId', requireUser, sourcesController.destroy);
 
