@@ -3,7 +3,11 @@ var m = require('mithril');
 var RefreshButton = {
   controller: function() {
     var refresh = function() {
-      m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId'));
+      if (!m.route.param('sourceId')) {
+        m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId'));
+      } else {
+        m.route('/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + m.route.param('sourceId'));
+      }
     }
     return { refresh: refresh };
   },
