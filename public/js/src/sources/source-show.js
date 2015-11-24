@@ -45,12 +45,14 @@ var SourceShow = {
     }
   },
   view: function(ctrl) {
+    var userFeeds = ctrl.sourceResults().user.feeds;
+
     layoutHelper({
       menu: LoggedInMenu,
       userId: m.route.param('id'),
 
       feedSelect: FeedSelect,
-      feeds: ctrl.sourceResults().user.feeds,
+      feeds: userFeeds,
       currentFeed: 'select-feed',
 
       refreshButton: RefreshButton,
@@ -59,6 +61,17 @@ var SourceShow = {
       searchIcon: SearchIcon,
       query: ctrl.query || false
     });
+
+    // add current source name to UI
+    for (var i = 0; i < userFeeds.length; i++) {
+      if (userFeeds[i]._id === m.route.param('feedId')) {
+        for (var c = 0; c < userFeeds[i].sources.length; c++) {
+          if (userFeeds[i].sources[c]._id === m.route.param('sourceId')) {
+            document.getElementById('source-name').innerHTML = userFeeds[i].sources[c].name;
+          }
+        }
+      }
+    }
 
     if (ctrl.sourceResults().data.length < 1) {
       return m('p.feed-error', ctrl.sourceResults().message)

@@ -330,9 +330,8 @@ ul h4 {
 
 /* Source View */
 
-.source-name {
-  font-size: .8em;
+#source-name {
   float: left;
-  margin-top: 5px;
+  margin-top: 4px;
   margin-left: 10px;
 }
