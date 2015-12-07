@@ -9,6 +9,7 @@ var SourceResults = require('./models/source-results');
 var SearchResults = require('./models/search-results');
 var FeedItem = require('../feeds/feed-item');
 var SearchIcon = require('../layout/search-icon');
+var SourceName = require('../layout/source-name');
 
 var SearchBar = {
   controller: function(args) {
@@ -46,6 +47,18 @@ var SourceShow = {
   },
   view: function(ctrl) {
     var userFeeds = ctrl.sourceResults().user.feeds;
+    var sourceNameText;
+    
+    // set current source name to sourceNameText
+    for (var i = 0; i < userFeeds.length; i++) {
+      if (userFeeds[i]._id === m.route.param('feedId')) {
+        for (var c = 0; c < userFeeds[i].sources.length; c++) {
+          if (userFeeds[i].sources[c]._id === m.route.param('sourceId')) {
+            sourceNameText = userFeeds[i].sources[c].name;
+          }
+        }
+      }
+    }
 
     layoutHelper({
       menu: LoggedInMenu,
@@ -59,19 +72,11 @@ var SourceShow = {
 
       searchBar: SearchBar,
       searchIcon: SearchIcon,
-      query: ctrl.query || false
-    });
+      query: ctrl.query || false,
 
-    // add current source name to UI
-    for (var i = 0; i < userFeeds.length; i++) {
-      if (userFeeds[i]._id === m.route.param('feedId')) {
-        for (var c = 0; c < userFeeds[i].sources.length; c++) {
-          if (userFeeds[i].sources[c]._id === m.route.param('sourceId')) {
-            document.getElementById('source-name').innerHTML = userFeeds[i].sources[c].name;
-          }
-        }
-      }
-    }
+      sourceName: SourceName,
+      sourceNameText: sourceNameText
+    });
 
     if (ctrl.sourceResults().data.length < 1) {
       return m('p.feed-error', ctrl.sourceResults().message)

@@ -55,6 +55,15 @@ function layoutHelper(args) {
     m.mount(document.getElementById('search-bar'), null);
     m.mount(document.getElementById('search-icon'), null);
   }
+
+  if (args.sourceName) {
+    m.mount(
+      document.getElementById('source-name'),
+      m.component(args.sourceName, { sourceNameText: args.sourceNameText})
+    );
+  } else {
+    m.mount(document.getElementById('source-name'), null);
+  }
 }
 
 module.exports = layoutHelper;
