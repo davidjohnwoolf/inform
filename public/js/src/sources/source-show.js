@@ -48,8 +48,8 @@ var SourceShow = {
   view: function(ctrl) {
     var userFeeds = ctrl.sourceResults().user.feeds;
     var sourceNameText;
-    
-    // set current source name to sourceNameText
+
+    // set sourceNameText to current source name
     for (var i = 0; i < userFeeds.length; i++) {
       if (userFeeds[i]._id === m.route.param('feedId')) {
         for (var c = 0; c < userFeeds[i].sources.length; c++) {
