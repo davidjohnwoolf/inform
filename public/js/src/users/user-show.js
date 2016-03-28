@@ -21,7 +21,7 @@ var UserShow = {
         .then(function(data) {
           if (!data.fail) {
             console.log(data.message);
-            m.route('/login');
+            m.route('/');
           } else {
             console.log(data.message);
             m.route('/users/' + m.route.param('id'));
