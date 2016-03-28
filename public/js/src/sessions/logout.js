@@ -7,6 +7,7 @@ var Logout = {
       method: 'GET', url: '/logout', extract: reqHelpers.nonJsonErrors
     })
     .then(function(response) {
+      localStorage.clear();
       m.route('/');
     });
   }
