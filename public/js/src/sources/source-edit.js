@@ -56,7 +56,7 @@ var SourceEdit = {
         m('input', { type: 'text', name: 'value', placeholder: 'edit value', value: ctrl.sourceInfo().data.value || '' })
       ]),
       m('div.submit-block', [
-        m('input', { onclick: ctrl.updateSource, type: 'submit', value: 'Update Source' })
+        m('input', { onclick: ctrl.updateSource, type: 'submit', value: 'Update Source' }),
       ]),
     ])
   }

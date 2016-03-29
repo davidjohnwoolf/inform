@@ -7,6 +7,9 @@ function authorizeHelper(response) {
     return response;
   } else {
     console.log(response.message);
+    if (localStorage.getItem('user') && response.user !== localStorage.getItem('user')) {
+      localStorage.clear();
+    }
     m.route('/');
   }
 }

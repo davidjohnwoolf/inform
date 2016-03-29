@@ -6,8 +6,10 @@ var Messages = require('../helpers/messages');
 
 var Login = {
   controller: function() {
-    if (localStorage.getItem('user')) m.route('/users/' + localStorage.getItem('user'));
-    
+    if (localStorage.getItem('user')) {
+      m.route('/users/' + localStorage.getItem('user'));
+    }
+
     var login = function() {
       m.request({
         method: 'POST',
