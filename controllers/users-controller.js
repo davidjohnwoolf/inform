@@ -56,28 +56,34 @@ function show(req, res) {
 
 // update
 function update(req, res) {
-  if (req.body.password !== req.body.confirmation) {
-    res.json({ fail: true, message: 'Passwords must match'});
-  } else {
-    User.findOne({ _id: req.params.id }, function(err, user) {
-      if (err) return res.json(err);
+  User.findOne({ email: req.body.email }, function(err, user) {
+    if (user && user._id !== req.params.id) {
+      res.json({ fail: true, message: 'Email already in use'});
+    } else {
+      if (req.body.password !== req.body.confirmation) {
+        res.json({ fail: true, message: 'Passwords must match'});
+      } else {
+        User.findOne({ _id: req.params.id }, function(err, user) {
+          if (err) return res.json(err);
 
-      if (req.body.password === '') {
-        delete req.body.password;
+          if (req.body.password === '') {
+            delete req.body.password;
+          }
+
+          for (var key in req.body) {
+            user[key] = req.body[key];
+          }
+
+          user.save(function(err) {
+            if (err) return res.json(err);
+
+            res.json({ message: 'Successfully updated user' });
+          });
+
+        });
       }
-
-      for (var key in req.body) {
-        user[key] = req.body[key];
-      }
-
-      user.save(function(err) {
-        if (err) return res.json(err);
-
-        res.json({ message: 'Successfully updated user' });
-      });
-
-    });
-  }
+    }
+  })
 }
 
 // destroy
