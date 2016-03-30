@@ -29,7 +29,7 @@ var Login = {
             '/users/'
             + response.user.id
             + '/feeds/'
-            + (response.user.defaultFeed || response.user.feeds[0]._id || 'new')
+            + (response.user.defaultFeed || (response.user.feeds[0] && response.user.feeds[0]._id) || 'new')
           );
 
         } else {
