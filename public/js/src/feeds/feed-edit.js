@@ -54,6 +54,12 @@ var FeedEdit = {
       }
     };
     var addSource = function() {
+      if (!document.getElementsByName('name')[0].value || !document.getElementsByName('value')[0].value) {
+        var alertMessage = Messages.AlertMessage({ message: 'Source Fields Cannot be Blank'});
+
+        return m.mount(document.getElementById('message'), alertMessage);
+      }
+
       m.request({
         method: 'POST',
         url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/new',
