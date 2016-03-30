@@ -69,6 +69,9 @@ var UserEdit = {
       ]),
       m('div.submit-block', [
         m('input', { onclick: ctrl.updateUser, type: 'submit', value: 'Update User' })
+      ]),
+      m('p', [
+        m('a', { href: '/users/' + m.route.param('id'), config: m.route }, 'Cancel')
       ])
     ])
   }

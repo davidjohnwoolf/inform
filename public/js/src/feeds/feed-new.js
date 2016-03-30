@@ -42,6 +42,9 @@ var FeedNew = {
       ]),
       m('div.submit-block', [
         m('input', { onclick: ctrl.createFeed, type: 'submit', value: 'Create Feed' })
+      ]),
+      m('p', [
+        m('a', { href: '/users/' + m.route.param('id') + '/feeds', config: m.route }, 'Cancel')
       ])
     ])
   }

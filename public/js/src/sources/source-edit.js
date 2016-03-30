@@ -56,8 +56,11 @@ var SourceEdit = {
         m('input', { type: 'text', name: 'value', placeholder: 'edit value', value: ctrl.sourceInfo().data.value || '' })
       ]),
       m('div.submit-block', [
-        m('input', { onclick: ctrl.updateSource, type: 'submit', value: 'Update Source' }),
+        m('input', { onclick: ctrl.updateSource, type: 'submit', value: 'Update Source' })
       ]),
+      m('p', [
+        m('a', { href: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit', config: m.route }, 'Cancel')
+      ])
     ])
   }
 }
