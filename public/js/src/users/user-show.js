@@ -6,6 +6,7 @@ var FeedList = require('../feeds/feed-list');
 var User = require('./models/user');
 var FeedListing = require('../feeds/feed-listing');
 var Feeds = require('../feeds//models/feeds');
+var reqHelpers = require('../helpers/request-helpers');
 
 var UserShow = {
   controller: function() {
@@ -29,7 +30,7 @@ var UserShow = {
         });
       }
     }
-    return { user: User(), feeds: Feeds() };
+    return { deleteAccount: deleteAccount, user: User(), feeds: Feeds() };
   },
   view: function(ctrl) {
     layoutHelper({
