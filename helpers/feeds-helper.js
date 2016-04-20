@@ -3,7 +3,7 @@
 var FeedsHelper = function(user, req, res) {
 
   var sourceCount = user.feeds.id(req.params.feedId).sources.length;
-  var fieldsUrl = '/feed?fields=id,message,story,link,name,caption,created_time,picture,full_picture,source,description,from';
+  var fieldsUrl = '/posts?fields=id,message,story,link,name,caption,created_time,picture,full_picture,source,description,from';
 
   // make sure there is at least one source
   function checkSources() {
@@ -73,12 +73,8 @@ var FeedsHelper = function(user, req, res) {
     for (var i = 0; i < result.length; i++) {
       var parsedResult = JSON.parse(result[i].body);
       for (var n = 0; n < parsedResult.data.length; n++) {
-        var sourceId = parsedResult.data[n].id.split('_')[0];
-
-        // only return posts from direct source
-        if (sourceId === parsedResult.data[n].from.id) {
-          feedData.push(parsedResult.data[n]);
-        }
+        feedData.push(parsedResult.data[n]);
+        
         if ((i === result.length -1) && (n === parsedResult.data.length -1)) {
           return feedData;
         }
