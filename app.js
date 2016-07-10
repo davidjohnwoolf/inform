@@ -20,6 +20,8 @@ app.set('port', process.env.PORT || 1337);
 // database
 mongoose.connect('mongodb://localhost/inform');
 
+app.set('view engine', 'jade');
+
 // middleware
 app.use(logger('dev'));
 app.use(cookieParser());
