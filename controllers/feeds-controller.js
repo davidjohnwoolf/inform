@@ -163,7 +163,7 @@ function destroy(req, res) {
     if (err) return res.json(err);
 
     // if the deleted feed is the default feed, reset default feed
-    // must use ==, not ===, becuase the default feed is a string
+    // must use ==, not ===, because the default feed is a string
     if (user.defaultFeed && user.feeds.id(req.params.feedId)._id == user.defaultFeed) {
       user.defaultFeed = '';
     }

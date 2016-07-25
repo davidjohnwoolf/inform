@@ -62,7 +62,7 @@ var FeedsHelper = function(user, req, res) {
         break;
       }
       if (i === result.length - 1) {
-        return result
+        return result;
       }
     }
   }
@@ -74,7 +74,7 @@ var FeedsHelper = function(user, req, res) {
       var parsedResult = JSON.parse(result[i].body);
       for (var n = 0; n < parsedResult.data.length; n++) {
         feedData.push(parsedResult.data[n]);
-        
+
         if ((i === result.length -1) && (n === parsedResult.data.length -1)) {
           return feedData;
         }

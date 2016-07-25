@@ -335,3 +335,12 @@ ul h4 {
   margin-top: 4px;
   margin-left: 10px;
 }
+
+/* Media Queries */
+
+@media (min-width: 767px) {
+  .feed-item {
+    width: 700px;
+    margin: 10px auto;
+  }
+}

@@ -60,8 +60,8 @@ var Login = {
       ]),
       m('p', 'Don\'t have an account? ', [
         m('a', { href: '/users/new', config: m.route }, 'Sign Up for Free')
-      ]),
-      m('a', { href: '/request-password', config: m.route }, 'Forgot your password?')
+      ])
+      // m('a', { href: '/request-password', config: m.route }, 'Forgot your password?')
     ])
   }
 }
