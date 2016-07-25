@@ -57,7 +57,8 @@ function show(req, res) {
 // update
 function update(req, res) {
   User.findOne({ email: req.body.email }, function(err, user) {
-    if (user && user._id !== req.params.id) {
+    // comparing string and object, hence !=
+    if (user && user._id != req.params.id) {
       res.json({ fail: true, message: 'Email already in use'});
     } else {
       if (req.body.password !== req.body.confirmation) {
