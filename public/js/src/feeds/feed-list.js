@@ -18,12 +18,17 @@ var FeedList = {
       feeds: ctrl.feeds().user.feeds,
       currentFeed: 'select-feed',
     });
-    return m('section.content-part', [
+    
+    var feedList = m('section.content-part', [
       m('h2', 'Feeds'),
       ctrl.feeds().data.map(function(feed) {
         return m.component(FeedListing, { feedId: feed._id, title: feed.title, userId: ctrl.feeds().user.id });
       })
     ]);
+
+    var noFeedListMessage = m('p.feed-error', 'You have no feeds, go to Menu > New Feed to create one');
+
+    return ctrl.feeds().data.length > 0 ? feedList : noFeedListMessage
   }
 };
 
