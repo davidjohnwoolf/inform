@@ -18,7 +18,7 @@ var app = express();
 app.set('port', process.env.PORT || 1337);
 
 // database
-mongoose.connect('mongodb://localhost/inform');
+mongoose.connect('mongodb://inform:password@ds031895.mlab.com:31895/inform');
 
 app.set('view engine', 'jade');
 
