@@ -1,7 +1,7 @@
 {
   "name": "inform",
   "version": "0.0.0",
-  "description": "An example module to illustrate the usage of a package.json",
+  "description": "Inform Feed Controller",
   "author": "David Woolf <davidjohnwoolf@gmail.com>",
   "main": "app.js",
   "repository": {
