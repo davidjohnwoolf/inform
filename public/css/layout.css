@@ -114,7 +114,8 @@ h2 {
     #menu-icon {
       float: right;
       cursor: pointer;
-      margin-top: 2px;
+      padding: 5px;
+      margin-top: -3px;
     }
 
     #header-wrap header nav {
@@ -256,7 +257,8 @@ ul h4 {
 
 #search-icon {
   float: right;
-  margin: 2px 20px 0 0;
+  padding: 5px;
+  margin: -3px 15px 0 0;
   cursor: pointer;
 }
 
@@ -301,7 +303,8 @@ ul h4 {
 #refresh-button {
   cursor: pointer;
   float: left;
-  margin-top: 2px;
+  padding: 5px;
+  margin-top: -3px;
 }
 
 /* Messages */
