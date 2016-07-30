@@ -40,6 +40,10 @@ h2 {
   margin: 5px 0 15px 0;
 }
 
+  .input-block select[name=defaultFeed] {
+    margin-left: 10px;
+  }
+
 .submit-block input {
   padding: 10px 40px;
   border-radius: 1px;
@@ -96,7 +100,7 @@ h2 {
       width: 100px;
     }
 
-    #header-wrap header select {
+    #header-wrap header #feed-select select {
       float: left;
       margin: 0 10px;
       background: none;
@@ -104,7 +108,7 @@ h2 {
       -moz-appearance: none;
       appearance: none;
       font-size: .9em;
-      line-height: 1;
+      line-height: 1.1;
       border: 1px #ddd solid;
       border-radius: 3px;
       padding: 0 5px;
@@ -183,10 +187,14 @@ h2 {
 
     .feed-item .media-wrap img {
       width: 100%;
+      width: calc(100% + 2px);
+      margin: -1px -1px 0 -1px;
     }
 
     .feed-item .media-wrap video {
       width: 100%;
+      width: calc(100% + 2px);
+      margin: -1px -1px 0 -1px;
     }
 
     .feed-item .media-wrap a.main-link {
