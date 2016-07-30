@@ -18,7 +18,7 @@ var MenuIcon = {
     return { showMenu: showMenu };
   },
   view: function(ctrl) {
-    return m('span', { onclick: ctrl.showMenu }, m.trust('&#9776;'))
+    return m('span.fa.fa-bars', { onclick: ctrl.showMenu })
   }
 }
 

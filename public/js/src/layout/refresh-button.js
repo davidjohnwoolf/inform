@@ -12,7 +12,7 @@ var RefreshButton = {
     return { refresh: refresh };
   },
   view: function(ctrl) {
-    return m('span', { onclick: ctrl.refresh }, m.trust('&#10227;'));
+    return m('span.fa.fa-refresh', { onclick: ctrl.refresh });
   }
 }
 

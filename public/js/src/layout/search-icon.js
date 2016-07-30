@@ -19,7 +19,7 @@ var SearchIcon = {
     return { showBar: showBar };
   },
   view: function(ctrl) {
-    return m('span', { onclick: ctrl.showBar}, m.trust('&#9906;'));
+    return m('span.fa.fa-search', { onclick: ctrl.showBar});
   }
 }
 

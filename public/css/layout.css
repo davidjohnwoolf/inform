@@ -113,7 +113,6 @@ h2 {
 
     #menu-icon {
       float: right;
-      font-size: 1em;
       cursor: pointer;
     }
 
@@ -256,13 +255,8 @@ ul h4 {
 
 #search-icon {
   float: right;
-  margin-right: 10px;
+  margin-right: 20px;
   cursor: pointer;
-  margin-top: -1px;
-  webkit-transform: rotate(45deg);
-   -moz-transform: rotate(45deg);
-   -o-transform: rotate(45deg);
-   transform: rotate(45deg);
 }
 
   #search-bar {
@@ -306,6 +300,7 @@ ul h4 {
 #refresh-button {
   cursor: pointer;
   float: left;
+  margin-top: 2px;
 }
 
 /* Messages */
