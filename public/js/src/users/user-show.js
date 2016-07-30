@@ -42,15 +42,13 @@ var UserShow = {
       currentFeed: 'select-feed'
     });
     return m('div.content-part', [
-      m('h2', 'Profile'),
-      m('p', ctrl.user().data.email),
-      m('a', { href: '/users/' + m.route.param('id') + '/edit', config: m.route }, 'Edit Account'),
+      m('h2', ctrl.user().data.email),
+      m('a.edit-button', { href: '/users/' + m.route.param('id') + '/edit', config: m.route }, 'Edit Account'),
+      m('button.delete-button', { onclick: ctrl.deleteAccount }, 'Delete Account'),
       m('h2', 'My Feeds'),
       ctrl.feeds().data.map(function(feed) {
         return m.component(FeedListing, { feedId: feed._id, title: feed.title, userId: ctrl.feeds().user.id });
-      }),
-      m('h2', 'Danger Zone'),
-      m('button.delete-button', { onclick: ctrl.deleteAccount }, 'Delete Account')
+      })
     ])
   }
 };

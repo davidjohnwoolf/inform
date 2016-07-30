@@ -261,6 +261,12 @@ ul h4 {
     width: 90%;
   }
 
+/* Profile */
+
+a.edit-button {
+  margin-right: 20px;
+}
+
 /* Search */
 
 #search-icon {
