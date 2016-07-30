@@ -114,6 +114,7 @@ h2 {
     #menu-icon {
       float: right;
       cursor: pointer;
+      margin-top: 2px;
     }
 
     #header-wrap header nav {
@@ -255,7 +256,7 @@ ul h4 {
 
 #search-icon {
   float: right;
-  margin-right: 20px;
+  margin: 2px 20px 0 0;
   cursor: pointer;
 }
 
