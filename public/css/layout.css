@@ -113,6 +113,7 @@ h2 {
       border-radius: 3px;
       padding: 0 5px;
       height: 22px;
+      max-width: 25%;
     }
 
     #menu-icon {
@@ -352,5 +353,14 @@ ul h4 {
   .feed-item {
     width: 700px;
     margin: 10px auto;
+  }
+}
+
+@media (max-width: 600px) {
+  #source-name {
+    margin: 0;
+    position: absolute;
+    left: 13px;
+    top: 32px;
   }
 }
