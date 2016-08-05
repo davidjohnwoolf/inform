@@ -38,7 +38,7 @@ var FeedNew = {
     return m('div.content-part', [
       m('h2', 'Create Feed'),
       m('div.input-block', [
-        m('input', { type: 'text', name: 'title', placeholder: 'feed name' })
+        m('input.info-input', { type: 'text', name: 'title', placeholder: 'create a name for your feed' })
       ]),
       m('div.submit-block', [
         m('input', { onclick: ctrl.createFeed, type: 'submit', value: 'Create Feed' })
