@@ -134,7 +134,7 @@ var FeedEdit = {
           m('input', { type: 'text', name: 'title', placeholder: 'edit title', value: ctrl.feedInfo().data.title || ''})
         ]),
         m('div.input-block', [
-          m('input', { type: 'text', name: 'filters', placeholder: 'edit filters', value: ctrl.feedInfo().data.filters.join(',') || '' })
+          m('input', { type: 'text', name: 'filters', placeholder: 'add filters sepatated by commas', value: ctrl.feedInfo().data.filters.join(',') || '' })
         ]),
         m('div.submit-block', [
           m('input', { onclick: ctrl.updateFeed, type: 'submit', value: 'Update Feed' })
