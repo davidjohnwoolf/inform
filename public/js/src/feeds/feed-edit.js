@@ -149,7 +149,7 @@ var FeedEdit = {
           m('input', { type: 'text', name: 'name', placeholder: 'name' })
         ]),
         m('div.input-block', [
-          m('input', { type: 'text', name: 'value', placeholder: 'Facebook ID' })
+          m('input', { type: 'text', name: 'value', placeholder: 'Facebook page ID' })
         ]),
         m('div.input-block', [
           m('select', { name: 'type' }, [
