@@ -118,11 +118,15 @@ h2 {
 
     #menu-icon {
       float: right;
-      cursor: pointer;
       font-size: 1.2em;
-      padding: 5px;
-      margin-top: -5px;
+      margin-top: -2px;
     }
+
+      #menu-icon span {
+        cursor: pointer;
+        padding: 5px;
+        color: #444;
+      }
 
     #header-wrap header nav {
       float: right;
@@ -273,11 +277,15 @@ a.edit-button {
 
 #search-icon {
   float: right;
-  padding: 5px;
   font-size: 1.2em;
-  margin: -5px 20px 0 0;
-  cursor: pointer;
+  margin: -2px 20px 0 0;
 }
+
+  #search-icon span {
+    padding: 5px;
+    cursor: pointer;
+    color: #444;
+  }
 
   #search-bar {
     margin: 0;
@@ -318,12 +326,16 @@ a.edit-button {
 /* Reload button*/
 
 #refresh-button {
-  cursor: pointer;
   float: left;
   font-size: 1.2em;
-  padding: 5px;
-  margin-top: -5px;
+  margin-top: -1.5px;
 }
+
+  #refresh-button span {
+    cursor: pointer;
+    padding: 5px;
+    color: #444;
+  }
 
 /* Messages */
 
