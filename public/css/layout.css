@@ -337,6 +337,14 @@ a.edit-button {
     color: #444;
   }
 
+  #refresh-button span  {
+    transition: transform .2s ease-in-out;
+  }
+  
+  #refresh-button span:active {
+    transform: rotate(360deg);
+  }
+
 /* Messages */
 
 .feed-error {
