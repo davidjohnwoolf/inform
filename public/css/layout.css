@@ -83,7 +83,6 @@ h2 {
   border-bottom: 2px #ddd solid;
   background-color: #fff;
   overflow: hidden;
-  postition: relative;
   position: fixed;
   width: 100%;
   top: 0;
