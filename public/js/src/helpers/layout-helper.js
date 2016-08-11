@@ -49,7 +49,9 @@ function layoutHelper(args) {
       );
     }
   } else {
-    searchDiv.style.display = 'none';
+    if (window.matchMedia('(max-width: 991px)').matches) {
+      searchDiv.style.display = 'none';
+    }
     content.style.marginTop = header.offsetHeight + 10 + 'px';
 
     m.mount(document.getElementById('search-bar'), null);
