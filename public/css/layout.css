@@ -174,15 +174,20 @@ h2 {
   word-wrap: break-word;
 }
 
-  .feed-item h5 {
-    font-size: .8em;
-    margin: 5px 0 20px 0;
-    display: inline-block;
-  }
-
   .feed-item h4 {
     margin: 10px 0;
     font-weight: normal;
+  }
+
+  .feed-item h5 {
+    font-size: .8em;
+    margin: 5px 0 5px 0;
+    display: inline-block;
+  }
+
+  .feed-item h6 {
+    margin: 5px 0 15px 10px;
+    display: inline-block;
   }
 
   .feed-item .media-wrap {
@@ -435,7 +440,7 @@ a.edit-button {
 }
 
 @media (max-width: 600px) {
-  
+
   #source-name {
     margin: 0;
     position: absolute;

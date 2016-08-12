@@ -31,7 +31,7 @@ var FeedItem = {
       }
     }
     return {
-      time: args.time.slice(0, 10),
+      time: args.time.slice(5, 7) + '.' + args.time.slice(8, 10) + '.' + args.time.slice(0, 4),
       from: args.from,
       message: m.trust(findLinks(args.message)),
       elements: conditionalElements()
@@ -40,7 +40,8 @@ var FeedItem = {
   view: function(ctrl) {
     return m('article.feed-item', [
       m('a[href=https://facebook.com/' + ctrl.from.id  + ']', { target: '_blank'}, [
-        m('h5', ctrl.from.name + ' - ' + ctrl.time)
+        m('h5', ctrl.from.name),
+        m('h6', ctrl.time)
       ]),
       m('h4', ctrl.message),
       ctrl.elements
