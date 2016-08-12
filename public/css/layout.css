@@ -177,17 +177,19 @@ h2 {
   .feed-item h4 {
     margin: 10px 0;
     font-weight: normal;
+    clear: both;
   }
 
   .feed-item h5 {
     font-size: .8em;
-    margin: 5px 0 5px 0;
-    display: inline-block;
+    margin: 5px 0 20px 0;
+    float: left;
   }
 
   .feed-item h6 {
-    margin: 5px 0 15px 10px;
-    display: inline-block;
+    margin: 5px 0 20px 0;
+    float: right;
+    color: #999;
   }
 
   .feed-item .media-wrap {
