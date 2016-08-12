@@ -340,7 +340,7 @@ a.edit-button {
   #refresh-button span  {
     transition: transform .2s ease-in-out;
   }
-  
+
   #refresh-button span:active {
     transform: rotate(360deg);
   }
@@ -376,9 +376,11 @@ a.edit-button {
 /* Media Queries */
 
 @media (min-width: 767px) {
+
   .feed-item {
     width: 700px;
     margin: 10px auto;
+    border: 2px #ddd solid;
   }
 
   .content-part {
@@ -387,6 +389,7 @@ a.edit-button {
 }
 
 @media (min-width: 992px) {
+
   #menu li, #menu a {
     display: inline-block;
   }
@@ -394,10 +397,12 @@ a.edit-button {
   #menu a {
     padding: 10px;
     border: none;
+    color: #333;
   }
 
   #menu li {
     margin: 0 10px;
+    float: right;
   }
 
   #search-icon {
@@ -420,19 +425,17 @@ a.edit-button {
   .content-part {
     padding: 10px 20% 25px 20%;
   }
-
-  .feed-item {
-    border: 2px #ddd solid;
-  }
 }
 
 @media (min-width: 1200px) {
+
   .content-part {
     padding: 10px 25% 25px 25%;
   }
 }
 
 @media (max-width: 600px) {
+  
   #source-name {
     margin: 0;
     position: absolute;
