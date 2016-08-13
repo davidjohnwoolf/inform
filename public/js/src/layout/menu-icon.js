@@ -9,7 +9,7 @@ var MenuIcon = {
     var showMenu = function() {
       if (!menu.style.display || menu.style.display === 'none') {
         menu.style.display = 'block';
-        content.style.marginTop = header.offsetHeight + 10 + 'px';
+        content.style.marginTop = 0;
       } else {
         menu.style.display = 'none';
         content.style.marginTop = header.offsetHeight + 10 + 'px';

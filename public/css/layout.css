@@ -127,40 +127,36 @@ h2 {
         color: #444;
       }
 
-    #header-wrap header nav {
-      float: right;
-      width: 110%;
-      margin-left: -5%;
-      margin-right: -5%;
-      margin-bottom: -10px;
-    }
+/* Navigation Styles */
 
-      #menu {
-        position: relative;
-        margin: 10px 0 0 0;
-        padding: 0;
-        background-color: #555;
-        border-top: 2px #444 solid;
-        text-align: center;
-        display: none;
-      }
+#menu {
+  position: relative;
+  margin: 47.5px 0 0 0;
+  padding: 0;
+  background-color: #555;
+  border-top: 2px #444 solid;
+  text-align: center;
+  display: none;
+}
 
-        #menu a {
-          display: block;
-          padding: 10px 0;
-          border-bottom: 2px #444 solid;
-          color: #fff;
-        }
+  #menu a {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 2px #444 solid;
+    color: #fff;
+  }
 
-        #menu a:hover {
-          background-color: #333;
-        }
+  #menu a:hover {
+    background-color: #333;
+  }
+
+/* Content Styles */
 
 #content-wrap {
   width: 100%;
   margin: 0 auto;
   padding-bottom: 10px;
-  margin-top: 57px;
+  margin-top: 57.5px;
 }
 
 /* Feed Items */
@@ -397,25 +393,6 @@ a.edit-button {
 
 @media (min-width: 992px) {
 
-  #menu li, #menu a {
-    display: inline-block;
-  }
-
-  #menu a {
-    padding: 10px;
-    border: none;
-    color: #333;
-  }
-
-  #menu li {
-    margin: 0 10px;
-    float: right;
-  }
-
-  #search-icon {
-    display: none;
-  }
-
   #search-bar {
     margin: 0;
     padding: 0;
@@ -427,6 +404,19 @@ a.edit-button {
 
   #search-bar input[name=query], #search-bar input[name=search] {
     padding: 2.5px;
+  }
+
+  #menu li {
+    display: inline;
+  }
+
+  #menu li a {
+    display: inline-block;
+    padding: 10px;
+  }
+
+  #search-icon {
+    display: none;
   }
 
   .content-part {
