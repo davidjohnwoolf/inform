@@ -3,6 +3,14 @@ var findLinks = require('../helpers/find-links');
 
 var FeedItem = {
   controller: function(args) {
+    var formatTime = function() {
+      var months = [
+        'January', 'February', 'March', 'April', 'May', 'June', 'July',
+        'August', 'September', 'October', 'November', 'December'
+      ];
+
+      return months[parseInt(args.time.slice(5, 7)) - 1] + ' ' + args.time.slice(8, 10) + ', ' + args.time.slice(0, 4)
+    };
     var conditionalElements = function() {
       var elements = [];
 
@@ -31,7 +39,7 @@ var FeedItem = {
       }
     }
     return {
-      time: args.time.slice(5, 7) + '.' + args.time.slice(8, 10) + '.' + args.time.slice(0, 4),
+      time: formatTime(),
       from: args.from,
       message: m.trust(findLinks(args.message)),
       elements: conditionalElements()

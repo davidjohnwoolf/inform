@@ -183,6 +183,7 @@ h2 {
   }
 
   .feed-item h6 {
+    font-size: .6em;
     margin: 5px 0 20px 0;
     float: right;
     color: #999;
@@ -380,14 +381,23 @@ a.edit-button {
 
 @media (min-width: 767px) {
 
-  .feed-item {
-    width: 700px;
-    margin: 10px auto;
-    border: 2px #ddd solid;
+  #menu li {
+    display: inline;
+  }
+
+  #menu li a {
+    display: inline-block;
+    padding: 10px;
   }
 
   .content-part {
     padding: 10px 10% 25px 10%;
+  }
+
+  .feed-item {
+    width: 700px;
+    margin: 10px auto;
+    border: 2px #ddd solid;
   }
 }
 
@@ -404,15 +414,6 @@ a.edit-button {
 
   #search-bar input[name=query], #search-bar input[name=search] {
     padding: 2.5px;
-  }
-
-  #menu li {
-    display: inline;
-  }
-
-  #menu li a {
-    display: inline-block;
-    padding: 10px;
   }
 
   #search-icon {
