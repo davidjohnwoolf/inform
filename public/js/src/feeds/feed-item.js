@@ -9,7 +9,7 @@ var FeedItem = {
         'August', 'September', 'October', 'November', 'December'
       ];
 
-      return months[parseInt(args.time.slice(5, 7)) - 1] + ' ' + args.time.slice(8, 10) + ', ' + args.time.slice(0, 4)
+      return months[parseInt(args.time.slice(5, 7)) - 1] + ' ' + args.time.slice(8, 10) + ', ' + args.time.slice(0, 4);
     };
     var conditionalElements = function() {
       var elements = [];
