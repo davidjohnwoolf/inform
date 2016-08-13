@@ -50,7 +50,7 @@ var FeedItem = {
       m('a[href=https://facebook.com/' + ctrl.from.id  + ']', { target: '_blank'}, [
         m('h5', ctrl.from.name),
       ]),
-      m('h6', ctrl.time),
+      m('span.feed-date', ctrl.time),
       m('h4', ctrl.message),
       ctrl.elements
     ])

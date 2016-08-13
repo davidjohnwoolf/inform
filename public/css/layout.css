@@ -182,7 +182,7 @@ h2 {
     float: left;
   }
 
-  .feed-item h6 {
+  .feed-item .feed-date {
     font-size: .6em;
     margin: 5px 0 20px 0;
     float: right;
