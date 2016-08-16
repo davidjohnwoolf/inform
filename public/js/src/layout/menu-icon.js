@@ -9,7 +9,11 @@ var MenuIcon = {
     var showMenu = function() {
       if (!menu.style.display || menu.style.display === 'none') {
         menu.style.display = 'block';
-        content.style.marginTop = 0;
+        if (window.matchMedia('(min-width: 777px)').matches) {
+          content.style.marginTop = header.offsetHeight + 10 + 'px';
+        } else {
+          content.style.marginTop = 0;
+        }
       } else {
         menu.style.display = 'none';
         content.style.marginTop = header.offsetHeight + 10 + 'px';

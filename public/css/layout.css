@@ -381,13 +381,14 @@ a.edit-button {
 
 @media (min-width: 767px) {
 
-  #menu li {
-    display: inline;
+  #menu {
+    position: fixed;
+    top: 0;
+    right: 0;
   }
 
-  #menu li  a{
-    display: inline-block;
-    padding: 5px 10px;
+  #menu li a {
+    padding: 10px 20px;
   }
 
   .content-part {
