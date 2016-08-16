@@ -28,12 +28,13 @@ h2 {
 
 /* Form Styles */
 
-.input-block input{
+.input-block input {
   display: block;
   padding: 5px;
   border: 2px #ddd solid;
   border-radius: 3px;
   margin: 5px 0 15px 0;
+  float: left;
 }
 
 .input-block select {
@@ -130,7 +131,6 @@ h2 {
 /* Navigation Styles */
 
 #menu {
-  position: relative;
   margin: 47.5px 0 0 0;
   padding: 0;
   background-color: #555;
@@ -385,9 +385,9 @@ a.edit-button {
     display: inline;
   }
 
-  #menu li a {
+  #menu li  a{
     display: inline-block;
-    padding: 10px;
+    padding: 5px 10px;
   }
 
   .content-part {
