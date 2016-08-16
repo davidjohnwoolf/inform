@@ -128,6 +128,10 @@ h2 {
         color: #444;
       }
 
+      #menu-icon span:hover {
+        color: #999;
+      }
+
 /* Navigation Styles */
 
 #menu {
@@ -291,6 +295,10 @@ a.edit-button {
     color: #444;
   }
 
+  #search-icon span:hover {
+    color: #999;
+  }
+
   #search-bar {
     margin: 0;
     padding-top: 35px;
@@ -347,6 +355,10 @@ a.edit-button {
 
   #refresh-button span:active {
     transform: rotate(360deg);
+  }
+
+  #refresh-button span:hover {
+    color: #999;
   }
 
 /* Messages */
