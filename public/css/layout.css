@@ -397,10 +397,19 @@ a.edit-button {
     position: fixed;
     top: 0;
     right: 0;
+    background: #bbb;
+    border-top: none;
   }
 
   #menu li a {
     padding: 10px 20px;
+    color: #444;
+    border-bottom: 2px #ccc solid;
+  }
+
+  #menu li a:hover {
+    padding: 10px 20px;
+    background: #999;
   }
 
   .content-part {
