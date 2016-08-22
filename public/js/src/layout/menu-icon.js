@@ -18,6 +18,8 @@ var MenuIcon = {
         menu.style.display = 'none';
         content.style.marginTop = header.offsetHeight + 10 + 'px';
       }
+      
+      m.redraw.strategy("none");
     };
     return { showMenu: showMenu };
   },

@@ -399,6 +399,7 @@ a.edit-button {
     right: 0;
     background: #bbb;
     border-top: none;
+    transition: transform .2s ease-in-out;
   }
 
   #menu li a {

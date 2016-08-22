@@ -14,12 +14,14 @@ var SearchIcon = {
         searchDiv.style.display = 'none';
         content.style.marginTop = header.offsetHeight + 10 + 'px';
       }
+      
+      m.redraw.strategy("none");
     };
 
     return { showBar: showBar };
   },
   view: function(ctrl) {
-    return m('span.fa.fa-search', { onclick: ctrl.showBar});
+    return m('span.fa.fa-search', { onclick: ctrl.showBar });
   }
 }
 
