@@ -55,6 +55,9 @@ var UserNew = {
       ]),
       m('div.submit-block', [
         m('input', { onclick: ctrl.createUser, type: 'submit', value: 'Create User' })
+      ]),
+      m('p', [
+        m('a', { href: '/', config: m.route }, 'Cancel')
       ])
     ])
   }
