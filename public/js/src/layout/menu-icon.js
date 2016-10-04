@@ -7,14 +7,9 @@ var MenuIcon = {
     var content = document.getElementById('content-wrap');
 
     var showMenu = function() {
-      if (!menu.style.display || menu.style.display === 'none') {
-        menu.style.display = 'block';
-      } else {
-        menu.style.display = 'none';
-        content.style.marginTop = header.offsetHeight + 10 + 'px';
-      }
+      //leftover from javascript menu
 
-      m.redraw.strategy("none");
+      m.redraw.strategy('none');
     };
     return { showMenu: showMenu };
   },

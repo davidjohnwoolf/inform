@@ -12,31 +12,34 @@
 
   </head>
   <body>
-    <div id="header-wrap">
-      <header>
-        <div id="left-header">
-          <a href="#/"><img src="/img/inform-logo.png" alt="Inform"></a>
-          <div id="feed-select">
+    <header id="main-header">
+      <h1 title="Inform Feed Controller"><a href="#/"><img src="/img/inform-logo.png" alt="Inform"></a></h1>
 
-          </div>
-          <div id="refresh-button">
+      <div id="feed-select"></div>
 
-          </div>
-          <small id="source-name">
+      <div id="refresh-button"></div>
 
-          </small>
-        </div>
-        <div id="right-header">
+      <small id="source-name"></small>
+
+      <!-- checkbox hack for CSS on click -->
+      <input type="checkbox" id="menu-control">
+      <nav id="main-nav">
+        <label for="menu-control">
           <span id="menu-icon"></span>
-          <span id="search-icon"></span>
-        </div>
+          <ul id="menu"></ul>
+        </label>
+      </nav>
+
+      <!-- checkbox hack for CSS on click -->
+      <input type="checkbox" id="search-control">
+      <label for="search-control">
+        <span id="search-icon"></span>
         <div id="search-bar"></div>
-      </header>
-    </div>
-    <nav id="main-nav">
-      <ul id="menu">
-      </ul>
-    </nav>
+      </label>
+
+      <div class="clear"></div>
+    </header>
+
     <div id="content-wrap">
       <div id="message"></div>
       <section id="app"></section>

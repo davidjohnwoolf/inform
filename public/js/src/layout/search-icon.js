@@ -3,19 +3,9 @@ var m = require('mithril');
 var SearchIcon = {
   controller: function() {
     var showBar = function() {
-      var searchDiv = document.getElementById('search-bar');
-      var header = document.getElementById('header-wrap');
-      var content = document.getElementById('content-wrap');
+      //old search method
 
-      if (!searchDiv.style.display || searchDiv.style.display === 'none') {
-        searchDiv.style.display = 'block';
-        content.style.marginTop = header.offsetHeight + 10 + 'px';
-      } else {
-        searchDiv.style.display = 'none';
-        content.style.marginTop = header.offsetHeight + 10 + 'px';
-      }
-      
-      m.redraw.strategy("none");
+      m.redraw.strategy('none');
     };
 
     return { showBar: showBar };
