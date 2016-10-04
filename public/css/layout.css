@@ -1,7 +1,9 @@
 /* General Styles */
+/*---------------------------------*/
+/*---------------------------------*/
 
 body {
-  font-family: "Futura", Helvetica, Arial;
+  font-family: "Lucida Grande", Helvetica, Arial;
   font-size: .9em;
   color: #333;
   background: #e9e9e9;
@@ -20,4 +22,145 @@ a {
 
 a:hover {
   color: #3A97D4;
+}
+
+/* Header */
+/*---------------------------------*/
+/*---------------------------------*/
+
+#main-header {
+  background: #fff;
+  padding: 5px 1%;
+  position: relative;
+  verticle-align: middle;
+}
+
+#main-header h1, #feed-select, #refresh-button, #source-name {
+  float: left;
+  margin-right: 10px;
+}
+
+#search-bar, #search-icon, #main-nav, #menu-icon {
+  float: right;
+  margin-left: 10px;
+}
+
+#main-header h1 {
+  margin: 0;
+}
+
+#main-header h1 a img {
+  width: 100px;
+}
+
+#search-bar {
+  margin-top: 10px;
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 200ms ease-in;
+}
+
+#search-bar input[type="text"] {
+  width: 85%;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 5px 0 0 5px;
+  border: none;
+  border-top: 1px #ccc solid;
+  border-left: 1px #ccc solid;
+  border-bottom: 1px #ccc solid;
+}
+
+#search-bar input[type="submit"] {
+  width: 15%;
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 0 5px 5px 0;
+  border: none;
+  background: #3A97D4;
+  color: #fff;
+  border-top: 1px #3A97D4 solid;
+  border-bottom: 1px #3A97D4 solid;
+}
+
+#search-bar input[type="submit"]:hover {
+  background: #999;
+}
+
+#search-icon {
+  font-size: 1.3em;
+  cursor: pointer;
+  padding: 0 5px;
+  border-radius: 3px;
+  margin-top: 5px;
+}
+
+#search-control:checked ~ label[for="search-control"] #menu-icon {
+  background: #eee;
+}
+
+#search-control:checked ~ label[for="search-control"] #search-bar {
+  max-height: 350px;
+}
+
+#search-control {
+  display: none;
+}
+
+#menu-icon {
+  font-size: 1.3em;
+  cursor: pointer;
+  padding: 0 5px;
+  border-radius: 3px;
+  margin-top: 5px;
+}
+
+#menu-control {
+  display: none;
+}
+
+#main-nav #menu {
+  position: absolute;
+  top: 31px;
+  right: 0;
+  left: 0;
+  background: #555;
+  z-index: 100;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 200ms ease-in;
+  text-align: center;
+}
+
+#menu-control:checked ~ #main-nav #menu {
+  max-height: 350px;
+}
+
+#menu-control:checked ~ #main-nav #menu-icon {
+  background: #eee;
+}
+
+#main-nav #menu li a {
+  display: block;
+  padding: 10px 0;
+  color: #fff;
+  border-bottom: 1px #333 solid;
+}
+
+#main-nav #menu li a:hover {
+  background: #777;
+}
+
+/* adjust menu to account for search bar */
+#search-control:checked ~ #main-nav #menu {
+  top: 80px !immportant;
+}
+
+/* Classes */
+/*---------------------------------*/
+/*---------------------------------*/
+
+.clear {
+  clear: both;
 }
