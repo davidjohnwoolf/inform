@@ -35,9 +35,24 @@ a:hover {
   verticle-align: middle;
 }
 
+#main-header h1 {
+  margin: 0;
+}
+
 #main-header h1, #feed-select, #refresh-button, #source-name {
   float: left;
   margin-right: 10px;
+}
+
+#feed-select {
+  margin-top: 7px;
+}
+
+#refresh-button {
+  font-size: 1.3em;
+  cursor: pointer;
+  padding: 0 5px;
+  margin-top: 5px;
 }
 
 #search-bar, #search-icon, #main-nav, #menu-icon {
@@ -45,20 +60,16 @@ a:hover {
   margin-left: 10px;
 }
 
-#main-header h1 {
-  margin: 0;
-}
-
 #main-header h1 a img {
   width: 100px;
 }
 
 #search-bar {
-  margin-top: 10px;
+  margin-top: 0;
   width: 100%;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 200ms ease-in;
+  transition: max-height 200ms ease-in, margin-top 200ms ease-in;
 }
 
 #search-bar input[type="text"] {
@@ -96,12 +107,13 @@ a:hover {
   margin-top: 5px;
 }
 
-#search-control:checked ~ label[for="search-control"] #menu-icon {
+#search-control:checked + label[for="search-control"] #menu-icon {
   background: #eee;
 }
 
-#search-control:checked ~ label[for="search-control"] #search-bar {
-  max-height: 350px;
+#search-control:checked + label[for="search-control"] #search-bar {
+  max-height: 50px;
+  margin-top: 5px;
 }
 
 #search-control {
@@ -134,7 +146,7 @@ a:hover {
 }
 
 #menu-control:checked ~ #main-nav #menu {
-  max-height: 350px;
+  max-height: 200px;
 }
 
 #menu-control:checked ~ #main-nav #menu-icon {
