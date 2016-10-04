@@ -53,10 +53,6 @@ m.route(document.getElementById('app'), '/', {
     // reset messages
     m.mount(document.getElementById('message'), null);
     document.getElementById('message').innerHTML = '';
-
-    // reset menu
-    menu.style.display = 'none';
-    content.style.marginTop = header.offsetHeight + 10 + 'px';
   }
 
   history.pushState = function(state) {
