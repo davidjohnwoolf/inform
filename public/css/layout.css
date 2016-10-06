@@ -30,9 +30,11 @@ a:hover {
 
 #main-header {
   background: #fff;
-  padding: 5px 1%;
-  position: relative;
-  verticle-align: middle;
+  padding: 5px 1% 3px 1%;
+  position: fixed;
+  width: 98%;
+  top: 0;
+  text-align: right;
 }
 
 #main-header h1 {
@@ -48,16 +50,16 @@ a:hover {
   margin-top: 7px;
 }
 
-#refresh-button {
-  font-size: 1.3em;
-  cursor: pointer;
-  padding: 0 5px;
-  margin-top: 5px;
+#main-header label {
+  margin-left: 10px;
 }
 
-#search-bar, #search-icon, #main-nav, #menu-icon {
-  float: right;
-  margin-left: 10px;
+#refresh-button, #search-icon, #menu-icon {
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 5px 5px;
+  border-radius: 3px;
+  display: inline-block;
 }
 
 #main-header h1 a img {
@@ -66,10 +68,11 @@ a:hover {
 
 #search-bar {
   margin-top: 0;
+  margin-bottom: 5px;
   width: 100%;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 200ms ease-in, margin-top 200ms ease-in;
+  transition: max-height 200ms, margin-top 200ms, margin-bottom 200ms;
 }
 
 #search-bar input[type="text"] {
@@ -99,49 +102,33 @@ a:hover {
   background: #999;
 }
 
-#search-icon {
-  font-size: 1.3em;
-  cursor: pointer;
-  padding: 0 5px;
-  border-radius: 3px;
-  margin-top: 5px;
+#search-control:checked ~ label #search-icon, #search-icon:hover {
+  color: #3A97D4;
 }
 
-#search-control:checked + label[for="search-control"] #menu-icon {
-  background: #eee;
-}
-
-#search-control:checked + label[for="search-control"] #search-bar {
+#search-control:checked ~ #search-bar {
   max-height: 50px;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 #search-control {
   display: none;
 }
 
-#menu-icon {
-  font-size: 1.3em;
-  cursor: pointer;
-  padding: 0 5px;
-  border-radius: 3px;
-  margin-top: 5px;
-}
-
 #menu-control {
   display: none;
 }
 
-#main-nav #menu {
+#menu {
   position: absolute;
-  top: 31px;
+  top: 33px;
   right: 0;
   left: 0;
   background: #555;
   z-index: 100;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 200ms ease-in;
+  transition: max-height 200ms, top 200ms;
   text-align: center;
 }
 
@@ -149,11 +136,11 @@ a:hover {
   max-height: 200px;
 }
 
-#menu-control:checked ~ #main-nav #menu-icon {
-  background: #eee;
+#menu-control:checked ~ label #menu-icon, #menu-icon:hover {
+  color: #3A97D4;
 }
 
-#main-nav #menu li a {
+#menu li a {
   display: block;
   padding: 10px 0;
   color: #fff;
@@ -166,7 +153,7 @@ a:hover {
 
 /* adjust menu to account for search bar */
 #search-control:checked ~ #main-nav #menu {
-  top: 80px !immportant;
+  top: 70px;
 }
 
 /* Classes */
