@@ -41,18 +41,43 @@ m.route(document.getElementById('app'), '/', {
   '/users/:id/feeds/:feedId/sources/:sourceId/edit': app.SourceEdit,
 });
 
+// adjust content to move down when search bar and menu are displayed
+var menuControl = document.getElementById('menu-control');
+var searchControl = document.getElementById('search-control');
+var outerWrap = document.getElementById('outer-wrap');
+
+var headerChange = function() {
+  var menu = document.querySelector('#menu > div');
+  if (menuControl.checked === true && searchControl.checked === true) {
+      outerWrap.style.paddingTop = Number(menu.getAttribute('data-height')) + 95 + 'px';
+  } else if (menuControl.checked === true) {
+      outerWrap.style.paddingTop = Number(menu.getAttribute('data-height')) + 60 + 'px';
+  } else if (searchControl.checked === true) {
+      outerWrap.style.paddingTop = '95px';
+  } else {
+      outerWrap.style.paddingTop = '60px';
+  }
+}
+
+menuControl.addEventListener('change', headerChange);
+searchControl.addEventListener('change', headerChange);
+
+
+
 // when hashed route changes, reset the menu and messages
 (function(history) {
 
   var pushState = history.pushState;
   var handleRouteChange = function() {
-    var header = document.getElementById('header-wrap');
-    var menu = document.getElementById('menu');
-    var content = document.getElementById('content-wrap');
 
     // reset messages
     m.mount(document.getElementById('message'), null);
     document.getElementById('message').innerHTML = '';
+
+    // reset menu
+    // document.getElementById('#menu-control').setAttribute('checked', '');
+    // document.getElementById('#search-control').setAttribute('checked', '');
+    // console.log('route-change')
   }
 
   history.pushState = function(state) {

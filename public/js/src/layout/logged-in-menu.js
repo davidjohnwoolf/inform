@@ -5,7 +5,7 @@ var LoggedInMenu = {
     return { userId: args.userId}
   },
   view: function(ctrl) {
-    return m('div', [
+    return m('div[data-height="152"]', [
       m('li', [
         m('a', { href: '/users/' + ctrl.userId, config: m.route }, 'Account'),
       ]),

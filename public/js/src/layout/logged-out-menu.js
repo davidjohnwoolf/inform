@@ -2,7 +2,7 @@ var m = require('mithril');
 
 var LoggedOutMenu = {
   view: function() {
-    return m('div', [
+    return m('div[data-height="76"]', [
       m('li', [
         m('a', { href: '/', config: m.route }, 'Login'),
       ]),
