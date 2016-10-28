@@ -59,33 +59,33 @@ var headerChange = function() {
   }
 }
 
+// set event listeners
 menuControl.addEventListener('change', headerChange);
 searchControl.addEventListener('change', headerChange);
-
-
 
 // when hashed route changes, reset the menu and messages
 (function(history) {
 
   var pushState = history.pushState;
   var handleRouteChange = function() {
+    // create event
+    var change = new Event('change');
+
+    // reset header
+    document.getElementById('menu-control').checked = false;
+    document.getElementById('search-control').checked = false;
+    document.getElementById('menu-control').dispatchEvent(change);
 
     // reset messages
     m.mount(document.getElementById('message'), null);
     document.getElementById('message').innerHTML = '';
-
-    // reset menu
-    // document.getElementById('#menu-control').setAttribute('checked', '');
-    // document.getElementById('#search-control').setAttribute('checked', '');
-    // console.log('route-change')
   }
 
+  // check for pushState
   history.pushState = function(state) {
       if (typeof history.onpushstate == "function") {
           history.onpushstate({state: state});
       }
-      // ... whatever else you want to do
-      // maybe call onhashchange e.handler
       return pushState.apply(history, arguments);
   }
 
