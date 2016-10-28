@@ -7,24 +7,14 @@
 
   overflow-wrap: break-word;
   word-wrap: break-word;
-
-  -ms-word-break: break-all;
-
-  word-break: break-all;
-
   word-break: break-word;
-
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
 }
 
 body {
   font-family: "Lucida Grande", Helvetica, Arial;
   font-size: .9em;
   color: #333;
-  background: #fff;
+  background: #eee;
   padding: 0;
 }
 
@@ -54,6 +44,7 @@ a:hover {
   top: 0;
   text-align: right;
   border-bottom: #ddd solid 2px;
+  z-index: 10;
 }
 
 #main-header h1 {
@@ -85,7 +76,7 @@ a:hover {
 #refresh-button, #search-icon, #menu-icon {
   font-size: 1.2em;
   cursor: pointer;
-  padding: 5px 5px;
+  padding: 6.3px 5px;
   border-radius: 3px;
   display: inline-block;
 }
@@ -100,7 +91,7 @@ a:hover {
   width: 100%;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 200ms, margin-top 200ms, margin-bottom 200ms;
+  transition: max-height 400ms, margin-top 400ms, margin-bottom 400ms;
 }
 
 #search-bar input[type="text"] {
@@ -156,7 +147,7 @@ a:hover {
   z-index: 100;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 200ms, top 200ms;
+  transition: max-height 400ms, top 400ms;
   text-align: center;
 }
 
@@ -190,15 +181,14 @@ a:hover {
 
 #outer-wrap {
   padding-top: 60px;
-  background: #eee;
-  overflow: hidden;
+  transition: padding-top 400ms;
 }
 
-#content-wrap img, #content-wrap video  {
+#outer-wrap img, #outer-wrap video  {
   max-width: 100%;
 }
 
-.feed-item {
+.feed-item, .content-part {
   background: #fff;
   display: block;
   border-top: 2px solid #ddd;
@@ -236,8 +226,60 @@ a:hover {
   color: #777;
 }
 
+.content-part input:not([type="submit"]) {
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 3px;
+  border: 2px #eee solid;
+}
+
+.content-part input[type="submit"] {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border: none;
+  background: #aaa;
+  color: #fff;
+  transition: background 200ms;
+}
+
+.content-part input[type="submit"]:hover {
+  background: #3A97D4;
+}
+
+.content-part select {
+  margin-bottom: 10px;
+}
+
+.content-part .listed-item {
+  border: 2px #eee solid;
+  overflow: hidden;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+
+.content-part .listed-item > h4 {
+  float: left;
+  margin: 0;
+}
+
+.content-part .listed-item > a {
+  float: right;
+  margin: 0;
+}
+
+.content-part select[name="defaultFeed"] {
+  margin-left: 10px;
+}
+
+.content-part small {
+  margin-bottom: 5px;
+  display: block;
+}
+
 @media (min-width: 768px) {
-  .feed-item {
+  .feed-item, .content-part  {
     width: 600px;
     margin: 0 auto 10px auto;
     border-right: 2px #ddd solid;
@@ -247,12 +289,12 @@ a:hover {
 }
 
 @media (min-width: 1340px) {
-  #content-wrap {
+  #outer-wrap {
     width: 1320px;
     margin: 0 auto;
   }
 
-  .feed-item {
+  .feed-item  {
     float: left;
     width: 606px;
     margin: 0 5px 10px 5px;
@@ -272,4 +314,37 @@ a:hover {
 
 .clear {
   clear: both;
+}
+
+.delete-button {
+  padding: 0;
+  background: #fff;
+  border: none;
+  color: red;
+  margin-left: 10px;
+  float: right;
+}
+
+.delete-button:hover {
+  color: #999;
+}
+
+.notice, .alert {
+  text-align: center;
+  font-size: .8em;
+  top: 32px;
+  position: fixed;
+  padding-bottom: 2px;
+  border-bottom: #ddd solid 2px;
+  background: #fff;
+  width: 100%;
+  text-align: center;
+}
+
+.notice {
+  color: green;
+}
+
+.alert {
+  color: red;
 }
