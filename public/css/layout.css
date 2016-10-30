@@ -65,6 +65,10 @@ a:hover {
   color: #3A97D4;
 }
 
+.fa-spinner {
+  display: none;
+}
+
 #feed-select {
   margin-top: 7px;
 }
