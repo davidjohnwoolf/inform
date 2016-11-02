@@ -51,22 +51,18 @@ a:hover {
   margin: 0;
 }
 
-#main-header h1, #feed-select, #refresh-button, #source-name {
+#main-header h1, #feed-select, #refresh-button .fa-refresh, #source-name {
   float: left;
   margin-right: 10px;
 }
 
-#refresh-button {
-  transition: transform 100ms ease-out, color 100ms ease-out;
+#refresh-button .fa-refresh {
+  margin-top: 2.5px;
+  transition: transform 1500ms, color 200ms;
 }
 
-#refresh-button:active {
-  transform: rotate(360deg);
+#refresh-button .fa-refresh:hover {
   color: #3A97D4;
-}
-
-.fa-spinner {
-  display: none;
 }
 
 #feed-select {
@@ -77,10 +73,10 @@ a:hover {
   margin-left: 10px;
 }
 
-#refresh-button, #search-icon, #menu-icon {
+#refresh-button .fa-refresh, #search-icon, #menu-icon {
   font-size: 1.2em;
   cursor: pointer;
-  padding: 6.3px 5px;
+  padding: 6px 5px;
   border-radius: 3px;
   display: inline-block;
 }
@@ -123,6 +119,8 @@ a:hover {
 
 #search-bar input[type="submit"]:hover {
   background: #999;
+  border-top: 1px #888 solid;
+  border-bottom: 1px #888 solid;
 }
 
 #search-control:checked ~ label #search-icon, #search-icon:hover {
