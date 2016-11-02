@@ -85,6 +85,8 @@ var FeedsHelper = function(user, req, res) {
   // pass feedData through feeds filters
   function filterResponse(feedData) {
     var filters = user.feeds.id(req.params.feedId).filters;
+
+    // why is this error being thrown: Unhandled rejection TypeError: Cannot read property 'length' of undefined
     if (feedData.length < 1) {
       res.json({
         message: 'No results, try editing your filters',
