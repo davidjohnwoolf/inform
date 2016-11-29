@@ -351,3 +351,7 @@ a:hover {
   color: red;
   z-index: 10;
 }
+
+.feed-error {
+  text-align: center;
+}
