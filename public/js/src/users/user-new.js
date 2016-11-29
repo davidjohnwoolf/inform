@@ -6,7 +6,8 @@ var Messages = require('../helpers/messages');
 
 var UserNew = {
   controller: function() {
-    var createUser = function() {
+    var createUser = function(e) {
+      e.preventDefault();
       m.request({
         method: 'POST',
         url: '/users/new',
@@ -43,17 +44,19 @@ var UserNew = {
     });
     return m('div.content-part', [
       m('h2', 'Create Account'),
-      m('div.input-block', [
-        m('input', { type: 'email', name: 'email', placeholder: 'email' })
-      ]),
-      m('div.input-block', [
-        m('input', { type: 'password', name: 'password', placeholder: 'password' }),
-      ]),
-      m('div.input-block', [
-        m('input', { type: 'password', name: 'confirmation', placeholder: 'confirmation' }),
-      ]),
-      m('div.submit-block', [
-        m('input', { onclick: ctrl.createUser, type: 'submit', value: 'Create User' })
+      m('form', { onsubmit: ctrl.createUser }, [
+        m('div.input-block', [
+          m('input', { type: 'email', name: 'email', placeholder: 'email' })
+        ]),
+        m('div.input-block', [
+          m('input', { type: 'password', name: 'password', placeholder: 'password' }),
+        ]),
+        m('div.input-block', [
+          m('input', { type: 'password', name: 'confirmation', placeholder: 'confirmation' }),
+        ]),
+        m('div.submit-block', [
+          m('input', { type: 'submit', value: 'Create User' })
+        ])
       ]),
       m('p', [
         m('a', { href: '/', config: m.route }, 'Cancel')

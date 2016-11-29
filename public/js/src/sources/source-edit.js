@@ -9,7 +9,8 @@ var Messages = require('../helpers/messages');
 
 var SourceEdit = {
   controller: function() {
-    var updateSource = function() {
+    var updateSource = function(e) {
+      e.preventDefault();
       m.request({
         method: 'PUT',
         url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/sources/' + m.route.param('sourceId') + '/edit',
@@ -49,14 +50,16 @@ var SourceEdit = {
     });
     return m('div.content-part', [
       m('h2', 'Edit Source'),
-      m('div.input-block', [
-        m('input', { type: 'text', name: 'name', placeholder: 'edit name', value: ctrl.sourceInfo().data.name || ''})
-      ]),
-      m('div.input-block', [
-        m('input', { type: 'text', name: 'value', placeholder: 'edit value', value: ctrl.sourceInfo().data.value || '' })
-      ]),
-      m('div.submit-block', [
-        m('input', { onclick: ctrl.updateSource, type: 'submit', value: 'Update Source' })
+      m('form', { onsubmit: ctrl.updateSource }, [
+        m('div.input-block', [
+          m('input', { type: 'text', name: 'name', placeholder: 'edit name', value: ctrl.sourceInfo().data.name || ''})
+        ]),
+        m('div.input-block', [
+          m('input', { type: 'text', name: 'value', placeholder: 'edit value', value: ctrl.sourceInfo().data.value || '' })
+        ]),
+        m('div.submit-block', [
+          m('input', { type: 'submit', value: 'Update Source' })
+        ])
       ]),
       m('p', [
         m('a', { href: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit', config: m.route }, 'Cancel')

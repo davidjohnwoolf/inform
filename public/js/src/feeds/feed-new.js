@@ -8,7 +8,8 @@ var Feeds = require('./models/feeds');
 
 var FeedNew = {
   controller: function() {
-    var createFeed = function() {
+    var createFeed = function(e) {
+      e.preventDefault();
       m.request({
         method: 'POST',
         url: '/users/' + m.route.param('id') + '/feeds/new',
@@ -37,11 +38,13 @@ var FeedNew = {
     });
     return m('div.content-part', [
       m('h2', 'Create Feed'),
-      m('div.input-block', [
-        m('input.info-input', { type: 'text', name: 'title', placeholder: 'create a name for your feed' })
-      ]),
-      m('div.submit-block', [
-        m('input', { onclick: ctrl.createFeed, type: 'submit', value: 'Create Feed' })
+      m('form', { onsubmit: ctrl.createFeed }, [
+        m('div.input-block', [
+          m('input.info-input', { type: 'text', name: 'title', placeholder: 'create a name for your feed' })
+        ]),
+        m('div.submit-block', [
+          m('input', { type: 'submit', value: 'Create Feed' })
+        ])
       ]),
       m('p', [
         m('a', { href: '/users/' + m.route.param('id') + '/feeds', config: m.route }, 'Cancel')

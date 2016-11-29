@@ -9,7 +9,8 @@ var Messages = require('../helpers/messages');
 
 var FeedEdit = {
   controller: function() {
-    var updateFeed = function() {
+    var updateFeed = function(e) {
+      e.preventDefault();
       m.request({
         method: 'PUT',
         url: '/users/' + m.route.param('id') + '/feeds/' + m.route.param('feedId') + '/edit',
@@ -53,7 +54,8 @@ var FeedEdit = {
         });
       }
     };
-    var addSource = function() {
+    var addSource = function(e) {
+      e.preventDefault();
       if (!document.getElementsByName('name')[0].value || !document.getElementsByName('value')[0].value) {
         var alertMessage = Messages.AlertMessage({ message: 'Source Fields Cannot be Blank'});
 
@@ -130,14 +132,16 @@ var FeedEdit = {
     return m('div.content-part', [
       m('div', [
         m('h2', 'Edit Feed'),
-        m('div.input-block', [
-          m('input', { type: 'text', name: 'title', placeholder: 'edit title', value: ctrl.feedInfo().data.title || ''})
-        ]),
-        m('div.input-block', [
-          m('input', { type: 'text', name: 'filters', placeholder: 'add filters sepatated by commas', value: ctrl.feedInfo().data.filters.join(',') || '' })
-        ]),
-        m('div.submit-block', [
-          m('input', { onclick: ctrl.updateFeed, type: 'submit', value: 'Update Feed' })
+        m('form', { onsubmit: ctrl.updateFeed }, [
+          m('div.input-block', [
+            m('input', { type: 'text', name: 'title', placeholder: 'edit title', value: ctrl.feedInfo().data.title || ''})
+          ]),
+          m('div.input-block', [
+            m('input', { type: 'text', name: 'filters', placeholder: 'add filters sepatated by commas', value: ctrl.feedInfo().data.filters.join(',') || '' })
+          ]),
+          m('div.submit-block', [
+            m('input', { type: 'submit', value: 'Update Feed' })
+          ])
         ]),
         m('div.delete-form', [
           m('button.delete-button', { onclick: ctrl.deleteFeed }, 'Delete Feed' )
@@ -145,20 +149,22 @@ var FeedEdit = {
       ]),
       m('div', [
         m('h2', 'Add Source'),
-        m('div.input-block', [
-          m('input', { type: 'text', name: 'name', placeholder: 'name' })
-        ]),
-        m('div.input-block', [
-          m('input', { type: 'text', name: 'value', placeholder: 'Facebook page ID' })
-        ]),
-        m('div.input-block', [
-          m('select', { name: 'type' }, [
-            m('option', { value: 'facebook' }, 'Facebook')
+        m('form', { onsubmit: ctrl.addSource }, [
+          m('div.input-block', [
+            m('input', { type: 'text', name: 'name', placeholder: 'name' })
+          ]),
+          m('div.input-block', [
+            m('input', { type: 'text', name: 'value', placeholder: 'Facebook page ID' })
+          ]),
+          m('div.input-block', [
+            m('select', { name: 'type' }, [
+              m('option', { value: 'facebook' }, 'Facebook')
+            ])
+          ]),
+          m('div.submit-block', [
+            m('input', { type: 'submit', value: 'Add Source' })
           ])
-        ]),
-        m('div.submit-block', [
-          m('input', { onclick: ctrl.addSource, type: 'submit', value: 'Add Source' })
-        ]),
+        ])
       ]),
       m('div', [
         m('h2', 'Sources'),

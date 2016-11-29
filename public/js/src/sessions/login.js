@@ -10,7 +10,8 @@ var Login = {
       m.route('/users/' + localStorage.getItem('user'));
     }
 
-    var login = function() {
+    var login = function(e) {
+      e.preventDefault();
       m.request({
         method: 'POST',
         url: '/login',
@@ -49,14 +50,16 @@ var Login = {
     });
     return m('section.content-part', [
       m('h2', 'Login'),
-      m('div.input-block', [
-        m('input', { name: 'email', type: 'email', placeholder: 'email' })
-      ]),
-      m('div.input-block', [
-        m('input', { name: 'password', type: 'password', placeholder: 'password' }),
-      ]),
-      m('div.submit-block', [
-        m('input', { onclick: ctrl.login, type: 'submit', value: 'Login' })
+      m('form', { onsubmit: ctrl.login }, [
+        m('div.input-block', [
+          m('input', { name: 'email', type: 'email', placeholder: 'email' })
+        ]),
+        m('div.input-block', [
+          m('input', { name: 'password', type: 'password', placeholder: 'password' }),
+        ]),
+        m('div.submit-block', [
+          m('input', { type: 'submit', value: 'Login' })
+        ])
       ]),
       m('p', 'Don\'t have an account? ', [
         m('a', { href: '/users/new', config: m.route }, 'Sign Up for Free')
