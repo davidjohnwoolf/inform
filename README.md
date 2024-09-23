@@ -1,2 +1,3 @@
 # inform
-A reader, combiner, and controller for consuming public Facebook feeds (other feeds coming soon)
+
+A reader, combiner, and controller for consuming posts and feeds from various sources, includong Facebook, according to your precerences.
